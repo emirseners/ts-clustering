@@ -1,7 +1,23 @@
 ts_clustering documentation
 ===========================
 
-Welcome to the documentation for ``time series clustering``. This library aims to cluster time series into clusters.
+Welcome to the documentation for ``time series clustering``. This library provides simple utilities for time series analysis.
+
+Quick Start
+-----------
+
+Basic usage:
+
+.. code-block:: python
+
+   from ts_clustering import euclidean_distance
+   
+   # Calculate distance between two sequences
+   a = [1.0, 2.0, 3.0, 4.0, 5.0]
+   b = [2.0, 3.0, 4.0, 5.0, 6.0]
+   
+   distance = euclidean_distance(a, b)
+   print(f"Distance: {distance:.4f}")
 
 Contents:
 
