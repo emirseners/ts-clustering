@@ -2,3 +2,9 @@ clusterer documentation
 ===========================
 
 Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series analysis.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   api
