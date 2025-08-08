@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Reference &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>ts_clustering.euclidean &mdash; Time Series Clustering 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -18,8 +18,7 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="ts_clustering documentation" href="index.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,21 +40,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-ts_clustering.euclidean">ts_clustering.euclidean</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ts_clustering.euclidean.euclidean_distance"><code class="docutils literal notranslate"><span class="pre">euclidean_distance()</span></code></a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">ts_clustering.euclidean</a></li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ts_clustering">Top-level package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ts_clustering.euclidean_distance"><code class="docutils literal notranslate"><span class="pre">euclidean_distance()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
+</div>
         </div>
       </div>
     </nav>
@@ -70,7 +59,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">API Reference</li>
+      <li class="breadcrumb-item active">ts_clustering.euclidean</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -80,70 +69,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="api-reference">
-<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
-<section id="module-ts_clustering.euclidean">
-<span id="ts-clustering-euclidean"></span><h2>ts_clustering.euclidean<a class="headerlink" href="#module-ts_clustering.euclidean" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="ts_clustering.euclidean.euclidean_distance">
-<span class="sig-prename descclassname"><span class="pre">ts_clustering.euclidean.</span></span><span class="sig-name descname"><span class="pre">euclidean_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ts_clustering/euclidean.html#euclidean_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts_clustering.euclidean.euclidean_distance" title="Link to this definition"></a></dt>
-<dd><p>Calculate Euclidean distance between two sequences.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – First sequence.</p></li>
-<li><p><strong>b</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Second sequence.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Euclidean distance between the sequences.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If sequences have different lengths.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="module-ts_clustering">
-<span id="top-level-package"></span><h2>Top-level package<a class="headerlink" href="#module-ts_clustering" title="Link to this heading"></a></h2>
-<p>Top-level package for ts_clustering.</p>
-<p>This package provides simple utilities for time series analysis.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="ts_clustering.euclidean_distance">
-<span class="sig-prename descclassname"><span class="pre">ts_clustering.</span></span><span class="sig-name descname"><span class="pre">euclidean_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ts_clustering/euclidean.html#euclidean_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts_clustering.euclidean_distance" title="Link to this definition"></a></dt>
-<dd><p>Calculate Euclidean distance between two sequences.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – First sequence.</p></li>
-<li><p><strong>b</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Second sequence.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Euclidean distance between the sequences.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If sequences have different lengths.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
+  <section id="ts-clustering-euclidean">
+<h1>ts_clustering.euclidean<a class="headerlink" href="#ts-clustering-euclidean" title="Link to this heading"></a></h1>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="ts_clustering documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
+          <footer>
 
   <hr/>
 

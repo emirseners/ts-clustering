@@ -1,10 +1,4 @@
-ts_clustering documentation
+clusterer documentation
 ===========================
 
-Welcome to the documentation for ``time series clustering``. This library provides simple utilities for time series analysis.
-
-.. toctree::
-   :maxdepth: 2
-   :caption: API Reference
-
-   api
+Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series analysis.

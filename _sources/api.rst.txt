@@ -1,20 +1,6 @@
-API Reference
-=============
-
 ts_clustering.euclidean
 -----------------------
 
 .. automodule:: ts_clustering.euclidean
    :members:
    :undoc-members:
-   :show-inheritance:
-
-Top-level package
------------------
-
-.. automodule:: ts_clustering
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
