@@ -7,4 +7,4 @@ Welcome to the documentation for ``clusterer``. This library provides simple uti
    :maxdepth: 2
    :caption: Contents:
 
-   api
+   euclidean
