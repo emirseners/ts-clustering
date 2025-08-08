@@ -1,6 +1,6 @@
-ts_clustering.euclidean
+clusterer.euclidean
 -----------------------
 
-.. automodule:: ts_clustering.euclidean
+.. automodule:: clusterer.euclidean
    :members:
    :undoc-members:
