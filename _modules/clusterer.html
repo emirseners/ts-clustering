@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overview: module code &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -58,7 +58,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Overview: module code</li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">clusterer</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -67,9 +68,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="clusterer.html">clusterer</a></li>
-</ul>
+  <h1>Source code for clusterer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Top-level package for ts_clustering.</span>
+
+<span class="sd">This package provides simple utilities for time series analysis.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.euclidean</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean_distance</span> <span class="k">as</span> <span class="n">_euclidean_distance</span>
+
+<span class="n">euclidean_distance</span> <span class="o">=</span> <span class="n">_euclidean_distance</span>
+<span class="n">euclidean_distance</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="vm">__name__</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;euclidean_distance&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.1.0&quot;</span>
+</pre></div>
 
            </div>
           </div>
