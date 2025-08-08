@@ -1,7 +1,7 @@
 clusterer documentation
 ===========================
 
-Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series analysis.
+Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series clustering.
 
 .. toctree::
    :maxdepth: 2
