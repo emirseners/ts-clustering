@@ -1,7 +1,7 @@
 ts_clustering documentation
 ===========================
 
-Welcome to the documentation for ``ts_clustering``.
+Welcome to the documentation for ``time series clustering``. This library aims to cluster time series into clusters.
 
 Contents:
 
@@ -10,5 +10,3 @@ Contents:
    :caption: API Reference
 
    api
-
-
