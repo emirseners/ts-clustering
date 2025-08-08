@@ -1,6 +1,12 @@
-clusterer.euclidean
------------------------
+API Reference
+============
+
+This page contains the API documentation for the clusterer library.
+
+Euclidean Distance
+-----------------
 
 .. automodule:: clusterer.euclidean
    :members:
    :undoc-members:
+   :show-inheritance:
