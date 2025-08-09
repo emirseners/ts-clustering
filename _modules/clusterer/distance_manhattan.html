@@ -69,38 +69,34 @@
            <div itemprop="articleBody">
              
   <h1>Source code for clusterer.distance_manhattan</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Created on Sep 9, 2014</span>
-<span class="sd">@author: cansucullu</span>
-
-<span class="sd">Updated July 25, 2025</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">pdist</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
 <div class="viewcode-block" id="distance_manhattan">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_manhattan.distance_manhattan">[docs]</a>
-<span class="k">def</span> <span class="nf">distance_manhattan</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    The Manhattan distance between two data series is equal to the sum of absolute differences between corresponding data points of these two data series.</span>
-<span class="sd">    Let the data series be of length N; Then Manhattan distance between ds1 and ds2 equals to the sum of the absolute values of error terms from 1 to N, </span>
-<span class="sd">    where error_term(i) equals to ds1(i)-ds2(i) </span>
-<span class="sd">    The Manhattan distance only works with data series of equal length. It is also referred as rectilinear distance, L1 distance or city block distance</span>
+<span class="k">def</span> <span class="nf">distance_manhattan</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate pairwise Manhattan distances between all data sequences.</span>
 
-<span class="sd">    data: 2D array or np array; [[features1], [features2], ...]   ;;  Without labels</span>
-<span class="sd">    return: 2D np array; [distance_vector, [({&#39;Index&#39;: 0}, features1), ({&#39;Index&#39;: 1}, features2), ...]]</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        2D array of shape (n_samples, n_features) with equal-length sequences.</span>
 
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dRow : np.ndarray</span>
+<span class="sd">        Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</span>
+<span class="sd">    runLogs : List[Tuple[Dict[str, str], np.ndarray]]</span>
+<span class="sd">        List of (index_dict, sequence) tuples for tracking original data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">runLogs</span> <span class="o">=</span> <span class="p">[({</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)},</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
 
     <span class="n">dRow</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cityblock&#39;</span><span class="p">)</span>
-    
+
     <span class="k">return</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">runLogs</span></div>
 
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">tester</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
-    <span class="c1">#print(distance_mse(tester))</span>
 </pre></div>
 
            </div>

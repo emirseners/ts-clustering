@@ -84,14 +84,6 @@ clusterer.distance\_triangle module
    :show-inheritance:
    :undoc-members:
 
-clusterer.euclidean module
---------------------------
-
-.. automodule:: clusterer.euclidean
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 Module contents
 ---------------
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>clusterer.distance_pattern_dtw &mdash; Time Series Clustering 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -69,21 +69,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for clusterer.distance_pattern_dtw</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Created on Nov 8, 2011</span>
-<span class="sd">Updated on December 15, 2014</span>
-<span class="sd">gyucel &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;</span>
-
-<span class="sd">Updated July 25, 2025</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">division</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.behavior_splitter</span><span class="w"> </span><span class="kn">import</span> <span class="n">construct_features</span>
-
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+<span class="kn">from</span> <span class="nn">.behavior_splitter</span> <span class="kn">import</span> <span class="n">construct_features</span>
 
 <span class="nd">@njit</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">dtw_distance_numba</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">dtw_distance_numba</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculates the distance between two feature vectors using the Dynamic Time Warping method. Returns the avg. distance per data section.</span>
 <span class="sd">    In other words, avg_dist = dtw_dist / warping_path_length</span>
@@ -131,14 +123,14 @@
 
 
 <span class="nd">@njit</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">local_dist_numba</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">wDim1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wDim2</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">local_dist_numba</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">wDim1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wDim2</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wDim1</span> <span class="o">*</span> <span class="n">error</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">wDim2</span> <span class="o">*</span> <span class="n">error</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="distance_pattern_dtw">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_pattern_dtw.distance_pattern_dtw">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">distance_pattern_dtw</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">distance_pattern_dtw</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    The distance measures the proximity of data series in terms of their </span>
@@ -162,13 +154,11 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-    <span class="c1"># Generate feature vectors for all time series</span>
     <span class="n">features</span> <span class="o">=</span> <span class="n">construct_features</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="p">)</span>
     
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">dRow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,))</span>
     
-    <span class="c1"># Create behavior descriptors</span>
     <span class="n">data_w_desc</span> <span class="o">=</span> <span class="p">[({</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s1">&#39;Feature vector&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">])},</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
     
     <span class="n">dRow</span> <span class="o">=</span> <span class="n">compute_pattern_dtw_distances_numba</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="p">)</span>
@@ -178,7 +168,7 @@
 
 
 <span class="nd">@njit</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_pattern_dtw_distances_numba</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">compute_pattern_dtw_distances_numba</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="p">):</span>
     <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)):</span>
         <span class="n">feature_i</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -188,10 +178,6 @@
             <span class="n">dRow</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance</span>
             <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">dRow</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gonenc&#39;</span><span class="p">)</span>
 </pre></div>
 
            </div>

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>clusterer package &mdash; Time Series Clustering 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
@@ -102,22 +102,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_sse.distance_sse"><code class="docutils literal notranslate"><span class="pre">distance_sse()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_template">clusterer.distance_template module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_template.distance_template"><code class="docutils literal notranslate"><span class="pre">distance_template()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer-distance-template-module">clusterer.distance_template module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_triangle">clusterer.distance_triangle module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_triangle.distance_triangle"><code class="docutils literal notranslate"><span class="pre">distance_triangle()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.euclidean">clusterer.euclidean module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.euclidean.euclidean_distance"><code class="docutils literal notranslate"><span class="pre">euclidean_distance()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer">Module contents</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.euclidean_distance"><code class="docutils literal notranslate"><span class="pre">euclidean_distance()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-clusterer">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -156,10 +146,6 @@
 </section>
 <section id="module-clusterer.behavior_splitter">
 <span id="clusterer-behavior-splitter-module"></span><h2>clusterer.behavior_splitter module<a class="headerlink" href="#module-clusterer.behavior_splitter" title="Link to this heading"></a></h2>
-<p>Created on Dec 16, 2014
-Updated 23
-&#64;author: gonenc</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.behavior_splitter.construct_features">
 <span class="sig-prename descclassname"><span class="pre">clusterer.behavior_splitter.</span></span><span class="sig-name descname"><span class="pre">construct_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significanceLevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/behavior_splitter.html#construct_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.behavior_splitter.construct_features" title="Link to this definition"></a></dt>
@@ -452,66 +438,119 @@ y_i = (x_i - mean(x)) / std(x)
 </section>
 <section id="module-clusterer.distance_dtw">
 <span id="clusterer-distance-dtw-module"></span><h2>clusterer.distance_dtw module<a class="headerlink" href="#module-clusterer.distance_dtw" title="Link to this heading"></a></h2>
-<p>Created on Aug 21, 2013
-&#64;author: gonenc</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_dtw.compute_dtw_distances_numba">
-<span class="sig-prename descclassname"><span class="pre">clusterer.distance_dtw.</span></span><span class="sig-name descname"><span class="pre">compute_dtw_distances_numba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_wo_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dRow</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusterer.distance_dtw.compute_dtw_distances_numba" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">clusterer.distance_dtw.</span></span><span class="sig-name descname"><span class="pre">compute_dtw_distances_numba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dRow</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusterer.distance_dtw.compute_dtw_distances_numba" title="Link to this definition"></a></dt>
+<dd><p>Compute DTW distances between all pairs using Numba for performance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>np.ndarray</em>) – Input sequences array.</p></li>
+<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Array to store distances.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array filled with DTW distances.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_dtw.distance_dtw">
-<span class="sig-prename descclassname"><span class="pre">clusterer.distance_dtw.</span></span><span class="sig-name descname"><span class="pre">distance_dtw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_wo_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_dtw.html#distance_dtw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_dtw.distance_dtw" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">clusterer.distance_dtw.</span></span><span class="sig-name descname"><span class="pre">distance_dtw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_dtw.html#distance_dtw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_dtw.distance_dtw" title="Link to this definition"></a></dt>
+<dd><p>Calculate pairwise Dynamic Time Warping (DTW) distances between all data sequences.</p>
+<p>DTW can handle sequences of different lengths by finding optimal alignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>np.ndarray</em>) – 2D array of shape (n_samples, n_features) containing sequences to compare.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</p></li>
+<li><p><strong>runLogs</strong> (<em>List[Tuple[Dict[str, str], np.ndarray]]</em>) – List of (index_dict, sequence) tuples for tracking original data.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_dtw.dtw_dist_numba">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_dtw.</span></span><span class="sig-name descname"><span class="pre">dtw_dist_numba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusterer.distance_dtw.dtw_dist_numba" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Calculate DTW distance between two sequences using dynamic programming.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample1</strong> (<em>np.ndarray</em>) – First sequence.</p></li>
+<li><p><strong>sample2</strong> (<em>np.ndarray</em>) – Second sequence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DTW distance between the sequences.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-clusterer.distance_manhattan">
 <span id="clusterer-distance-manhattan-module"></span><h2>clusterer.distance_manhattan module<a class="headerlink" href="#module-clusterer.distance_manhattan" title="Link to this heading"></a></h2>
-<p>Created on Sep 9, 2014
-&#64;author: cansucullu</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_manhattan.distance_manhattan">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_manhattan.</span></span><span class="sig-name descname"><span class="pre">distance_manhattan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_manhattan.html#distance_manhattan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_manhattan.distance_manhattan" title="Link to this definition"></a></dt>
-<dd><p>The Manhattan distance between two data series is equal to the sum of absolute differences between corresponding data points of these two data series.
-Let the data series be of length N; Then Manhattan distance between ds1 and ds2 equals to the sum of the absolute values of error terms from 1 to N,
-where error_term(i) equals to ds1(i)-ds2(i)
-The Manhattan distance only works with data series of equal length. It is also referred as rectilinear distance, L1 distance or city block distance</p>
-<p>data: 2D array or np array; [[features1], [features2], …]   ;;  Without labels
-return: 2D np array; [distance_vector, [({‘Index’: 0}, features1), ({‘Index’: 1}, features2), …]]</p>
+<dd><p>Calculate pairwise Manhattan distances between all data sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>np.ndarray</em>) – 2D array of shape (n_samples, n_features) with equal-length sequences.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</p></li>
+<li><p><strong>runLogs</strong> (<em>List[Tuple[Dict[str, str], np.ndarray]]</em>) – List of (index_dict, sequence) tuples for tracking original data.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
 <section id="module-clusterer.distance_mse">
 <span id="clusterer-distance-mse-module"></span><h2>clusterer.distance_mse module<a class="headerlink" href="#module-clusterer.distance_mse" title="Link to this heading"></a></h2>
-<p>Created on Dec 19, 2011
-&#64;author: gyucel</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_mse.distance_mse">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_mse.</span></span><span class="sig-name descname"><span class="pre">distance_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_mse.html#distance_mse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_mse.distance_mse" title="Link to this definition"></a></dt>
-<dd><p>The MSE (mean squared-error) distance is equal to the SSE distance divided by the number of data points in data series.</p>
-<p>The SSE distance between two data series is equal to the sum of squared-errors between corresponding data points of these two data series.
-Let the data series be of length N; Then SSE distance between ds1 and ds2 equals to the sum of the square of error terms from 1 to N,
-where error_term(i) equals to ds1(i)-ds2(i)</p>
-<p>As SSE distance, the MSE distance only works with data series of equal length.</p>
-<p>data: 2D np ndarray; [[features1], [features2], …]   ;;  Without labels
-return: 2D np array; [distance_vector, [({‘Index’: 0}, features1), ({‘Index’: 1}, features2), …]]</p>
+<dd><p>Calculate pairwise Mean Squared Error (MSE) distances between all data sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>np.ndarray</em>) – 2D array of shape (n_samples, n_features) with equal-length sequences.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</p></li>
+<li><p><strong>runLogs</strong> (<em>List[Tuple[Dict[str, str], np.ndarray]]</em>) – List of (index_dict, sequence) tuples for tracking original data.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
 <section id="module-clusterer.distance_pattern">
 <span id="clusterer-distance-pattern-module"></span><h2>clusterer.distance_pattern module<a class="headerlink" href="#module-clusterer.distance_pattern" title="Link to this heading"></a></h2>
-<p>Created on Nov 8, 2011
-Updated on Dec 15, 2014
-gyucel &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_pattern.create_sisters">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_pattern.</span></span><span class="sig-name descname"><span class="pre">create_sisters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shortFV</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desired_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sister_count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_pattern.html#create_sisters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_pattern.create_sisters" title="Link to this definition"></a></dt>
@@ -597,10 +636,6 @@ feature vectors (i.e. Curvature).</p></li>
 </section>
 <section id="module-clusterer.distance_pattern_dtw">
 <span id="clusterer-distance-pattern-dtw-module"></span><h2>clusterer.distance_pattern_dtw module<a class="headerlink" href="#module-clusterer.distance_pattern_dtw" title="Link to this heading"></a></h2>
-<p>Created on Nov 8, 2011
-Updated on December 15, 2014
-gyucel &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_pattern_dtw.compute_pattern_dtw_distances_numba">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_pattern_dtw.</span></span><span class="sig-name descname"><span class="pre">compute_pattern_dtw_distances_numba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dRow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wSlopeError</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wCurvatureError</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusterer.distance_pattern_dtw.compute_pattern_dtw_distances_numba" title="Link to this definition"></a></dt>
@@ -658,92 +693,50 @@ feature vectors (i.e. Curvature).</p></li>
 </section>
 <section id="module-clusterer.distance_sse">
 <span id="clusterer-distance-sse-module"></span><h2>clusterer.distance_sse module<a class="headerlink" href="#module-clusterer.distance_sse" title="Link to this heading"></a></h2>
-<p>Created on Dec 19, 2011
-&#64;author: gyucel</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_sse.distance_sse">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_sse.</span></span><span class="sig-name descname"><span class="pre">distance_sse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_sse.html#distance_sse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_sse.distance_sse" title="Link to this definition"></a></dt>
-<dd><p>The SSE (sum of squared-errors) distance between two data series is equal to the sum of squared-errors between corresponding data points of these two data series.
-Let the data series be of length N; Then SSE distance between ds1 and ds2 equals to the sum of the square of error terms from 1 to N,
-where error_term(i) equals to ds1(i)-ds2(i)
-Since SSE calculation is based on pairwise comparison of individual data points, the data series should be of equal length.
-SSE distance equals to the square of Euclidian distance, which is a commonly used distance metric in time series comparisons.</p>
-<p>data: 2D np ndarray; [[features1], [features2], …]   ;;  Without labels
-return: 2D np array; [distance_vector, [({‘Index’: 0}, features1), ({‘Index’: 1}, features2), …]]</p>
+<dd><p>Calculate pairwise Sum of Squared Errors (SSE) distances between all data sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>np.ndarray</em>) – 2D array of shape (n_samples, n_features) with equal-length sequences.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</p></li>
+<li><p><strong>runLogs</strong> (<em>List[Tuple[Dict[str, str], np.ndarray]]</em>) – List of (index_dict, sequence) tuples for tracking original data.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
-<section id="module-clusterer.distance_template">
-<span id="clusterer-distance-template-module"></span><h2>clusterer.distance_template module<a class="headerlink" href="#module-clusterer.distance_template" title="Link to this heading"></a></h2>
-<p>Updated July 25, 2025</p>
-<p>Docstring comes here</p>
-<dl class="simple">
-<dt>Requirements for a proper new distance module;</dt><dd><ul class="simple">
-<li><p>The module is required to have method that obeys the standard distance naming convention (distance_[name]). For example, if the distance to be defined is MSE, a good name for the method would be distance_mse</p></li>
-<li><p>The aforementioned method should take the raw dataset as the input.</p></li>
-<li><p>It has to return two things: dRow and data_w_desc</p></li>
-<li><p>dRow: Distance row, that corresponds to the upper triangle of the pairwise distances matrix</p></li>
-<li><p>data_w_desc: A list that contains the original data, as well as a descriptor dictionary for each dataseries in the original set</p></li>
-<li><p>Descriptor dictionary contains all information about the dataseries with respect to the distance being considered. Only required element is the ‘Index’ which is the original index of the dataseries</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="clusterer.distance_template.distance_template">
-<span class="sig-prename descclassname"><span class="pre">clusterer.distance_template.</span></span><span class="sig-name descname"><span class="pre">distance_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_template.html#distance_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_template.distance_template" title="Link to this definition"></a></dt>
-<dd><p>data: 2D np ndarray; [[features1], [features2], …]   ;;  Without labels
-return: 2D np array; [distance_vector, [({‘Index’: 0}, features1), ({‘Index’: 1}, features2), …]]</p>
-</dd></dl>
-
+<section id="clusterer-distance-template-module">
+<h2>clusterer.distance_template module<a class="headerlink" href="#clusterer-distance-template-module" title="Link to this heading"></a></h2>
 </section>
 <section id="module-clusterer.distance_triangle">
 <span id="clusterer-distance-triangle-module"></span><h2>clusterer.distance_triangle module<a class="headerlink" href="#module-clusterer.distance_triangle" title="Link to this heading"></a></h2>
-<p>Created on Dec 19, 2011
-&#64;author: gyucel</p>
-<p>Updated July 25, 2025</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_triangle.distance_triangle">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_triangle.</span></span><span class="sig-name descname"><span class="pre">distance_triangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_triangle.html#distance_triangle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_triangle.distance_triangle" title="Link to this definition"></a></dt>
-<dd><dl>
-<dt>The triangle distance is calculated as follows;</dt><dd><blockquote>
-<div><p>Let ds1(.) and ds2(.) be two data series of length N. Then;
-A equals to the summation of ds1(i).ds2(i) from i=1 to N
-B equals to the square-root of the (summation ds1(i)^2 from i=1 to N)
-C equals to the square-root of the (summation ds2(i)^2 from i=1 to N)</p>
-<p>distance_triangle = A/(B.C)</p>
-</div></blockquote>
-<p>The triangle distance works only with data series of the same length</p>
-<p>In the literature, it is claimed that the triangle distance can deal with noise and amplitude scaling very well, and may yield poor
-results in cases of offset translation and linear drift.</p>
-</dd>
-</dl>
-<p>data: 2D np ndarray; [[features1], [features2], …]   ;;  Without labels
-return: 2D np array; [distance_vector, [({‘Index’: 0}, features1), ({‘Index’: 1}, features2), …]]</p>
-</dd></dl>
-
-</section>
-<section id="module-clusterer.euclidean">
-<span id="clusterer-euclidean-module"></span><h2>clusterer.euclidean module<a class="headerlink" href="#module-clusterer.euclidean" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="clusterer.euclidean.euclidean_distance">
-<span class="sig-prename descclassname"><span class="pre">clusterer.euclidean.</span></span><span class="sig-name descname"><span class="pre">euclidean_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/euclidean.html#euclidean_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.euclidean.euclidean_distance" title="Link to this definition"></a></dt>
-<dd><p>Calculate Euclidean distance between two sequences.</p>
+<dd><p>Calculate pairwise triangle distances between all data sequences.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – First sequence.</p></li>
-<li><p><strong>b</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Second sequence.</p></li>
+<dd class="field-odd"><p><strong>data</strong> (<em>np.ndarray</em>) – 2D array of shape (n_samples, n_features) with equal-length sequences.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</p></li>
+<li><p><strong>runLogs</strong> (<em>List[Tuple[Dict[str, str], np.ndarray]]</em>) – List of (index_dict, sequence) tuples for tracking original data.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Euclidean distance between the sequences.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If sequences have different lengths.</p>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -753,29 +746,6 @@ return: 2D np array; [distance_vector, [({‘Index’: 0}, features1), ({‘Inde
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-clusterer" title="Link to this heading"></a></h2>
 <p>Top-level package for clusterer.</p>
 <p>This package provides simple utilities for time series analysis.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="clusterer.euclidean_distance">
-<span class="sig-prename descclassname"><span class="pre">clusterer.</span></span><span class="sig-name descname"><span class="pre">euclidean_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/euclidean.html#euclidean_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.euclidean_distance" title="Link to this definition"></a></dt>
-<dd><p>Calculate Euclidean distance between two sequences.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – First sequence.</p></li>
-<li><p><strong>b</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – Second sequence.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Euclidean distance between the sequences.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If sequences have different lengths.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 </section>
 

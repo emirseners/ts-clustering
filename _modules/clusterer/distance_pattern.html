@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>clusterer.distance_pattern &mdash; Time Series Clustering 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -69,21 +69,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for clusterer.distance_pattern</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Created on Nov 8, 2011</span>
-<span class="sd">Updated on Dec 15, 2014</span>
-<span class="sd">gyucel &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;</span>
-
-<span class="sd">Updated July 25, 2025</span>
-<span class="sd">&#39;&#39;&#39;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.behavior_splitter</span><span class="w"> </span><span class="kn">import</span> <span class="n">construct_features</span>
-
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.behavior_splitter</span> <span class="kn">import</span> <span class="n">construct_features</span>
 
 <div class="viewcode-block" id="distance_same_length">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_pattern.distance_same_length">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">distance_same_length</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">,</span> <span class="n">wDim1</span><span class="p">,</span> <span class="n">wDim2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">distance_same_length</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">,</span> <span class="n">wDim1</span><span class="p">,</span> <span class="n">wDim2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculates the distance between two feature vectors of the same size.</span>
 <span class="sd">    </span>
@@ -103,7 +94,7 @@
 
 <div class="viewcode-block" id="distance_different_lenght">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_pattern.distance_different_lenght">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">distance_different_lenght</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">,</span> <span class="n">wDim1</span><span class="p">,</span> <span class="n">wDim2</span><span class="p">,</span> <span class="n">sisterCount</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">distance_different_lenght</span><span class="p">(</span><span class="n">series1</span><span class="p">,</span> <span class="n">series2</span><span class="p">,</span> <span class="n">wDim1</span><span class="p">,</span> <span class="n">wDim2</span><span class="p">,</span> <span class="n">sisterCount</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Calculates the distance between two feature vectors of different sizes.</span>
 <span class="sd">    </span>
@@ -146,7 +137,7 @@
 
 <div class="viewcode-block" id="create_sisters">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_pattern.create_sisters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_sisters</span><span class="p">(</span><span class="n">shortFV</span><span class="p">,</span> <span class="n">desired_shape</span><span class="p">,</span> <span class="n">sister_count</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">create_sisters</span><span class="p">(</span><span class="n">shortFV</span><span class="p">,</span> <span class="n">desired_shape</span><span class="p">,</span> <span class="n">sister_count</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Creates a set of new feature vectors that are behaviorally identical to the given </span>
 <span class="sd">    short feature vector (shortFV), and that have the stated number of segments (i.e. desired_shape).</span>
@@ -187,7 +178,7 @@
 
 <div class="viewcode-block" id="distance_pattern">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_pattern.distance_pattern">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">distance_pattern</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">sisterCount</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">distance_pattern</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">sisterCount</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    The distance measures the proximity of data series in terms of their </span>
 <span class="sd">    qualitative pattern features. In order words, it quantifies the proximity </span>
@@ -239,10 +230,6 @@
 
     <span class="k">return</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">data_w_desc</span></div>
 
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gonenc&#39;</span><span class="p">)</span>
 </pre></div>
 
            </div>

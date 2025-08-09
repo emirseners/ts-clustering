@@ -69,42 +69,84 @@
            <div itemprop="articleBody">
              
   <h1>Source code for clusterer.distance_dtw</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Created on Aug 21, 2013</span>
-<span class="sd">@author: gonenc</span>
-
-<span class="sd">Updated July 25, 2025</span>
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">njit</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
 <div class="viewcode-block" id="distance_dtw">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_dtw.distance_dtw">[docs]</a>
-<span class="k">def</span> <span class="nf">distance_dtw</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">):</span>
-    <span class="n">dRow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">))),</span> <span class="p">))</span>
+<span class="k">def</span> <span class="nf">distance_dtw</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate pairwise Dynamic Time Warping (DTW) distances between all data sequences.</span>
 
-    <span class="n">runLogs</span> <span class="o">=</span> <span class="p">[({</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)},</span> <span class="n">data_wo_labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">))]</span>
+<span class="sd">    DTW can handle sequences of different lengths by finding optimal alignment.</span>
 
-    <span class="n">dRow</span> <span class="o">=</span> <span class="n">compute_dtw_distances_numba</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">,</span> <span class="n">dRow</span><span class="p">)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        2D array of shape (n_samples, n_features) containing sequences to compare.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dRow : np.ndarray</span>
+<span class="sd">        Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</span>
+<span class="sd">    runLogs : List[Tuple[Dict[str, str], np.ndarray]]</span>
+<span class="sd">        List of (index_dict, sequence) tuples for tracking original data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dRow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))),</span> <span class="p">))</span>
+
+    <span class="n">runLogs</span> <span class="o">=</span> <span class="p">[({</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)},</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
+
+    <span class="n">dRow</span> <span class="o">=</span> <span class="n">compute_dtw_distances_numba</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dRow</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">runLogs</span></div>
 
 
 <span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">compute_dtw_distances_numba</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">,</span> <span class="n">dRow</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">compute_dtw_distances_numba</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute DTW distances between all pairs using Numba for performance.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray</span>
+<span class="sd">        Input sequences array.</span>
+<span class="sd">    dRow : np.ndarray</span>
+<span class="sd">        Array to store distances.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray</span>
+<span class="sd">        Array filled with DTW distances.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">)):</span>            
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>            
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
             <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">distance</span> <span class="o">=</span> <span class="n">dtw_dist_numba</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data_wo_labels</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> 
+            <span class="n">distance</span> <span class="o">=</span> <span class="n">dtw_dist_numba</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> 
             <span class="n">dRow</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance</span>
     <span class="k">return</span> <span class="n">dRow</span>
 
 <span class="nd">@njit</span>
-<span class="k">def</span> <span class="nf">dtw_dist_numba</span><span class="p">(</span><span class="n">sample1</span><span class="p">,</span> <span class="n">sample2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">dtw_dist_numba</span><span class="p">(</span><span class="n">sample1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate DTW distance between two sequences using dynamic programming.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sample1 : np.ndarray</span>
+<span class="sd">        First sequence.</span>
+<span class="sd">    sample2 : np.ndarray</span>
+<span class="sd">        Second sequence.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        DTW distance between the sequences.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dtw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sample1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sample2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">dtw</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="c1">#infinity is assigned instead of 1000</span>
-    <span class="n">dtw</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="c1">#infinity is assigned instead of 1000</span>
+    <span class="n">dtw</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># infinity is assigned instead of 1000</span>
+    <span class="n">dtw</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># infinity is assigned instead of 1000</span>
     <span class="n">dtw</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
@@ -112,9 +154,6 @@
             <span class="n">dtw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">cost</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">dtw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">dtw</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtw</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">dtw</span><span class="p">[</span><span class="n">sample1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sample2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;gonenc&#39;</span><span class="p">)</span>
 </pre></div>
 
            </div>
