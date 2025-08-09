@@ -1,4 +1,8 @@
 Euclidean Distance
 ==================
 
-.. autofunction:: clusterer.euclidean_distance
+.. automodule:: clusterer.euclidean
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :member-order: bysource
