@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>clusterer package &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="clusterer" href="modules.html" /> 
+    <link rel="prev" title="clusterer documentation" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,70 +43,66 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">clusterer</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">clusterer package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.behavior_splitter">clusterer.behavior_splitter module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">clusterer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.behavior_splitter">clusterer.behavior_splitter module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.clusterer">clusterer.clusterer module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.compare_clusterings"><code class="docutils literal notranslate"><span class="pre">compare_clusterings()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.construct_distances"><code class="docutils literal notranslate"><span class="pre">construct_distances()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.create_cluster_list"><code class="docutils literal notranslate"><span class="pre">create_cluster_list()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.experiment_controller"><code class="docutils literal notranslate"><span class="pre">experiment_controller()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.flatcluster"><code class="docutils literal notranslate"><span class="pre">flatcluster()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.import_all"><code class="docutils literal notranslate"><span class="pre">import_all()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.import_all_files"><code class="docutils literal notranslate"><span class="pre">import_all_files()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.import_pandas_data"><code class="docutils literal notranslate"><span class="pre">import_pandas_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.normalize_data"><code class="docutils literal notranslate"><span class="pre">normalize_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.plot_clusters"><code class="docutils literal notranslate"><span class="pre">plot_clusters()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.plotdendrogram"><code class="docutils literal notranslate"><span class="pre">plotdendrogram()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.clusterer.standardize_data"><code class="docutils literal notranslate"><span class="pre">standardize_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.clusterer">clusterer.clusterer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.compare_clusterings"><code class="docutils literal notranslate"><span class="pre">compare_clusterings()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.construct_distances"><code class="docutils literal notranslate"><span class="pre">construct_distances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.create_cluster_list"><code class="docutils literal notranslate"><span class="pre">create_cluster_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.experiment_controller"><code class="docutils literal notranslate"><span class="pre">experiment_controller()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.flatcluster"><code class="docutils literal notranslate"><span class="pre">flatcluster()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.import_all"><code class="docutils literal notranslate"><span class="pre">import_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.import_all_files"><code class="docutils literal notranslate"><span class="pre">import_all_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.import_pandas_data"><code class="docutils literal notranslate"><span class="pre">import_pandas_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.normalize_data"><code class="docutils literal notranslate"><span class="pre">normalize_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.plot_clusters"><code class="docutils literal notranslate"><span class="pre">plot_clusters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.plotdendrogram"><code class="docutils literal notranslate"><span class="pre">plotdendrogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.clusterer.standardize_data"><code class="docutils literal notranslate"><span class="pre">standardize_data()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_dtw">clusterer.distance_dtw module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_dtw.compute_dtw_distances_numba"><code class="docutils literal notranslate"><span class="pre">compute_dtw_distances_numba()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_dtw.distance_dtw"><code class="docutils literal notranslate"><span class="pre">distance_dtw()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_dtw.dtw_dist_numba"><code class="docutils literal notranslate"><span class="pre">dtw_dist_numba()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.distance_dtw">clusterer.distance_dtw module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_dtw.compute_dtw_distances_numba"><code class="docutils literal notranslate"><span class="pre">compute_dtw_distances_numba()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_dtw.distance_dtw"><code class="docutils literal notranslate"><span class="pre">distance_dtw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_dtw.dtw_dist_numba"><code class="docutils literal notranslate"><span class="pre">dtw_dist_numba()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_manhattan">clusterer.distance_manhattan module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_manhattan.distance_manhattan"><code class="docutils literal notranslate"><span class="pre">distance_manhattan()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.distance_manhattan">clusterer.distance_manhattan module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_manhattan.distance_manhattan"><code class="docutils literal notranslate"><span class="pre">distance_manhattan()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_mse">clusterer.distance_mse module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_mse.distance_mse"><code class="docutils literal notranslate"><span class="pre">distance_mse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.distance_mse">clusterer.distance_mse module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_mse.distance_mse"><code class="docutils literal notranslate"><span class="pre">distance_mse()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_pattern">clusterer.distance_pattern module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern.create_sisters"><code class="docutils literal notranslate"><span class="pre">create_sisters()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern.distance_different_lenght"><code class="docutils literal notranslate"><span class="pre">distance_different_lenght()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern.distance_pattern"><code class="docutils literal notranslate"><span class="pre">distance_pattern()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern.distance_same_length"><code class="docutils literal notranslate"><span class="pre">distance_same_length()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.distance_pattern">clusterer.distance_pattern module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern.create_sisters"><code class="docutils literal notranslate"><span class="pre">create_sisters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern.distance_different_length"><code class="docutils literal notranslate"><span class="pre">distance_different_length()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern.distance_pattern"><code class="docutils literal notranslate"><span class="pre">distance_pattern()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern.distance_same_length"><code class="docutils literal notranslate"><span class="pre">distance_same_length()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_pattern_dtw">clusterer.distance_pattern_dtw module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern_dtw.compute_pattern_dtw_distances_numba"><code class="docutils literal notranslate"><span class="pre">compute_pattern_dtw_distances_numba()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern_dtw.distance_pattern_dtw"><code class="docutils literal notranslate"><span class="pre">distance_pattern_dtw()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern_dtw.dtw_distance_numba"><code class="docutils literal notranslate"><span class="pre">dtw_distance_numba()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_pattern_dtw.local_dist_numba"><code class="docutils literal notranslate"><span class="pre">local_dist_numba()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.distance_pattern_dtw">clusterer.distance_pattern_dtw module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern_dtw.compute_pattern_dtw_distances_numba"><code class="docutils literal notranslate"><span class="pre">compute_pattern_dtw_distances_numba()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern_dtw.distance_pattern_dtw"><code class="docutils literal notranslate"><span class="pre">distance_pattern_dtw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern_dtw.dtw_distance_numba"><code class="docutils literal notranslate"><span class="pre">dtw_distance_numba()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_pattern_dtw.local_dist_numba"><code class="docutils literal notranslate"><span class="pre">local_dist_numba()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_sse">clusterer.distance_sse module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_sse.distance_sse"><code class="docutils literal notranslate"><span class="pre">distance_sse()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.distance_sse">clusterer.distance_sse module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_sse.distance_sse"><code class="docutils literal notranslate"><span class="pre">distance_sse()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer.distance_triangle">clusterer.distance_triangle module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#clusterer.distance_triangle.distance_triangle"><code class="docutils literal notranslate"><span class="pre">distance_triangle()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-clusterer">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-clusterer.distance_triangle">clusterer.distance_triangle module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusterer.distance_triangle.distance_triangle"><code class="docutils literal notranslate"><span class="pre">distance_triangle()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -127,8 +123,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="modules.html">clusterer</a></li>
-      <li class="breadcrumb-item active">clusterer package</li>
+      <li class="breadcrumb-item active">clusterer</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/clusterer.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -138,8 +133,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="clusterer-package">
-<h1>clusterer package<a class="headerlink" href="#clusterer-package" title="Link to this heading"></a></h1>
+  <section id="clusterer">
+<h1>clusterer<a class="headerlink" href="#clusterer" title="Link to this heading"></a></h1>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
@@ -553,35 +548,48 @@ y_i = (x_i - mean(x)) / std(x)
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_pattern.create_sisters">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_pattern.</span></span><span class="sig-name descname"><span class="pre">create_sisters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shortFV</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desired_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sister_count</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_pattern.html#create_sisters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_pattern.create_sisters" title="Link to this definition"></a></dt>
-<dd><p>Creates a set of new feature vectors that are behaviorally identical to the given
-short feature vector (shortFV), and that have the stated number of segments (i.e. desired_shape).</p>
+<dd><p>Create new feature vectors behaviorally identical to the given short feature vector.</p>
+<p>Creates a set of new feature vectors that are behaviorally identical to the given
+short feature vector (shortFV), and that have the stated number of segments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shortFV</strong> – The feature vector to be extended.</p></li>
-<li><p><strong>desired_shape</strong> – The desired shape (2-by-number of sections) of the extended feature vectors (i.e. sisters)</p></li>
-<li><p><strong>sister_count</strong> – The desired number of sisters to be created</p></li>
+<li><p><strong>shortFV</strong> (<em>np.ndarray</em>) – The feature vector to be extended.</p></li>
+<li><p><strong>desired_shape</strong> (<em>Tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – The desired shape (2-by-number of sections) of the extended feature vectors (i.e. sisters).</p></li>
+<li><p><strong>sister_count</strong> (<em>int</em>) – The desired number of sisters to be created.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of sister vectors with shape (sister_count, desired_shape[1], 2).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="clusterer.distance_pattern.distance_different_lenght">
-<span class="sig-prename descclassname"><span class="pre">clusterer.distance_pattern.</span></span><span class="sig-name descname"><span class="pre">distance_different_lenght</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wDim1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wDim2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sisterCount</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_pattern.html#distance_different_lenght"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_pattern.distance_different_lenght" title="Link to this definition"></a></dt>
-<dd><p>Calculates the distance between two feature vectors of different sizes.</p>
+<dt class="sig sig-object py" id="clusterer.distance_pattern.distance_different_length">
+<span class="sig-prename descclassname"><span class="pre">clusterer.distance_pattern.</span></span><span class="sig-name descname"><span class="pre">distance_different_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wDim1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wDim2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sisterCount</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_pattern.html#distance_different_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_pattern.distance_different_length" title="Link to this definition"></a></dt>
+<dd><p>Calculate the distance between two feature vectors of different sizes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>series1</strong> – Feature vector 1 (2-dimensional numpy array).</p></li>
-<li><p><strong>series2</strong> – Feature vector 2 (2-dimensional numpy array).</p></li>
-<li><p><strong>wDim1</strong> – Weight of the error between the 1st dimensions of the two
+<li><p><strong>series1</strong> (<em>np.ndarray</em>) – Feature vector 1 (2-dimensional numpy array).</p></li>
+<li><p><strong>series2</strong> (<em>np.ndarray</em>) – Feature vector 2 (2-dimensional numpy array).</p></li>
+<li><p><strong>wDim1</strong> (<em>float</em>) – Weight of the error between the 1st dimensions of the two
 feature vectors (i.e. Slope).</p></li>
-<li><p><strong>wDim2</strong> – Weight of the error between the 2nd dimensions of the two
+<li><p><strong>wDim2</strong> (<em>float</em>) – Weight of the error between the 2nd dimensions of the two
 feature vectors (i.e. Curvature).</p></li>
-<li><p><strong>sisterCount</strong> – Number of long-versions that will be created for the
+<li><p><strong>sisterCount</strong> (<em>int</em>) – Number of long-versions that will be created for the
 short vector.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Minimum distance among all generated sister vectors.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -589,27 +597,37 @@ short vector.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_pattern.distance_pattern">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_pattern.</span></span><span class="sig-name descname"><span class="pre">distance_pattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significanceLevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sisterCount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wSlopeError</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wCurvatureError</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_pattern.html#distance_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_pattern.distance_pattern" title="Link to this definition"></a></dt>
-<dd><p>The distance measures the proximity of data series in terms of their
-qualitative pattern features. In order words, it quantifies the proximity
+<dd><p>Calculate pairwise pattern distances between all data sequences.</p>
+<p>The distance measures the proximity of data series in terms of their
+qualitative pattern features. In other words, it quantifies the proximity
 between two different dynamic behaviour modes.</p>
-<p>It is designed to work mainly on non-stationary data. It’s current version
+<p>It is designed to work mainly on non-stationary data. Its current version
 does not perform well in catching the proximity of two cyclic/repetitive
-patterns with different number of cycles (e.g. oscillation with 4 cycle
+patterns with different number of cycles (e.g. oscillation with 4 cycles
 versus oscillation with 6 cycles).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>significanceLevel</strong> (default: <code class="docutils literal notranslate"><span class="pre">0.01</span></code>) – The threshold value to be used in filtering out
-fluctuations in the slope and the curvature. (default=0.01)</p></li>
-<li><p><strong>sisterCount</strong> (default: <code class="docutils literal notranslate"><span class="pre">50</span></code>) – Number of long-versions that will be created for the
-short vector while comparing two data series with
-unequal feature vector lengths.</p></li>
-<li><p><strong>wSlopeError</strong> (default: <code class="docutils literal notranslate"><span class="pre">1</span></code>) – Weight of the error between the 1st dimensions of the
-two feature vectors (i.e. Slope). (default=1)</p></li>
-<li><p><strong>wCurvatureError</strong> (default: <code class="docutils literal notranslate"><span class="pre">1</span></code>) – Weight of the error between the 2nd dimensions of
-the two feature vectors (i.e. Curvature).
-(default=1)</p></li>
+<li><p><strong>data</strong> (<em>np.ndarray</em>) – 2D array of shape (n_samples, n_features) containing sequences to compare.</p></li>
+<li><p><strong>significanceLevel</strong> (<em>float</em><em>, </em><em>optional</em>) – The threshold value to be used in filtering out fluctuations in the slope
+and the curvature (default=0.01).</p></li>
+<li><p><strong>sisterCount</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of long-versions that will be created for the short vector while
+comparing two data series with unequal feature vector lengths (default=50).</p></li>
+<li><p><strong>wSlopeError</strong> (<em>float</em><em>, </em><em>optional</em>) – Weight of the error between the 1st dimensions of the two feature vectors
+(i.e. Slope) (default=1).</p></li>
+<li><p><strong>wCurvatureError</strong> (<em>float</em><em>, </em><em>optional</em>) – Weight of the error between the 2nd dimensions of the two feature vectors
+(i.e. Curvature) (default=1).</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</p></li>
+<li><p><strong>runLogs</strong> (<em>List[Tuple[Dict[str, str], np.ndarray]]</em>) – List of (metadata_dict, sequence) tuples for tracking original data and feature vectors.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -617,17 +635,23 @@ the two feature vectors (i.e. Curvature).
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.distance_pattern.distance_same_length">
 <span class="sig-prename descclassname"><span class="pre">clusterer.distance_pattern.</span></span><span class="sig-name descname"><span class="pre">distance_same_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">series1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">series2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wDim1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wDim2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/distance_pattern.html#distance_same_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.distance_pattern.distance_same_length" title="Link to this definition"></a></dt>
-<dd><p>Calculates the distance between two feature vectors of the same size.</p>
+<dd><p>Calculate the distance between two feature vectors of the same size.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>series1</strong> – Feature vector 1 (2-dimensional numpy array).</p></li>
-<li><p><strong>series2</strong> – Feature vector 2 (2-dimensional numpy array).</p></li>
-<li><p><strong>wDim1</strong> – Weight of the error between the 1st dimensions of the two
+<li><p><strong>series1</strong> (<em>np.ndarray</em>) – Feature vector 1 (2-dimensional numpy array).</p></li>
+<li><p><strong>series2</strong> (<em>np.ndarray</em>) – Feature vector 2 (2-dimensional numpy array).</p></li>
+<li><p><strong>wDim1</strong> (<em>float</em>) – Weight of the error between the 1st dimensions of the two
 feature vectors (i.e. Slope).</p></li>
-<li><p><strong>wDim2</strong> – Weight of the error between the 2nd dimensions of the two
+<li><p><strong>wDim2</strong> (<em>float</em>) – Weight of the error between the 2nd dimensions of the two
 feature vectors (i.e. Curvature).</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Weighted distance between the feature vectors.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -738,18 +762,13 @@ feature vectors (i.e. Curvature).</p></li>
 </dd></dl>
 
 </section>
-<section id="module-clusterer">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-clusterer" title="Link to this heading"></a></h2>
-<p>Top-level package for clusterer.</p>
-<p>This package provides simple utilities for time series analysis.</p>
-</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="clusterer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="clusterer documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

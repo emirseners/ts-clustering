@@ -1,4 +1,4 @@
-clusterer package
+clusterer
 =================
 
 Submodules
@@ -72,14 +72,6 @@ clusterer.distance\_triangle module
 -----------------------------------
 
 .. automodule:: clusterer.distance_triangle
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-Module contents
----------------
-
-.. automodule:: clusterer
    :members:
    :show-inheritance:
    :undoc-members:
