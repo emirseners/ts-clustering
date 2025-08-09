@@ -68,14 +68,6 @@ clusterer.distance\_sse module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_template module
------------------------------------
-
-.. automodule:: clusterer.distance_template
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 clusterer.distance\_triangle module
 -----------------------------------
 
