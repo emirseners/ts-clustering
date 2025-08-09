@@ -1,0 +1,29 @@
+Installation
+============
+
+Install all dependencies using pip:
+
+.. code-block:: bash
+
+   pip install -r requirements.txt
+
+Virtual Environment (Recommended)
+----------------------------------
+
+.. code-block:: bash
+
+   python -m venv ts_clustering_env
+   source ts_clustering_env/bin/activate
+   pip install -r requirements.txt
+
+Troubleshooting
+---------------
+
+**Installation errors:** Try using conda instead:
+
+.. code-block:: bash
+
+   conda install -c conda-forge numpy scipy matplotlib pandas xlsxwriter numba
+   pip install pysd
+
+**Permission errors:** Use ``pip install --user -r requirements.txt``
