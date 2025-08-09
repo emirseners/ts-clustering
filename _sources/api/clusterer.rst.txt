@@ -1,95 +1,74 @@
-clusterer package
+clusterer
 =================
 
-Submodules
-----------
-
-clusterer.behavior\_splitter module
+clusterer.behavior\_splitter
 -----------------------------------
 
 .. automodule:: clusterer.behavior_splitter
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.clusterer module
+clusterer.clusterer
 --------------------------
 
 .. automodule:: clusterer.clusterer
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.distance\_dtw module
+clusterer.distance\_dtw
 ------------------------------
 
 .. automodule:: clusterer.distance_dtw
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.distance\_manhattan module
+clusterer.distance\_manhattan
 ------------------------------------
 
 .. automodule:: clusterer.distance_manhattan
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.distance\_mse module
+clusterer.distance\_mse
 ------------------------------
 
 .. automodule:: clusterer.distance_mse
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.distance\_pattern module
+clusterer.distance\_pattern
 ----------------------------------
 
 .. automodule:: clusterer.distance_pattern
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.distance\_pattern\_dtw module
+clusterer.distance\_pattern\_dtw
 ---------------------------------------
 
 .. automodule:: clusterer.distance_pattern_dtw
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.distance\_sse module
+clusterer.distance\_sse
 ------------------------------
 
 .. automodule:: clusterer.distance_sse
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
 
-clusterer.distance\_triangle module
+clusterer.distance\_triangle
 -----------------------------------
 
 .. automodule:: clusterer.distance_triangle
    :members:
    :show-inheritance:
    :undoc-members:
-   :no-index:
-
-Module contents
----------------
-
-.. automodule:: clusterer
-   :members:
-   :show-inheritance:
-   :undoc-members:
-   :no-index:

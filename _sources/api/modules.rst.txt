@@ -1,7 +1,0 @@
-clusterer
-=========
-
-.. toctree::
-   :maxdepth: 4
-
-   clusterer

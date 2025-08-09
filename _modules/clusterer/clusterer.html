@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>clusterer.clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -41,7 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">clusterer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/clusterer.html">clusterer</a></li>
 </ul>
 
         </div>
@@ -85,30 +85,30 @@
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="c1">#OScillation, repetitive</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">squareform</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.cluster.hierarchy</span><span class="w"> </span><span class="kn">import</span> <span class="n">fcluster</span><span class="p">,</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">dendrogram</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">xlsxwriter</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_pattern</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_pattern_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_pattern_dtw</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_mse</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_mse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_sse</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_sse</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_dtw</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_manhattan</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_manhattan</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pysd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">squareform</span>
+<span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">fcluster</span><span class="p">,</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">dendrogram</span>
+<span class="kn">import</span> <span class="nn">xlsxwriter</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">.distance_pattern</span> <span class="kn">import</span> <span class="n">distance_pattern</span>
+<span class="kn">from</span> <span class="nn">.distance_pattern_dtw</span> <span class="kn">import</span> <span class="n">distance_pattern_dtw</span>
+<span class="kn">from</span> <span class="nn">.distance_mse</span> <span class="kn">import</span> <span class="n">distance_mse</span>
+<span class="kn">from</span> <span class="nn">.distance_sse</span> <span class="kn">import</span> <span class="n">distance_sse</span>
+<span class="kn">from</span> <span class="nn">.distance_dtw</span> <span class="kn">import</span> <span class="n">distance_dtw</span>
+<span class="kn">from</span> <span class="nn">.distance_manhattan</span> <span class="kn">import</span> <span class="n">distance_manhattan</span>
+<span class="kn">import</span> <span class="nn">pysd</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
 
 <span class="c1"># The cluster method only recognizes the distances that are listed in the distance_functions dictionary</span>
 <span class="n">distance_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="n">distance_pattern</span><span class="p">,</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">:</span> <span class="n">distance_pattern_dtw</span><span class="p">,</span><span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="n">distance_mse</span><span class="p">,</span> <span class="s1">&#39;sse&#39;</span><span class="p">:</span> <span class="n">distance_sse</span><span class="p">,</span> <span class="s1">&#39;dtw&#39;</span><span class="p">:</span> <span class="n">distance_dtw</span><span class="p">,</span> <span class="s1">&#39;manhattan&#39;</span><span class="p">:</span> <span class="n">distance_manhattan</span><span class="p">}</span>
 
 <div class="viewcode-block" id="import_data">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">import_data</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">withClusters</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">import_data</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">withClusters</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Method that imports dataseries to be analyzed from .xlsx files. Unless specified otherwise, looks for the file in the datasets folder of the project. Optionally it can also read the original clusters of the dataseries. For that, the input file should contain a sheet names *clusters*, and the order of the dataseries in this sheet should be identical to the sorting in the data sheet</span>
 
@@ -156,7 +156,7 @@
 
 <div class="viewcode-block" id="import_all_files">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_all_files">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">import_all_files</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">import_all_files</span><span class="p">():</span>
     <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;StellaFreeFloat&quot;</span><span class="p">,</span><span class="s2">&quot;StellaDefault&quot;</span><span class="p">,</span><span class="s2">&quot;Vensim&quot;</span><span class="p">]</span>
     <span class="n">dataframes</span> <span class="o">=</span> <span class="p">[</span><span class="n">import_all</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
     <span class="n">full_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataframes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -165,7 +165,7 @@
 
 <div class="viewcode-block" id="import_all">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_all">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">import_all</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">import_all</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
     <span class="n">relPathFileFolder</span> <span class="o">=</span> <span class="s1">&#39;../datasets&#39;</span>
     <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;Dataset_Basic_&#39;</span><span class="o">+</span><span class="n">name</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">relPathFileFolder</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">inputFileName</span><span class="o">+</span><span class="s1">&#39;.xlsx&#39;</span>
@@ -181,7 +181,7 @@
 
 <div class="viewcode-block" id="import_pandas_data">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_pandas_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">import_pandas_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">import_pandas_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
     <span class="n">relPathFileFolder</span> <span class="o">=</span> <span class="s1">&#39;../datasets&#39;</span>
     <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;Dataset_Basic_&#39;</span><span class="o">+</span><span class="n">name</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">relPathFileFolder</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">inputFileName</span><span class="o">+</span><span class="s1">&#39;.xlsx&#39;</span>
@@ -197,7 +197,7 @@
 
 <div class="viewcode-block" id="import_from_pysd">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_from_pysd">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">import_from_pysd</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">,</span> <span class="n">output_variable</span><span class="p">,</span> <span class="n">models_folder</span><span class="o">=</span><span class="s1">&#39;vensim models&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">import_from_pysd</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">,</span> <span class="n">output_variable</span><span class="p">,</span> <span class="n">models_folder</span><span class="o">=</span><span class="s1">&#39;vensim models&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import a model from pysd and run it with a given parameter set.</span>
 <span class="sd">    :param model_name: The name of the model to import</span>
@@ -248,7 +248,7 @@
 
 <div class="viewcode-block" id="normalize_data">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.normalize_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">normalize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">normalize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Compute the normalized version of the time-series data such that</span>
 <span class="sd">    y_i = (x_i - min(x)) / (max(x) - min(x))</span>
@@ -274,7 +274,7 @@
 
 <div class="viewcode-block" id="standardize_data">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.standardize_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">standardize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">standardize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Compute the standardized version of the time-series data such that</span>
 <span class="sd">    y_i = (x_i - mean(x)) / std(x)</span>
@@ -299,7 +299,7 @@
 
 <div class="viewcode-block" id="cluster">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.cluster">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cluster</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">,</span>  <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">,</span>  <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span>
             <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Method that clusters time-series data based on the specified distance measure using a hierarchical clustering algorithm. Optionally the method also plots the dendrogram generated by the clustering algorithm</span>
@@ -360,7 +360,7 @@
 
 <div class="viewcode-block" id="create_cluster_list">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.create_cluster_list">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">distRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">distRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;  </span>
 <span class="sd">    Given the results of a clustering, the method creates Cluster objects for each of the identified clusters. Each cluster object contains member data series, as well as a sample/representative dataseries</span>
 <span class="sd">    </span>
@@ -421,7 +421,7 @@
 
 <div class="viewcode-block" id="construct_distances">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.construct_distances">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">construct_distances</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">construct_distances</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Constructs a row vector of distances (a condensed version of a n-by-n matrix of distances) for n data-series in data </span>
 <span class="sd">    according to the specified distance.</span>
@@ -449,7 +449,7 @@
 
 <div class="viewcode-block" id="flatcluster">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.flatcluster">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mf">2.5</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mf">2.5</span><span class="p">):</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">interClusterDistance</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">plotDendrogram</span><span class="p">:</span>
@@ -474,7 +474,7 @@
 
 <div class="viewcode-block" id="plotdendrogram">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.plotdendrogram">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plotdendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plotdendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
     <span class="n">dendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">truncate_mode</span><span class="o">=</span><span class="s1">&#39;lastp&#39;</span><span class="p">,</span> <span class="n">show_leaf_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_contracted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
@@ -482,7 +482,7 @@
 
 <div class="viewcode-block" id="plot_clusters">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.plot_clusters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;show&#39;</span><span class="p">,</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;show&#39;</span><span class="p">,</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Takes a list of Cluster objects as an input. Plots the members of each cluster on a seperate plot</span>
 <span class="sd">    </span>
@@ -527,7 +527,7 @@
 
 <div class="viewcode-block" id="compare_clusterings">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.compare_clusterings">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">compare_clusterings</span><span class="p">(</span><span class="n">clusters1</span><span class="p">,</span> <span class="n">clusters2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">compare_clusterings</span><span class="p">(</span><span class="n">clusters1</span><span class="p">,</span> <span class="n">clusters2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Given two clusterings (i.e. lists that contains the cluster no.s for each dataseries), this method returns two comparative indices. The first index that is returned in the Rand index, whereas the second one is the Jaccard index</span>
 <span class="sd">    </span>
@@ -573,7 +573,7 @@
 
 <div class="viewcode-block" id="experiment_controller">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.experiment_controller">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">experiment_controller</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">flatMethod</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">experiment_controller</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">flatMethod</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span>
                           <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">replicate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">note</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a full clustering experiment and export results.</span>
@@ -699,7 +699,7 @@
 
 <div class="viewcode-block" id="Cluster">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.Cluster">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Cluster</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Cluster</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Cluster container for time-series results.</span>
 
@@ -712,7 +712,7 @@
 <span class="sd">    - size: Number of elements (i.e., dataseries) in the cluster</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_no</span><span class="p">,</span> <span class="n">all_ds_indices</span><span class="p">,</span> <span class="n">sample_ds</span><span class="p">,</span> <span class="n">member_dss</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_no</span><span class="p">,</span> <span class="n">all_ds_indices</span><span class="p">,</span> <span class="n">sample_ds</span><span class="p">,</span> <span class="n">member_dss</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">cluster_no</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">all_ds_indices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample_ds</span>
