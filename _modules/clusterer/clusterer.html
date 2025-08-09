@@ -1,0 +1,768 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>clusterer.clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Time Series Clustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/modules.html">clusterer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Time Series Clustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">clusterer.clusterer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for clusterer.clusterer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Pattern-oriented behavior clustering module.</span>
+<span class="sd">The module provides the methods for importing, pre-processing, clustering and post-processing of bundles of time-series data (e.g. from a sensitivity analysis) </span>
+<span class="sd">    * Created on June 28, 2013</span>
+<span class="sd">    * Major revision on August 13, 2013 - TU Delft EMA Workbench dependencies are removed</span>
+<span class="sd">    * Major revision on August 09, 2014 - Enthought dependencies are removed</span>
+<span class="sd">.. codeauthor:: </span>
+<span class="sd">     gyucel &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;,</span>
+
+<span class="sd">Updated July 30, 2025</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1">#OScillation, repetitive</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">squareform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.cluster.hierarchy</span><span class="w"> </span><span class="kn">import</span> <span class="n">fcluster</span><span class="p">,</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">dendrogram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xlsxwriter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_pattern</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_pattern_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_pattern_dtw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_mse</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_mse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_sse</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_sse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_dtw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_manhattan</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_manhattan</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pysd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+
+<span class="c1"># The cluster method only recognizes the distances that are listed in the distance_functions dictionary</span>
+<span class="n">distance_functions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="n">distance_pattern</span><span class="p">,</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">:</span> <span class="n">distance_pattern_dtw</span><span class="p">,</span><span class="s1">&#39;mse&#39;</span><span class="p">:</span> <span class="n">distance_mse</span><span class="p">,</span> <span class="s1">&#39;sse&#39;</span><span class="p">:</span> <span class="n">distance_sse</span><span class="p">,</span> <span class="s1">&#39;dtw&#39;</span><span class="p">:</span> <span class="n">distance_dtw</span><span class="p">,</span> <span class="s1">&#39;manhattan&#39;</span><span class="p">:</span> <span class="n">distance_manhattan</span><span class="p">}</span>
+
+<div class="viewcode-block" id="import_data">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_data</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">withClusters</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Method that imports dataseries to be analyzed from .xlsx files. Unless specified otherwise, looks for the file in the datasets folder of the project. Optionally it can also read the original clusters of the dataseries. For that, the input file should contain a sheet names *clusters*, and the order of the dataseries in this sheet should be identical to the sorting in the data sheet</span>
+
+<span class="sd">    :param inputFileName: The name of the .xlsx file that contains the dataset</span>
+<span class="sd">    :param withClusters: If True, checks the sheet names *clusters* and returns also the original clusters/classess of dataseries</span>
+<span class="sd">    :returns: Two lists. The first one contains 2D lists, each corresponding to a single dataseries. The first entry is a string that keeps the label of the sample, and the second entry is a numpy array that keeps the data. The second list is optional, and returns when *withClusters* is True. It contains the original clusters of the input data  </span>
+<span class="sd">    :rtype: List (3D)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">possible_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;datasets&#39;</span><span class="p">,</span> <span class="s1">&#39;../datasets&#39;</span><span class="p">]</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">for</span> <span class="n">relPathFileFolder</span> <span class="ow">in</span> <span class="n">possible_paths</span><span class="p">:</span>
+        <span class="n">test_path</span> <span class="o">=</span> <span class="n">relPathFileFolder</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">inputFileName</span><span class="o">+</span><span class="s1">&#39;.xlsx&#39;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">test_path</span><span class="p">):</span>
+            <span class="n">file_path</span> <span class="o">=</span> <span class="n">test_path</span>
+            <span class="k">break</span>
+    
+    <span class="k">if</span> <span class="n">file_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find </span><span class="si">{</span><span class="n">inputFileName</span><span class="si">}</span><span class="s2">.xlsx&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Read the data sheet using pandas</span>
+    <span class="n">df_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+    <span class="n">noRuns</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_data</span><span class="p">)</span>
+    
+    <span class="c1">#dataSet is a 3D list. Each entry is a 2D list object. First dimension is a string that keeps the label of the data series, and the second dimension is a numpy array that keeps the actual data</span>
+    <span class="n">all_rows</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    
+    <span class="c1"># Vectorized separation of labels and data</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">all_rows</span><span class="p">]</span>
+    <span class="n">data_arrays</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">all_rows</span><span class="p">]</span>
+    
+    <span class="n">data_w_desc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">data_arrays</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">withClusters</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df_clusters</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;clusters&#39;</span><span class="p">)</span>
+            <span class="n">clusters_original</span> <span class="o">=</span> <span class="n">df_clusters</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">clusters_original</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NA&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">noRuns</span>
+        <span class="k">return</span> <span class="n">data_w_desc</span><span class="p">,</span> <span class="n">clusters_original</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data_w_desc</span></div>
+
+
+
+<div class="viewcode-block" id="import_all_files">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_all_files">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_all_files</span><span class="p">():</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;StellaFreeFloat&quot;</span><span class="p">,</span><span class="s2">&quot;StellaDefault&quot;</span><span class="p">,</span><span class="s2">&quot;Vensim&quot;</span><span class="p">]</span>
+    <span class="n">dataframes</span> <span class="o">=</span> <span class="p">[</span><span class="n">import_all</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+    <span class="n">full_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataframes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">full_data</span></div>
+
+
+<div class="viewcode-block" id="import_all">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_all">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_all</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">relPathFileFolder</span> <span class="o">=</span> <span class="s1">&#39;../datasets&#39;</span>
+    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;Dataset_Basic_&#39;</span><span class="o">+</span><span class="n">name</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">relPathFileFolder</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">inputFileName</span><span class="o">+</span><span class="s1">&#39;.xlsx&#39;</span>
+    <span class="c1"># Read all sheet names using pandas</span>
+    <span class="n">excel_file</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelFile</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">excel_file</span><span class="o">.</span><span class="n">sheet_names</span>
+    <span class="n">dataframes</span> <span class="o">=</span> <span class="p">[</span><span class="n">import_pandas_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+    <span class="n">complete_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataframes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">complete_data</span><span class="p">[</span><span class="s1">&#39;Source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">return</span> <span class="n">complete_data</span></div>
+
+
+
+<div class="viewcode-block" id="import_pandas_data">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_pandas_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_pandas_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+    <span class="n">relPathFileFolder</span> <span class="o">=</span> <span class="s1">&#39;../datasets&#39;</span>
+    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;Dataset_Basic_&#39;</span><span class="o">+</span><span class="n">name</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">relPathFileFolder</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">inputFileName</span><span class="o">+</span><span class="s1">&#39;.xlsx&#39;</span>
+    <span class="n">df_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="bp">cls</span><span class="p">)</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;Id&#39;</span><span class="p">})</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
+    
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="import_from_pysd">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_from_pysd">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_from_pysd</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">,</span> <span class="n">output_variable</span><span class="p">,</span> <span class="n">models_folder</span><span class="o">=</span><span class="s1">&#39;vensim models&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Import a model from pysd and run it with a given parameter set.</span>
+<span class="sd">    :param model_name: The name of the model to import</span>
+<span class="sd">    :param parameter_set: A dictionary of parameters, where keys are the parameter names and values are the parameter values or a list of parameter values</span>
+<span class="sd">    :param output_variable: The name of the output variable to extract from simulation results</span>
+<span class="sd">    :param models_folder: The folder containing the Vensim models (default: &#39;models&#39;)</span>
+<span class="sd">    :return: A list of tuples in the same format as import_data: [(description, time_series_data), ...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">possible_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">models_folder</span><span class="p">,</span> <span class="s1">&#39;../&#39;</span> <span class="o">+</span> <span class="n">models_folder</span><span class="p">,</span> <span class="s1">&#39;vensim_models&#39;</span><span class="p">,</span> <span class="s1">&#39;../vensim_models&#39;</span><span class="p">]</span>
+    <span class="n">model_path</span> <span class="o">=</span> <span class="kc">None</span>
+    
+    <span class="k">for</span> <span class="n">rel_path</span> <span class="ow">in</span> <span class="n">possible_paths</span><span class="p">:</span>
+        <span class="n">test_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rel_path</span><span class="p">,</span> <span class="n">model_name</span> <span class="o">+</span> <span class="s1">&#39;.mdl&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">test_path</span><span class="p">):</span>
+            <span class="n">model_path</span> <span class="o">=</span> <span class="n">test_path</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">model_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">model_path</span> <span class="o">=</span> <span class="n">model_name</span> <span class="o">+</span> <span class="s1">&#39;.mdl&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model_path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">.mdl.&quot;</span><span class="p">)</span>
+
+    <span class="n">sd_model</span> <span class="o">=</span> <span class="n">pysd</span><span class="o">.</span><span class="n">read_vensim</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+    <span class="n">param_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">parameter_set</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">param_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">param_names</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">parameter_set</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">param_values</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">value</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">param_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="n">param_combinations</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">param_values</span><span class="p">))</span>
+    
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">combination</span> <span class="ow">in</span> <span class="n">param_combinations</span><span class="p">:</span>
+        <span class="n">current_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param_names</span><span class="p">,</span> <span class="n">combination</span><span class="p">))</span>
+        <span class="n">simulation_results</span> <span class="o">=</span> <span class="n">sd_model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">current_params</span><span class="p">)</span>
+        <span class="n">time_series_data</span> <span class="o">=</span> <span class="n">simulation_results</span><span class="p">[</span><span class="n">output_variable</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">current_params</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">description</span><span class="p">,</span> <span class="n">time_series_data</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<div class="viewcode-block" id="normalize_data">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.normalize_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Compute the normalized version of the time-series data such that</span>
+<span class="sd">    y_i = (x_i - min(x)) / (max(x) - min(x))</span>
+<span class="sd">    :param data: 1-D or 2-D numpy ndarray, where the first column has description information</span>
+<span class="sd">    :returns: ndarray, Normalized input data</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Extract all data arrays, normalize them in batch, then reassign</span>
+    <span class="n">data_arrays</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_w_labels</span><span class="p">])</span>
+    
+    <span class="n">mins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">maxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Prevent division by zero for constant time series</span>
+    <span class="n">ranges</span> <span class="o">=</span> <span class="n">maxs</span> <span class="o">-</span> <span class="n">mins</span>
+    <span class="n">ranges</span><span class="p">[</span><span class="n">ranges</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">normalized_arrays</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_arrays</span> <span class="o">-</span> <span class="n">mins</span><span class="p">)</span> <span class="o">/</span> <span class="n">ranges</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">normalized_arrays</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">)]</span>
+    
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="standardize_data">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.standardize_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">standardize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Compute the standardized version of the time-series data such that</span>
+<span class="sd">    y_i = (x_i - mean(x)) / std(x)</span>
+<span class="sd">    :param data: 1-D or 2-D numpy ndarray, where the first column has description information</span>
+<span class="sd">    :returns: ndarray, Standardized input data</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Extract all data arrays, standardize them in batch, then reassign</span>
+    <span class="n">data_arrays</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_w_labels</span><span class="p">])</span>
+
+    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">stds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># Prevent division by zero for constant time series</span>
+    <span class="n">stds</span><span class="p">[</span><span class="n">stds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">standardized_arrays</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_arrays</span> <span class="o">-</span> <span class="n">means</span><span class="p">)</span> <span class="o">/</span> <span class="n">stds</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">standardized_arrays</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="cluster">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.cluster">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cluster</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">,</span>  <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span>
+            <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Method that clusters time-series data based on the specified distance measure using a hierarchical clustering algorithm. Optionally the method also plots the dendrogram generated by the clustering algorithm</span>
+<span class="sd">    </span>
+<span class="sd">    :param data: A list of lists. Each entry of the master list corresponds to a dataseries. The second order lists have two entries: The first entry is the label of the dataseries, and the second entry is a numpy array that keeps the data</span>
+<span class="sd">    :param str distance: The distance metric to be used. Default value is *&#39;pattern&#39;*</span>
+<span class="sd">    :param str interClusterDistance: How to calculate inter cluster distance.</span>
+<span class="sd">                                 see `linkage &lt;http://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage&gt;`_ </span>
+<span class="sd">                                 for details. Default value is *&#39;inconsistent&#39;*</span>
+<span class="sd">    :param cMethod: Cutoff method, </span>
+<span class="sd">                    see `fcluster &lt;http://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster&gt;`_ </span>
+<span class="sd">                    for details.</span>
+<span class="sd">    :param cValue: Cutoff value, see </span>
+<span class="sd">                   `fcluster &lt;http://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster&gt;`_ </span>
+<span class="sd">                   for details.</span>
+<span class="sd">    :param plotDendogram: Boolean, if true, plot dendogram.</span>
+<span class="sd">    :returns: A tuple containing the list of distances (i.e. dRow), the list of Cluster objects (i.e. clusterList : for each cluster a Cluster object that contains basic info about the cluster), </span>
+<span class="sd">            and a list that gives the index of the cluster each data series is allocated (i.e. clusters).     </span>
+<span class="sd">    :rtype: Tuple</span>
+<span class="sd">    </span>
+<span class="sd">    The remainder of the arguments are passed on to the specified distance </span>
+<span class="sd">    function.</span>
+<span class="sd">    </span>
+<span class="sd">    Pattern Distance:</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;distance&#39;: String that specifies the distance to be used. </span>
+<span class="sd">                  Options: pattern (default), mse, sse, triangle</span>
+<span class="sd">    * &#39;filter?&#39;: Boolean that specifies whether the data series will be </span>
+<span class="sd">                 filtered (for bmd distance)</span>
+<span class="sd">    * &#39;slope filter&#39;: A float number that specifies the filtering threshold </span>
+<span class="sd">                     for the slope (for every data point if change__in_the_</span>
+<span class="sd">                     outcome/average_value_of_the_outcome &lt; threshold, </span>
+<span class="sd">                     consider slope = 0) (for bmd distance)</span>
+<span class="sd">    * &#39;curvature filter&#39;: A float number that specifies the filtering </span>
+<span class="sd">                          threshold for the curvature (for every data point if </span>
+<span class="sd">                          change__in_the_slope/average_value_of_the_slope &lt; </span>
+<span class="sd">                          threshold, consider curvature = 0) (for bmd distance)</span>
+<span class="sd">    * &#39;no of sisters&#39;: 50 (for pattern distance)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Construct a list that includes only the data part. Gets rid of the label string in dataSet[i][0]</span>
+    <span class="n">data_wo_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data_w_labels</span><span class="p">]</span>
+    
+    <span class="c1"># Construct a list with distances. This list is the upper triangle</span>
+    <span class="c1"># of the distance matrix</span>
+    <span class="n">dRow</span><span class="p">,</span> <span class="n">data_w_desc</span> <span class="o">=</span> <span class="n">construct_distances</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Allocate individual runs into clusters using hierarchical agglomerative </span>
+    <span class="c1"># clustering. clusterSetup is a dictionary that customizes the clustering </span>
+    <span class="c1"># algorithm to be used.</span>
+    
+    <span class="n">clusters</span><span class="p">,</span> <span class="n">data_w_desc</span> <span class="o">=</span> <span class="n">flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="n">plotDendrogram</span><span class="p">,</span> 
+                                        <span class="n">interClusterDistance</span><span class="o">=</span><span class="n">interClusterDistance</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="n">cValue</span><span class="p">)</span>
+
+    <span class="n">clusterList</span> <span class="o">=</span> <span class="n">create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">clusterList</span><span class="p">,</span> <span class="n">clusters</span></div>
+
+
+
+<div class="viewcode-block" id="create_cluster_list">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.create_cluster_list">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">distRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;  </span>
+<span class="sd">    Given the results of a clustering, the method creates Cluster objects for each of the identified clusters. Each cluster object contains member data series, as well as a sample/representative dataseries</span>
+<span class="sd">    </span>
+<span class="sd">    :param clusters: A list that contains the cluster number of the corresponding dataseries in the dataset(If the clusters[5] is 12, data[5] belongs to cluster 12 </span>
+<span class="sd">    :param distRow: The row of distances coming from the distance function</span>
+<span class="sd">    :param data_w_desc: The list that contains the raw data as well as the descriptor dictionary for each data series </span>
+<span class="sd">    </span>
+<span class="sd">    :returns: A list of Cluster objects</span>
+<span class="sd">    :rtype: List</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="n">nr_clusters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
+    <span class="n">cluster_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_size</span> <span class="o">=</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nr_clusters</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Determine the indices for cluster i</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clusters</span><span class="o">==</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cluster_size</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">cluster_size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">originalIndex</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span>  <span class="n">indices</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">[</span><span class="n">originalIndex</span><span class="p">],</span> <span class="p">[</span><span class="n">data_w_desc</span><span class="p">[</span><span class="n">originalIndex</span><span class="p">]])</span>
+            <span class="n">cluster_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span>
+            <span class="k">continue</span>
+        
+        <span class="n">q_flat</span><span class="p">,</span> <span class="n">r_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu_indices</span><span class="p">(</span><span class="n">cluster_size</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="n">indices_q</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">q_flat</span><span class="p">]</span>
+        <span class="n">indices_r</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">r_flat</span><span class="p">]</span>
+        
+        <span class="n">i_vals</span> <span class="o">=</span> <span class="n">indices_r</span>
+        <span class="n">j_vals</span> <span class="o">=</span> <span class="n">indices_q</span>
+        <span class="n">drow_indices</span> <span class="o">=</span> <span class="n">total_size</span> <span class="o">*</span> <span class="n">j_vals</span> <span class="o">-</span> <span class="n">j_vals</span> <span class="o">*</span> <span class="p">(</span><span class="n">j_vals</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">i_vals</span> <span class="o">-</span> <span class="n">j_vals</span> <span class="o">-</span> <span class="mi">1</span>
+        
+        <span class="c1">#make a distance matrix</span>
+        <span class="n">dist_clust</span> <span class="o">=</span> <span class="n">distRow</span><span class="p">[</span><span class="n">drow_indices</span><span class="p">]</span>
+        <span class="n">dist_matrix</span> <span class="o">=</span> <span class="n">squareform</span><span class="p">(</span><span class="n">dist_clust</span><span class="p">)</span>
+
+        <span class="c1">#sum across the rows</span>
+        <span class="n">row_sum</span> <span class="o">=</span> <span class="n">dist_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="c1">#get the index of the result with the lowest sum of distances</span>
+        <span class="n">min_cIndex</span> <span class="o">=</span> <span class="n">row_sum</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+    
+        <span class="c1"># convert this cluster specific index back to the overall cluster list </span>
+        <span class="c1"># of indices</span>
+        <span class="n">originalIndex</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">min_cIndex</span><span class="p">]</span>
+
+        <span class="n">indices_list</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        
+        <span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">[</span><span class="n">originalIndex</span><span class="p">],</span> <span class="p">[</span><span class="n">data_w_desc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">indices_list</span><span class="p">])</span>
+        <span class="n">cluster_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">cluster_list</span></div>
+
+
+
+<div class="viewcode-block" id="construct_distances">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.construct_distances">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">construct_distances</span><span class="p">(</span><span class="n">data_wo_labels</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Constructs a row vector of distances (a condensed version of a n-by-n matrix of distances) for n data-series in data </span>
+<span class="sd">    according to the specified distance.</span>
+<span class="sd">    </span>
+<span class="sd">    Distance argument specifies the distance measure to be used. Options are as follows;</span>
+<span class="sd">        * pattern: a distance based on qualitative dynamic pattern features </span>
+<span class="sd">        * sse: regular sum of squared errors</span>
+<span class="sd">        * mse: regular mean squared error</span>
+<span class="sd">        * triangle: triangular distance </span>
+<span class="sd">        * dtw: Dynamic time warping distance</span>
+<span class="sd">    </span>
+<span class="sd">    :param data: The list of dataseries to be clustered. Each entry is a numpy array that stores the data for a timeseries. </span>
+<span class="sd">    :param distance: The distance type to be used in calculating the pairwise distances. Default is *&#39;pattern&#39;* </span>
+<span class="sd">    :returns: A row vector of distances, and a list that stores the original data with distance-relevant dataseries descriptor </span>
+<span class="sd">    :rtype: Tuple (2 lists)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Sets up the distance function according to user specification</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">distance_functions</span><span class="p">[</span><span class="n">distance</span><span class="p">](</span><span class="n">data_wo_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown distance &quot;</span><span class="si">{</span><span class="n">distance</span><span class="si">}</span><span class="s1">&quot; is used.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown distance: </span><span class="si">{</span><span class="n">distance</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="flatcluster">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.flatcluster">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mf">2.5</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">linkage</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">interClusterDistance</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">plotDendrogram</span><span class="p">:</span>
+        <span class="n">plotdendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    
+    <span class="n">clusters</span> <span class="o">=</span> <span class="n">fcluster</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">cValue</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="n">cMethod</span><span class="p">)</span>
+        
+    <span class="c1"># Debug information to show clustering results</span>
+    <span class="c1"># unique_clusters, cluster_counts = np.unique(clusters, return_counts=True)</span>
+    <span class="c1"># print(&#39;Total number of clusters:&#39;, noClusters)</span>
+    <span class="c1"># print(&#39;Clustering method:&#39;, cMethod, &#39;with value:&#39;, cValue)</span>
+    <span class="c1"># for cluster_id, count in zip(unique_clusters, cluster_counts):</span>
+    <span class="c1">#     print(f&quot;Cluster {cluster_id}: {count} members&quot;)</span>
+    
+    <span class="n">cluster_strings</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">cluster_id</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">log</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">log</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster_strings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="plotdendrogram">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.plotdendrogram">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plotdendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="n">dendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">truncate_mode</span><span class="o">=</span><span class="s1">&#39;lastp&#39;</span><span class="p">,</span> <span class="n">show_leaf_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_contracted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="plot_clusters">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.plot_clusters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;show&#39;</span><span class="p">,</span><span class="n">fname</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Takes a list of Cluster objects as an input. Plots the members of each cluster on a seperate plot</span>
+<span class="sd">    </span>
+<span class="sd">    :param clusterList: deneme</span>
+<span class="sd">    :param dataset:</span>
+<span class="sd">    :param groupPlot:</span>
+<span class="sd">    :param mode: default is show, use save to save the figure in png format</span>
+<span class="sd">    :param fname: if mode=save option is used this is used as the filename, type without extension</span>
+<span class="sd">    :rtype: Matplotlib graph</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">main_fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+    <span class="c1">#main_fig.suptitle(&#39;deneme&#39;)</span>
+    <span class="n">main_fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">set_window_title</span><span class="p">(</span><span class="n">dist</span> <span class="o">+</span> <span class="s1">&#39; distance&#39;</span><span class="p">)</span>
+    <span class="n">no_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">)</span>
+    <span class="n">no_cols</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">no_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">no_plots</span><span class="p">)</span> <span class="o">/</span> <span class="n">no_cols</span><span class="p">))</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="k">for</span> <span class="n">clust</span> <span class="ow">in</span> <span class="n">cluster_list</span><span class="p">:</span>
+        <span class="n">sub_plot</span> <span class="o">=</span> <span class="n">main_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">no_rows</span><span class="p">,</span> <span class="n">no_cols</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+               
+        <span class="c1">#=======================================================================</span>
+        <span class="c1"># # For plotting only the sample of each cluster </span>
+        <span class="c1"># t = np.array(range(clust.sample[1].shape[0]))</span>
+        <span class="c1"># sub_plot.plot(t, clust.sample[1], linewidth=2)</span>
+        <span class="c1">#=======================================================================</span>
+         
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">clust</span><span class="o">.</span><span class="n">members</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">sub_plot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Cluster no: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">clust</span><span class="o">.</span><span class="n">no</span><span class="p">),</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+        <span class="c1">#plt.ylim(0, 100)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;show&#39;</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;save&#39;</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="compare_clusterings">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.compare_clusterings">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_clusterings</span><span class="p">(</span><span class="n">clusters1</span><span class="p">,</span> <span class="n">clusters2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Given two clusterings (i.e. lists that contains the cluster no.s for each dataseries), this method returns two comparative indices. The first index that is returned in the Rand index, whereas the second one is the Jaccard index</span>
+<span class="sd">    </span>
+<span class="sd">    :param clusters1: The list of cluster no.s according to the first clustering method</span>
+<span class="sd">    :param clusters2: The list of cluster no.s according to the second clustering method</span>
+<span class="sd">    </span>
+<span class="sd">    :returns: Two numbers, first being the RAND index, and the second being the Jaccard index</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clusters1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">clusters2</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of members of these two clusterings are not equal&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clusters1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">clusters1</span><span class="p">)</span>
+        <span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">clusters2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="n">clusters1</span>
+        <span class="n">c2</span> <span class="o">=</span> <span class="n">clusters2</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+    <span class="n">c1_matrix</span> <span class="o">=</span> <span class="n">c1</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">==</span> <span class="n">c1</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">c2_matrix</span> <span class="o">=</span> <span class="n">c2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">==</span> <span class="n">c2</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+    
+    <span class="c1"># Extract upper triangular part to get unique pairs</span>
+    <span class="c1"># k=1 parameter excludes the diagonal</span>
+    <span class="n">upper_tri_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">c1_same_pairs</span> <span class="o">=</span> <span class="n">c1_matrix</span><span class="p">[</span><span class="n">upper_tri_mask</span><span class="p">]</span>
+    <span class="n">c2_same_pairs</span> <span class="o">=</span> <span class="n">c2_matrix</span><span class="p">[</span><span class="n">upper_tri_mask</span><span class="p">]</span>
+    
+    <span class="n">count_same_in_both</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">c1_same_pairs</span> <span class="o">&amp;</span> <span class="n">c2_same_pairs</span><span class="p">)</span>
+    <span class="n">count_different_in_both</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">c1_same_pairs</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">c2_same_pairs</span><span class="p">)</span>
+    <span class="n">count_same_onlyin_c1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">c1_same_pairs</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">c2_same_pairs</span><span class="p">)</span>
+    <span class="n">count_same_onlyin_c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">c1_same_pairs</span> <span class="o">&amp;</span> <span class="n">c2_same_pairs</span><span class="p">)</span>
+    
+    <span class="n">rand_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">count_same_in_both</span> <span class="o">+</span> <span class="n">count_different_in_both</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">count_same_in_both</span> <span class="o">+</span> <span class="n">count_same_onlyin_c1</span> <span class="o">+</span> <span class="n">count_same_onlyin_c2</span> <span class="o">+</span> <span class="n">count_different_in_both</span><span class="p">)</span>
+    <span class="n">jackard_index</span> <span class="o">=</span> <span class="n">count_same_in_both</span> <span class="o">/</span> <span class="p">(</span><span class="n">count_same_in_both</span> <span class="o">+</span> <span class="n">count_same_onlyin_c1</span> <span class="o">+</span> <span class="n">count_same_onlyin_c2</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">rand_index</span><span class="p">,</span> <span class="n">jackard_index</span></div>
+
+
+
+<div class="viewcode-block" id="experiment_controller">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.experiment_controller">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">experiment_controller</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">flatMethod</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span>
+                          <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">replicate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">note</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    distanceMethod alternatives: manhattan, mse, pattern, sse, triangle</span>
+<span class="sd">    flatMethod alternatives: </span>
+<span class="sd">    transform alternatives: original (no transformations), normalize and standardize</span>
+<span class="sd">    replicate: replicates the clustering algorithm and reports the average values of rand and jaccard indexes and total operation time</span>
+<span class="sd">        only applicable to pattern distance method</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">very_begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="n">data_w_labels</span><span class="p">,</span> <span class="n">clusters_original</span> <span class="o">=</span> <span class="n">import_data</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">withClusters</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#data_w_labels = import_data(inputFileName, withClusters = False)</span>
+
+    <span class="c1"># Transformations if both are True then only normalization is performed</span>
+    <span class="k">if</span> <span class="n">transform</span> <span class="o">==</span> <span class="s1">&#39;normalize&#39;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">normalize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">transform</span> <span class="o">==</span> <span class="s1">&#39;standardize&#39;</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">standardize_data</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data_w_labels</span>
+    
+    <span class="c1"># If the distance method is &#39;pattern&#39; replication is taken into account</span>
+    <span class="k">if</span> <span class="n">distanceMethod</span><span class="o">==</span><span class="s1">&#39;pattern&#39;</span><span class="p">:</span>
+        <span class="n">run_times</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">rands</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">jaccards</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">replicate</span><span class="p">):</span>
+            <span class="n">begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">dist_row</span><span class="p">,</span> <span class="n">cluster_list</span><span class="p">,</span> <span class="n">clusters</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">flatMethod</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="p">)</span>
+            <span class="n">run_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">begin_time</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">r</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">compare_clusterings</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">clusters_original</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="n">r</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="n">rands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">jaccards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+
+        <span class="n">run_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">run_times</span><span class="p">)</span>
+        <span class="n">rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">rands</span><span class="p">)</span>
+        <span class="n">jaccard</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">jaccards</span><span class="p">)</span>
+    <span class="c1"># For other distance methods no replication is made</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">dist_row</span><span class="p">,</span> <span class="n">cluster_list</span><span class="p">,</span> <span class="n">clusters</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">flatMethod</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="p">)</span>
+        <span class="n">run_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">begin_time</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rand</span><span class="p">,</span> <span class="n">jaccard</span> <span class="o">=</span> <span class="n">compare_clusterings</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">clusters_original</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">rand</span><span class="p">,</span> <span class="n">jaccard</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="n">noClusters</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
+    <span class="n">outputFileName</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">-</span><span class="si">{1}</span><span class="s1">-</span><span class="si">{2}</span><span class="s1">-</span><span class="si">{3}</span><span class="s1">.xlsx&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">distanceMethod</span><span class="p">,</span><span class="n">flatMethod</span><span class="p">,</span><span class="n">transform</span><span class="p">,</span><span class="n">note</span><span class="p">)</span>
+    <span class="n">script_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+    <span class="n">path_adjust</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">script_dir</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">)</span>
+    
+    <span class="n">w</span> <span class="o">=</span> <span class="n">xlsxwriter</span><span class="o">.</span><span class="n">Workbook</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_adjust</span><span class="p">,</span> <span class="n">outputFileName</span><span class="p">))</span>
+    <span class="n">ws</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="s1">&#39;results&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s1">&#39;A:A&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s1">&#39;B:B&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s1">&#39;C:C&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+    
+    <span class="c1"># Guide: ws.write(row, col, value)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;File Name:&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">inputFileName</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;Inter-Cluster Similarity&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">flatMethod</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;cMethod&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cMethod</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;cValue&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cValue</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;Time:&quot;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M </span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">))</span>
+        
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;Distance Measure:&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">distanceMethod</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">distanceMethod</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">distanceMethod</span><span class="p">)</span>
+    
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Metric&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Jackard&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Rand&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Run Time&#39;</span><span class="p">)</span>
+    
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="s1">&#39;Transformation&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">transform</span><span class="p">)</span>
+    
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="s1">&#39;Outcome&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">jaccard</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">rand</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="n">run_time</span><span class="p">)</span>
+        
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;Total number of clusters:&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">noClusters</span><span class="p">)</span>
+    
+    <span class="c1"># Vectorized cluster counting</span>
+    <span class="n">clusters_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span>
+    <span class="n">unique_clusters</span><span class="p">,</span> <span class="n">cluster_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">clusters_array</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">cluster_id</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">unique_clusters</span><span class="p">,</span> <span class="n">cluster_counts</span><span class="p">)):</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">12</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;Cluster </span><span class="si">{0}</span><span class="s1">:&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cluster_id</span><span class="p">))</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">12</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">count</span><span class="p">)</span>
+    
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;Index&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;Original Cluster&#39;</span><span class="p">)</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;Cluster List&#39;</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">24</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">24</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">clusters_original</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">24</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">clusters</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">w</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+    <span class="n">very_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Grand total time:&#39;</span><span class="p">,</span> <span class="n">very_end_time</span> <span class="o">-</span> <span class="n">very_begin_time</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">plot</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="n">plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_adjust</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">outputFileName</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="Cluster">
+<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.Cluster">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Cluster</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Contains information about a data-series cluster, as well as some methods to help analyzing a cluster.</span>
+<span class="sd">    Basic attributes of a cluster (e.g. c) object are as follows;</span>
+<span class="sd">        :ivar no: Cluster number/index</span>
+<span class="sd">        :ivar indices: Original indices of the dataseries that are in cluster c</span>
+<span class="sd">        :ivar sample: Original index of the dataseries that is the representative of cluster c (i.e. median element of the cluster)</span>
+<span class="sd">        :ivar members: Members of the cluster </span>
+<span class="sd">        :ivar size: Number of elements (i.e. dataseries) in the cluster c</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_no</span><span class="p">,</span> <span class="n">all_ds_indices</span><span class="p">,</span> <span class="n">sample_ds</span><span class="p">,</span> <span class="n">member_dss</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">cluster_no</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">all_ds_indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample_ds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">members</span> <span class="o">=</span> <span class="n">member_dss</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">inputFileName</span> <span class="o">=</span> <span class="s1">&#39;TestSet_wo_Osc&#39;</span>
+
+    <span class="c1">#experiment_controller(inputFileName, distanceMethod=&#39;pattern_dtw&#39;, flatMethod=&#39;complete&#39;,</span>
+    <span class="c1">#       transform=&#39;normalize&#39;, cMethod=&#39;maxclust&#39;, note=&quot;wSLope=6&quot;, cValue=9, replicate=1)</span>
+
+    <span class="n">data_set</span> <span class="o">=</span> <span class="n">import_data</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">)</span>
+
+    <span class="c1">#results = cluster(data_set, distance=&#39;manhattan&#39;)</span>
+    <span class="c1">#results = cluster(data_set, cValue=10000, distance=&#39;manhattan&#39;, cMethod=&#39;distance&#39;)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">(</span><span class="n">data_set</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distances:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of members in each cluster:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]))])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Clusters:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="n">plot_clusters</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;show&#39;</span><span class="p">)</span>
+
+    <span class="c1">#vensim_result_data = import_from_pysd(model_name = &#39;constantflow&#39;, parameter_set = {&#39;constant flow value&#39;:[5, 10, 20]}, output_variable = &#39;OI&#39;)</span>
+    <span class="c1">#vensim_result = cluster(vensim_result_data, cValue=2, cMethod=&#39;maxclust&#39;)</span>
+    <span class="c1">#print(&#39;Vensim result:&#39;, vensim_result) Returns 1, 1, 1</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Gonenc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

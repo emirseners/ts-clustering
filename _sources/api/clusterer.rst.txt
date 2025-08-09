@@ -1,0 +1,101 @@
+clusterer package
+=================
+
+Submodules
+----------
+
+clusterer.behavior\_splitter module
+-----------------------------------
+
+.. automodule:: clusterer.behavior_splitter
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.clusterer module
+--------------------------
+
+.. automodule:: clusterer.clusterer
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_dtw module
+------------------------------
+
+.. automodule:: clusterer.distance_dtw
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_manhattan module
+------------------------------------
+
+.. automodule:: clusterer.distance_manhattan
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_mse module
+------------------------------
+
+.. automodule:: clusterer.distance_mse
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_pattern module
+----------------------------------
+
+.. automodule:: clusterer.distance_pattern
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_pattern\_dtw module
+---------------------------------------
+
+.. automodule:: clusterer.distance_pattern_dtw
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_sse module
+------------------------------
+
+.. automodule:: clusterer.distance_sse
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_template module
+-----------------------------------
+
+.. automodule:: clusterer.distance_template
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.distance\_triangle module
+-----------------------------------
+
+.. automodule:: clusterer.distance_triangle
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+clusterer.euclidean module
+--------------------------
+
+.. automodule:: clusterer.euclidean
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: clusterer
+   :members:
+   :show-inheritance:
+   :undoc-members:
