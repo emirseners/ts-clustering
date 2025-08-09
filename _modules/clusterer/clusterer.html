@@ -71,14 +71,17 @@
   <h1>Source code for clusterer.clusterer</h1><div class="highlight"><pre>
 <span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Pattern-oriented behavior clustering module.</span>
-<span class="sd">The module provides the methods for importing, pre-processing, clustering and post-processing of bundles of time-series data (e.g. from a sensitivity analysis) </span>
-<span class="sd">    * Created on June 28, 2013</span>
-<span class="sd">    * Major revision on August 13, 2013 - TU Delft EMA Workbench dependencies are removed</span>
-<span class="sd">    * Major revision on August 09, 2014 - Enthought dependencies are removed</span>
-<span class="sd">.. codeauthor:: </span>
-<span class="sd">     gyucel &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;,</span>
 
-<span class="sd">Updated July 30, 2025</span>
+<span class="sd">This module provides methods for importing, pre-processing, clustering, and</span>
+<span class="sd">post-processing of bundles of time-series data (e.g., from a sensitivity</span>
+<span class="sd">analysis).</span>
+
+<span class="sd">- Created on June 28, 2013</span>
+<span class="sd">- Major revision on August 13, 2013 — TU Delft EMA Workbench dependencies removed</span>
+<span class="sd">- Major revision on August 09, 2014 — Enthought dependencies removed</span>
+
+<span class="sd">Author: gonenc &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;</span>
+<span class="sd">Updated: July 30, 2025</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="c1">#OScillation, repetitive</span>
 
@@ -573,11 +576,12 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">experiment_controller</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="n">flatMethod</span><span class="o">=</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;original&#39;</span><span class="p">,</span>
                           <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">replicate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">note</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    distanceMethod alternatives: manhattan, mse, pattern, sse, triangle</span>
-<span class="sd">    flatMethod alternatives: </span>
-<span class="sd">    transform alternatives: original (no transformations), normalize and standardize</span>
-<span class="sd">    replicate: replicates the clustering algorithm and reports the average values of rand and jaccard indexes and total operation time</span>
-<span class="sd">        only applicable to pattern distance method</span>
+<span class="sd">    Run a full clustering experiment and export results.</span>
+
+<span class="sd">    - distanceMethod alternatives: ``manhattan``, ``mse``, ``pattern``, ``sse``, ``triangle``</span>
+<span class="sd">    - flatMethod alternatives: see ``scipy.cluster.hierarchy.linkage``</span>
+<span class="sd">    - transform alternatives: ``original`` (no transform), ``normalize``, ``standardize``</span>
+<span class="sd">    - replicate: repeats clustering to compute average Rand and Jaccard indices (only for ``pattern`` distance)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">very_begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
@@ -697,13 +701,15 @@
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.Cluster">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Cluster</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Contains information about a data-series cluster, as well as some methods to help analyzing a cluster.</span>
-<span class="sd">    Basic attributes of a cluster (e.g. c) object are as follows;</span>
-<span class="sd">        :ivar no: Cluster number/index</span>
-<span class="sd">        :ivar indices: Original indices of the dataseries that are in cluster c</span>
-<span class="sd">        :ivar sample: Original index of the dataseries that is the representative of cluster c (i.e. median element of the cluster)</span>
-<span class="sd">        :ivar members: Members of the cluster </span>
-<span class="sd">        :ivar size: Number of elements (i.e. dataseries) in the cluster c</span>
+<span class="sd">    Cluster container for time-series results.</span>
+
+<span class="sd">    Basic attributes of a cluster object are as follows:</span>
+
+<span class="sd">    - no: Cluster number/index</span>
+<span class="sd">    - indices: Original indices of the dataseries that are in the cluster</span>
+<span class="sd">    - sample: Original index of the dataseries that is the representative of the cluster (i.e., median element)</span>
+<span class="sd">    - members: Members of the cluster</span>
+<span class="sd">    - size: Number of elements (i.e., dataseries) in the cluster</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_no</span><span class="p">,</span> <span class="n">all_ds_indices</span><span class="p">,</span> <span class="n">sample_ds</span><span class="p">,</span> <span class="n">member_dss</span><span class="p">):</span>

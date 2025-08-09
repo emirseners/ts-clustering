@@ -182,41 +182,30 @@ curvature: 1D np array; curvature1 (curvature of features1)</p>
 </section>
 <section id="module-clusterer.clusterer">
 <span id="clusterer-clusterer-module"></span><h2>clusterer.clusterer module<a class="headerlink" href="#module-clusterer.clusterer" title="Link to this heading"></a></h2>
-<p>Pattern-oriented behavior clustering module.
-The module provides the methods for importing, pre-processing, clustering and post-processing of bundles of time-series data (e.g. from a sensitivity analysis)</p>
-<blockquote>
-<div><ul class="simple">
+<p>Pattern-oriented behavior clustering module.</p>
+<p>This module provides methods for importing, pre-processing, clustering, and
+post-processing of bundles of time-series data (e.g., from a sensitivity
+analysis).</p>
+<ul class="simple">
 <li><p>Created on June 28, 2013</p></li>
-<li><p>Major revision on August 13, 2013 - TU Delft EMA Workbench dependencies are removed</p></li>
-<li><p>Major revision on August 09, 2014 - Enthought dependencies are removed</p></li>
+<li><p>Major revision on August 13, 2013 — TU Delft EMA Workbench dependencies removed</p></li>
+<li><p>Major revision on August 09, 2014 — Enthought dependencies removed</p></li>
 </ul>
-</div></blockquote>
-<p>Updated July 30, 2025</p>
+<p>Author: gonenc &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;
+Updated: July 30, 2025</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="clusterer.clusterer.Cluster">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clusterer.clusterer.</span></span><span class="sig-name descname"><span class="pre">Cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_ds_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_dss</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/clusterer.html#Cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.clusterer.Cluster" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Contains information about a data-series cluster, as well as some methods to help analyzing a cluster.
-Basic attributes of a cluster (e.g. c) object are as follows;</p>
-<blockquote>
-<div><dl class="field-list simple">
-<dt class="field-odd">ivar no<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Cluster number/index</p>
-</dd>
-<dt class="field-even">ivar indices<span class="colon">:</span></dt>
-<dd class="field-even"><p>Original indices of the dataseries that are in cluster c</p>
-</dd>
-<dt class="field-odd">ivar sample<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Original index of the dataseries that is the representative of cluster c (i.e. median element of the cluster)</p>
-</dd>
-<dt class="field-even">ivar members<span class="colon">:</span></dt>
-<dd class="field-even"><p>Members of the cluster</p>
-</dd>
-<dt class="field-odd">ivar size<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Number of elements (i.e. dataseries) in the cluster c</p>
-</dd>
-</dl>
-</div></blockquote>
+<p>Cluster container for time-series results.</p>
+<p>Basic attributes of a cluster object are as follows:</p>
+<ul class="simple">
+<li><p>no: Cluster number/index</p></li>
+<li><p>indices: Original indices of the dataseries that are in the cluster</p></li>
+<li><p>sample: Original index of the dataseries that is the representative of the cluster (i.e., median element)</p></li>
+<li><p>members: Members of the cluster</p></li>
+<li><p>size: Number of elements (i.e., dataseries) in the cluster</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py function">
@@ -353,13 +342,13 @@ according to the specified distance.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="clusterer.clusterer.experiment_controller">
 <span class="sig-prename descclassname"><span class="pre">clusterer.clusterer.</span></span><span class="sig-name descname"><span class="pre">experiment_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distanceMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'original'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'maxclust'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clusterer/clusterer.html#experiment_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clusterer.clusterer.experiment_controller" title="Link to this definition"></a></dt>
-<dd><p>distanceMethod alternatives: manhattan, mse, pattern, sse, triangle
-flatMethod alternatives:
-transform alternatives: original (no transformations), normalize and standardize
-replicate: replicates the clustering algorithm and reports the average values of rand and jaccard indexes and total operation time</p>
-<blockquote>
-<div><p>only applicable to pattern distance method</p>
-</div></blockquote>
+<dd><p>Run a full clustering experiment and export results.</p>
+<ul class="simple">
+<li><p>distanceMethod alternatives: <code class="docutils literal notranslate"><span class="pre">manhattan</span></code>, <code class="docutils literal notranslate"><span class="pre">mse</span></code>, <code class="docutils literal notranslate"><span class="pre">pattern</span></code>, <code class="docutils literal notranslate"><span class="pre">sse</span></code>, <code class="docutils literal notranslate"><span class="pre">triangle</span></code></p></li>
+<li><p>flatMethod alternatives: see <code class="docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy.linkage</span></code></p></li>
+<li><p>transform alternatives: <code class="docutils literal notranslate"><span class="pre">original</span></code> (no transform), <code class="docutils literal notranslate"><span class="pre">normalize</span></code>, <code class="docutils literal notranslate"><span class="pre">standardize</span></code></p></li>
+<li><p>replicate: repeats clustering to compute average Rand and Jaccard indices (only for <code class="docutils literal notranslate"><span class="pre">pattern</span></code> distance)</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py function">
