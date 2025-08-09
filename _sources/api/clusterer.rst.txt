@@ -11,6 +11,7 @@ clusterer.behavior\_splitter module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.clusterer module
 --------------------------
@@ -19,6 +20,7 @@ clusterer.clusterer module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.distance\_dtw module
 ------------------------------
@@ -27,6 +29,7 @@ clusterer.distance\_dtw module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.distance\_manhattan module
 ------------------------------------
@@ -35,6 +38,7 @@ clusterer.distance\_manhattan module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.distance\_mse module
 ------------------------------
@@ -43,6 +47,7 @@ clusterer.distance\_mse module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.distance\_pattern module
 ----------------------------------
@@ -51,6 +56,7 @@ clusterer.distance\_pattern module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.distance\_pattern\_dtw module
 ---------------------------------------
@@ -59,6 +65,7 @@ clusterer.distance\_pattern\_dtw module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.distance\_sse module
 ------------------------------
@@ -67,6 +74,7 @@ clusterer.distance\_sse module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 clusterer.distance\_triangle module
 -----------------------------------
@@ -75,6 +83,7 @@ clusterer.distance\_triangle module
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:
 
 Module contents
 ---------------
@@ -83,3 +92,4 @@ Module contents
    :members:
    :show-inheritance:
    :undoc-members:
+   :no-index:

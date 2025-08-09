@@ -8,3 +8,4 @@ Welcome to the documentation for ``clusterer``. This library provides simple uti
    :caption: Contents:
 
    clusterer
+   api/modules
