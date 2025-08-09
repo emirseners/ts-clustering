@@ -1,10 +1,7 @@
-clusterer package
+clusterer
 =================
 
-Submodules
-----------
-
-clusterer.behavior\_splitter module
+clusterer.behavior\_splitter
 -----------------------------------
 
 .. automodule:: clusterer.behavior_splitter
@@ -12,7 +9,7 @@ clusterer.behavior\_splitter module
    :show-inheritance:
    :undoc-members:
 
-clusterer.clusterer module
+clusterer.clusterer
 --------------------------
 
 .. automodule:: clusterer.clusterer
@@ -20,7 +17,7 @@ clusterer.clusterer module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_dtw module
+clusterer.distance\_dtw
 ------------------------------
 
 .. automodule:: clusterer.distance_dtw
@@ -28,7 +25,7 @@ clusterer.distance\_dtw module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_manhattan module
+clusterer.distance\_manhattan
 ------------------------------------
 
 .. automodule:: clusterer.distance_manhattan
@@ -36,7 +33,7 @@ clusterer.distance\_manhattan module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_mse module
+clusterer.distance\_mse
 ------------------------------
 
 .. automodule:: clusterer.distance_mse
@@ -44,7 +41,7 @@ clusterer.distance\_mse module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_pattern module
+clusterer.distance\_pattern
 ----------------------------------
 
 .. automodule:: clusterer.distance_pattern
@@ -52,7 +49,7 @@ clusterer.distance\_pattern module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_pattern\_dtw module
+clusterer.distance\_pattern\_dtw
 ---------------------------------------
 
 .. automodule:: clusterer.distance_pattern_dtw
@@ -60,7 +57,7 @@ clusterer.distance\_pattern\_dtw module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_sse module
+clusterer.distance\_sse
 ------------------------------
 
 .. automodule:: clusterer.distance_sse
@@ -68,18 +65,10 @@ clusterer.distance\_sse module
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_triangle module
+clusterer.distance\_triangle
 -----------------------------------
 
 .. automodule:: clusterer.distance_triangle
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-Module contents
----------------
-
-.. automodule:: clusterer
    :members:
    :show-inheritance:
    :undoc-members:
