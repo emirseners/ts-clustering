@@ -1,19 +1,7 @@
-clusterer documentation
+Clusterer documentation
 ===========================
 
 Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series clustering.
-
-Installation
-============
-
-To install the required dependencies, run:
-
-.. code-block:: bash
-
-   pip install -r requirements.txt
-
-Requirements
-============
 
 **Core Dependencies:**
 
@@ -29,5 +17,4 @@ Requirements
    :maxdepth: 2
    :caption: Contents:
 
-   installation
    api/clusterer
