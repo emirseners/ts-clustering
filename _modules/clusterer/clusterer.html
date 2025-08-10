@@ -75,15 +75,8 @@
 <span class="sd">This module provides methods for importing, pre-processing, clustering, and</span>
 <span class="sd">post-processing of bundles of time-series data (e.g., from a sensitivity</span>
 <span class="sd">analysis).</span>
-
-<span class="sd">- Created on June 28, 2013</span>
-<span class="sd">- Major revision on August 13, 2013 — TU Delft EMA Workbench dependencies removed</span>
-<span class="sd">- Major revision on August 09, 2014 — Enthought dependencies removed</span>
-
-<span class="sd">Author: gonenc &lt;gonenc.yucel (at) boun (dot) edu (dot) tr&gt;</span>
-<span class="sd">Updated: July 30, 2025</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="c1">#OScillation, repetitive</span>
+<span class="c1">#Oscillation, repetitive</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -151,48 +144,6 @@
         <span class="k">return</span> <span class="n">data_w_desc</span><span class="p">,</span> <span class="n">clusters_original</span> 
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">data_w_desc</span></div>
-
-
-
-<div class="viewcode-block" id="import_all_files">
-<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_all_files">[docs]</a>
-<span class="k">def</span> <span class="nf">import_all_files</span><span class="p">():</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;StellaFreeFloat&quot;</span><span class="p">,</span><span class="s2">&quot;StellaDefault&quot;</span><span class="p">,</span><span class="s2">&quot;Vensim&quot;</span><span class="p">]</span>
-    <span class="n">dataframes</span> <span class="o">=</span> <span class="p">[</span><span class="n">import_all</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
-    <span class="n">full_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataframes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">full_data</span></div>
-
-
-<div class="viewcode-block" id="import_all">
-<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_all">[docs]</a>
-<span class="k">def</span> <span class="nf">import_all</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="n">relPathFileFolder</span> <span class="o">=</span> <span class="s1">&#39;../datasets&#39;</span>
-    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;Dataset_Basic_&#39;</span><span class="o">+</span><span class="n">name</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">relPathFileFolder</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">inputFileName</span><span class="o">+</span><span class="s1">&#39;.xlsx&#39;</span>
-    <span class="c1"># Read all sheet names using pandas</span>
-    <span class="n">excel_file</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelFile</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="n">excel_file</span><span class="o">.</span><span class="n">sheet_names</span>
-    <span class="n">dataframes</span> <span class="o">=</span> <span class="p">[</span><span class="n">import_pandas_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
-    <span class="n">complete_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dataframes</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">complete_data</span><span class="p">[</span><span class="s1">&#39;Source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
-    <span class="k">return</span> <span class="n">complete_data</span></div>
-
-
-
-<div class="viewcode-block" id="import_pandas_data">
-<a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_pandas_data">[docs]</a>
-<span class="k">def</span> <span class="nf">import_pandas_data</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
-    <span class="n">relPathFileFolder</span> <span class="o">=</span> <span class="s1">&#39;../datasets&#39;</span>
-    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;Dataset_Basic_&#39;</span><span class="o">+</span><span class="n">name</span>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">relPathFileFolder</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">inputFileName</span><span class="o">+</span><span class="s1">&#39;.xlsx&#39;</span>
-    <span class="n">df_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="bp">cls</span><span class="p">)</span>
-    
-    <span class="n">data</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="s1">&#39;Id&#39;</span><span class="p">})</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
-    
-    <span class="k">return</span> <span class="n">data</span></div>
 
 
 <div class="viewcode-block" id="import_from_pysd">
