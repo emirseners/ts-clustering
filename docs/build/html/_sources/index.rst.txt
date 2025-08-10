@@ -1,14 +1,20 @@
-ts_clustering documentation
+Clusterer documentation
 ===========================
 
-Welcome to the documentation for ``ts_clustering``.
+Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series clustering.
 
-Contents:
+**Core Dependencies:**
+
+* ``numpy>=1.24.0``
+* ``scipy>=1.10.0``
+* ``matplotlib>=3.7.0``
+* ``pandas>=2.0.0``
+* ``xlsxwriter>=3.0.0``
+* ``numba>=0.57.0``
+* ``pysd>=3.0.0``
 
 .. toctree::
    :maxdepth: 2
-   :caption: API Reference
+   :caption: Contents:
 
-   api
-
-
+   api/clusterer

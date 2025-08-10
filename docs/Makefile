@@ -1,5 +1,3 @@
-# Minimal Makefile for Sphinx documentation
-
 SPHINXOPTS    =
 SPHINXBUILD   = python3 -m sphinx
 SOURCEDIR     = source
@@ -16,5 +14,3 @@ clean:
 .PHONY: html
 html:
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-
