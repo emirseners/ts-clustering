@@ -24,12 +24,12 @@ def distance_dtw(data: np.ndarray) -> Tuple[np.ndarray, List[Tuple[Dict[str, str
 
     runLogs = [({'Index': str(i)}, data[i]) for i in range(len(data))]
 
-    dRow = compute_dtw_distances_numba(data, dRow)
+    dRow = compute_dtw_distances(data, dRow)
 
     return dRow, runLogs
 
 @njit
-def compute_dtw_distances_numba(data: np.ndarray, dRow: np.ndarray) -> np.ndarray:
+def compute_dtw_distances(data: np.ndarray, dRow: np.ndarray) -> np.ndarray:
     """
     Compute DTW distances between all pairs using Numba for performance.
 
@@ -49,34 +49,21 @@ def compute_dtw_distances_numba(data: np.ndarray, dRow: np.ndarray) -> np.ndarra
     for i in range(len(data)):            
         for j in range(i+1, len(data)):
             index += 1
-            distance = dtw_dist_numba(data[i], data[j]) 
+            
+            sample1 = data[i]
+            sample2 = data[j]
+            
+            dtw = np.zeros((sample1.shape[0] + 1, sample2.shape[0] + 1))
+            dtw[:, 0] = np.inf
+            dtw[0, :] = np.inf
+            dtw[0, 0] = 0
+            
+            for k in range(sample1.shape[0]):
+                for l in range(sample2.shape[0]):
+                    cost = np.absolute(sample1[k] - sample2[l])
+                    dtw[k + 1, l + 1] = cost + min(dtw[k + 1, l], dtw[k, l + 1], dtw[k, l])
+            
+            distance = dtw[sample1.shape[0], sample2.shape[0]]
             dRow[index] = distance
+            
     return dRow
-
-@njit
-def dtw_dist_numba(sample1: np.ndarray, sample2: np.ndarray) -> float:
-    """
-    Calculate DTW distance between two sequences using dynamic programming.
-
-    Parameters
-    ----------
-    sample1 : np.ndarray
-        First sequence.
-    sample2 : np.ndarray
-        Second sequence.
-
-    Returns
-    -------
-    float
-        DTW distance between the sequences.
-    """
-    dtw = np.zeros((sample1.shape[0] + 1, sample2.shape[0] + 1))
-    dtw[:, 0] = np.inf  # infinity is assigned instead of 1000
-    dtw[0, :] = np.inf  # infinity is assigned instead of 1000
-    dtw[0, 0] = 0
-    for i in range(sample1.shape[0]):
-        for j in range(sample2.shape[0]):
-            cost = np.absolute(sample1[i] - sample2[j])
-            dtw[i + 1, j + 1] = cost + min(dtw[i + 1, j], dtw[i, j + 1], dtw[i, j])
-
-    return dtw[sample1.shape[0], sample2.shape[0]]

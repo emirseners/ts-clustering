@@ -1,7 +1,7 @@
 import numpy as np
+from typing import List
 
-
-def construct_features(data: np.ndarray, significanceLevel: float = 0.01) -> np.ndarray:
+def construct_features(data: np.ndarray, significanceLevel: float = 0.01) -> List[np.ndarray]:
     """Construct feature vectors for time series data based on behavioral characteristics.
 
     Parameters
@@ -13,9 +13,10 @@ def construct_features(data: np.ndarray, significanceLevel: float = 0.01) -> np.
 
     Returns
     -------
-    np.ndarray
-        3D array with shape (n_series, n_sections, 2) containing slope and curvature features.
-        The last dimension (2) represents: [0] slope sign, [1] curvature sign.
+    List[np.ndarray]
+        A list where each element is a 2D array with shape (2, n_sections)
+        containing slope and curvature signs for that series. The first row is
+        slope sign, the second row is curvature sign. Lengths can vary by series.
     """
     features = []
 
@@ -26,7 +27,7 @@ def construct_features(data: np.ndarray, significanceLevel: float = 0.01) -> np.
         feature = split_behavior(data[i], slopes[i], curvatures[i], significanceLevel)
         features.append(feature)
 
-    return np.array(features)
+    return features
 
 
 def split_behavior(data_series: np.ndarray, slope: np.ndarray, curvature: np.ndarray, significanceLevel: float = 0.01) -> np.ndarray:

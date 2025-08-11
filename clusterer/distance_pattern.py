@@ -9,54 +9,49 @@ def distance_same_length(series1: np.ndarray, series2: np.ndarray, wDim1: float,
     Parameters
     ----------
     series1 : np.ndarray
-        Feature vector 1 (2-dimensional numpy array).
+        Feature vector 1 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.
     series2 : np.ndarray
-        Feature vector 2 (2-dimensional numpy array).
+        Feature vector 2 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.
     wDim1 : float
-        Weight of the error between the 1st dimensions of the two 
-        feature vectors (i.e. Slope).
+        Weight of the error between the slope dimensions ([:, 0]) of the two feature vectors.
     wDim2 : float
-        Weight of the error between the 2nd dimensions of the two 
-        feature vectors (i.e. Curvature).
-        
+        Weight of the error between the curvature dimensions ([:, 1]) of the two feature vectors.
+
     Returns
     -------
     float
         Weighted distance between the feature vectors.
     """
     diff_sq = np.square(series1 - series2)
-    weighted_error = wDim1 * diff_sq[0] + wDim2 * diff_sq[1]
-    return np.sum(weighted_error) / series1.shape[1]
+    weighted_error = wDim1 * diff_sq[:, 0] + wDim2 * diff_sq[:, 1]
+    return np.sum(weighted_error) / series1.shape[0]
 
 
 def distance_different_length(series1: np.ndarray, series2: np.ndarray, wDim1: float, wDim2: float, sisterCount: int) -> float:
     """
     Calculate the distance between two feature vectors of different sizes.
-    
+
     Parameters
     ----------
     series1 : np.ndarray
-        Feature vector 1 (2-dimensional numpy array).
+        Feature vector 1 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.
     series2 : np.ndarray
-        Feature vector 2 (2-dimensional numpy array).
+        Feature vector 2 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.
     wDim1 : float
-        Weight of the error between the 1st dimensions of the two 
-        feature vectors (i.e. Slope).
+        Weight of the error between the slope dimensions ([:, 0]) of the two feature vectors.
     wDim2 : float
-        Weight of the error between the 2nd dimensions of the two 
-        feature vectors (i.e. Curvature).
+        Weight of the error between the curvature dimensions ([:, 1]) of the two feature vectors.
     sisterCount : int
-        Number of long-versions that will be created for the 
-        short vector.
-        
+        Number of long-versions that will be created for the short vector.
+
     Returns
     -------
     float
         Minimum distance among all generated sister vectors.
     """
-    length1 = series1.shape[1]
-    length2 = series2.shape[1]
-    
+    length1 = series1.shape[0]
+    length2 = series2.shape[0]
+
     if length1 > length2:
         shortFV = series2
         longFV = series1
@@ -64,41 +59,39 @@ def distance_different_length(series1: np.ndarray, series2: np.ndarray, wDim1: f
         shortFV = series1
         longFV = series2
 
-    sisters = create_sisters(shortFV, longFV.shape, sisterCount)
-    error = np.square(sisters - longFV.T[np.newaxis, :, :])
+    sisters = create_sisters(shortFV, (longFV.shape[0], 2), sisterCount)
+    error = np.square(sisters - longFV[np.newaxis, :, :])
     weights = np.array([wDim1, wDim2], dtype=np.float64)
 
     error = error * weights[np.newaxis, np.newaxis, :]
     total_error = np.sum(error, axis=(1, 2))
 
-    return np.min(total_error) / longFV.shape[1]
+    return np.min(total_error) / longFV.shape[0]
 
 
 def create_sisters(shortFV: np.ndarray, desired_shape: Tuple[int, int], sister_count: int) -> np.ndarray:
-    """
-    Create new feature vectors behaviorally identical to the given short feature vector.
-    
-    Creates a set of new feature vectors that are behaviorally identical to the given 
-    short feature vector (shortFV), and that have the stated number of segments.
-    
+    """    
+    Creates a set of extended feature vectors by randomly sampling and reordering
+    sections from the short feature vector (shortFV) to match the desired length.
+
     Parameters
     ----------
     shortFV : np.ndarray
-        The feature vector to be extended.
+        The feature vector to be extended with shape (n_sections, 2).
     desired_shape : Tuple[int, int]
-        The desired shape (2-by-number of sections) of the extended feature vectors (i.e. sisters).
+        The desired shape (n_sections, 2) of the extended feature vectors (i.e. sisters).
     sister_count : int
         The desired number of sisters to be created.
-        
+
     Returns
     -------
     np.ndarray
-        Array of sister vectors with shape (sister_count, desired_shape[1], 2).
+        Array of sister vectors with shape (sister_count, desired_shape[0], 2).
     """
-    to_add = desired_shape[1] - shortFV.shape[1]
-    short_length = shortFV.shape[1]
+    to_add = desired_shape[0] - shortFV.shape[0]
+    short_length = shortFV.shape[0]
     
-    indices = np.empty((sister_count, desired_shape[1]), dtype=np.int32)
+    indices = np.empty((sister_count, desired_shape[0]), dtype=np.int32)
     
     random_indices = np.random.randint(0, short_length, size=(sister_count, to_add))
     
@@ -108,8 +101,7 @@ def create_sisters(shortFV: np.ndarray, desired_shape: Tuple[int, int], sister_c
     indices[:, to_add:] = base_indices[np.newaxis, :]
 
     indices.sort(axis=1)
-    
-    sisters = shortFV.T[indices, :] 
+    sisters = shortFV[indices, :] 
 
     return sisters
 
@@ -123,11 +115,6 @@ def distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterCo
     qualitative pattern features. In other words, it quantifies the proximity 
     between two different dynamic behaviour modes.
 
-    It is designed to work mainly on non-stationary data. Its current version 
-    does not perform well in catching the proximity of two cyclic/repetitive 
-    patterns with different number of cycles (e.g. oscillation with 4 cycles 
-    versus oscillation with 6 cycles).
-
     Parameters
     ----------
     data : np.ndarray
@@ -139,11 +126,9 @@ def distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterCo
         Number of long-versions that will be created for the short vector while 
         comparing two data series with unequal feature vector lengths (default=50).
     wSlopeError : float, optional
-        Weight of the error between the 1st dimensions of the two feature vectors 
-        (i.e. Slope) (default=1).
+        Weight of the error between the slope dimensions ([:, 0]) of the two feature vectors (default=1).
     wCurvatureError : float, optional
-        Weight of the error between the 2nd dimensions of the two feature vectors 
-        (i.e. Curvature) (default=1).
+        Weight of the error between the curvature dimensions ([:, 1]) of the two feature vectors (default=1).
 
     Returns
     -------
@@ -154,19 +139,20 @@ def distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterCo
     """
     features = construct_features(data, significanceLevel)
 
+    transposed_features = [feature.T for feature in features]
+
     n = len(data)
     dRow = np.zeros(shape=(n * (n - 1) // 2,))
 
-    data_w_desc = [({'Index': str(i), 'Feature vector': str(features[i])}, data[i]) 
-                   for i in range(n)]
+    data_w_desc = [({'Index': str(i), 'Feature vector': str(transposed_features[i])}, data[i]) for i in range(n)]
 
     index = 0
     for i in range(n):
-        feature_i = features[i]
+        feature_i = transposed_features[i]
         for j in range(i+1, n):
-            feature_j = features[j]
+            feature_j = transposed_features[j]
 
-            if feature_i.shape[1] == feature_j.shape[1]:
+            if feature_i.shape[0] == feature_j.shape[0]:
                 distance = distance_same_length(feature_i, feature_j, wSlopeError, wCurvatureError)
             else:
                 distance = distance_different_length(feature_i, feature_j, wSlopeError, wCurvatureError, sisterCount)

@@ -22,5 +22,5 @@ def distance_triangle(data: np.ndarray) -> Tuple[np.ndarray, List[Tuple[Dict[str
 
     cosine_distances = pdist(data, metric='cosine')
     dRow = 1 - cosine_distances
-    
+
     return dRow, runLogs
