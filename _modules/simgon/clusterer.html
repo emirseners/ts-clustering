@@ -58,9 +58,9 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/clusterer.html#simgon.clusterer.Cluster.size"><code class="docutils literal notranslate"><span class="pre">Cluster.size</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#simgon.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#simgon.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#simgon.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#simgon.clusterer.perform_clustering"><code class="docutils literal notranslate"><span class="pre">perform_clustering()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#simgon.clusterer.read_time_series"><code class="docutils literal notranslate"><span class="pre">read_time_series()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#simgon.clusterer.simulate_from_vensim"><code class="docutils literal notranslate"><span class="pre">simulate_from_vensim()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -146,9 +146,9 @@
     <span class="s1">&#39;yule&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;yule&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="p">}</span>
 
-<div class="viewcode-block" id="import_data">
-<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.import_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">import_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">withClusters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
+<div class="viewcode-block" id="read_time_series">
+<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.read_time_series">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_time_series</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">withClusters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import time series data from .xlsx or .csv files.</span>
 
@@ -242,9 +242,9 @@
 
 
 
-<div class="viewcode-block" id="import_from_pysd">
-<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.import_from_pysd">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">import_from_pysd</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">output_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<div class="viewcode-block" id="simulate_from_vensim">
+<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.simulate_from_vensim">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_from_vensim</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">output_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import and run Vensim models with parameter sets.</span>
 
@@ -299,9 +299,9 @@
 
 
 
-<div class="viewcode-block" id="cluster">
-<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.cluster">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">cluster</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> 
+<div class="viewcode-block" id="perform_clustering">
+<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.perform_clustering">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">perform_clustering</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> 
             <span class="n">interClusterDistance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> 
             <span class="n">cValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -508,11 +508,11 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">inputFileName</span> <span class="o">=</span> <span class="s1">&#39;TestSet_wo_Osc&#39;</span>
-    <span class="n">data_set</span> <span class="o">=</span> <span class="n">import_data</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">)</span>
+    <span class="n">data_set</span> <span class="o">=</span> <span class="n">read_time_series</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">)</span>
 
-    <span class="c1">#results = cluster(data_set, distance=&#39;manhattan&#39;)</span>
-    <span class="c1">#results = cluster(data_set, cValue=10000, distance=&#39;manhattan&#39;, cMethod=&#39;distance&#39;)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">(</span><span class="n">data_set</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#results = perform_clustering(data_set, distance=&#39;manhattan&#39;)</span>
+    <span class="c1">#results = perform_clustering(data_set, cValue=10000, distance=&#39;manhattan&#39;, cMethod=&#39;distance&#39;)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data_set</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distances:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of members in each cluster:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]))])</span>

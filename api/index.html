@@ -61,9 +61,9 @@
 <li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.size"><code class="docutils literal notranslate"><span class="pre">Cluster.size</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.perform_clustering"><code class="docutils literal notranslate"><span class="pre">perform_clustering()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.read_time_series"><code class="docutils literal notranslate"><span class="pre">read_time_series()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.simulate_from_vensim"><code class="docutils literal notranslate"><span class="pre">simulate_from_vensim()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -100,13 +100,13 @@
 <p><strong>Main Public API:</strong></p>
 <p>The following functions and classes are available for end users:</p>
 <ul class="simple">
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.import_data()</span></code> - Import time series data from .xlsx or .csv files</p></li>
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.import_from_pysd()</span></code> - Import and run Vensim models with parameter sets</p></li>
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.cluster()</span></code> - Main clustering function for time series data</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.read_time_series()</span></code> - Import time series data from .xlsx or .csv files</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.simulate_from_vensim()</span></code> - Import and run Vensim models with parameter sets</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.perform_clustering()</span></code> - Main clustering function for time series data</p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">simgon.Cluster</span></code> - Container class for clustering results</p></li>
 </ul>
 <p><strong>Distance Metrics Available:</strong></p>
-<p>The cluster function supports various distance metrics through the <cite>distance</cite> parameter:</p>
+<p>The perform_clustering function supports various distance metrics through the <cite>distance</cite> parameter:</p>
 <p><strong>Pattern-based distances:</strong>
 * <cite>‘pattern’</cite> - Pattern distance using behavioral features
 * <cite>‘pattern_dtw’</cite> - Pattern distance with Dynamic Time Warping (default)
@@ -136,13 +136,13 @@
 <p><strong>Advanced Usage:</strong></p>
 <p>For advanced usage with custom parameters, use the <cite>distance=’scipy’</cite> option:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Minkowski distance with p=3</span>
-<span class="n">cluster</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;minkowski&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">perform_clustering</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;minkowski&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="c1"># Mahalanobis distance with custom covariance matrix</span>
-<span class="n">cluster</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;mahalanobis&#39;</span><span class="p">,</span> <span class="n">VI</span><span class="o">=</span><span class="n">cov_matrix</span><span class="p">)</span>
+<span class="n">perform_clustering</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;mahalanobis&#39;</span><span class="p">,</span> <span class="n">VI</span><span class="o">=</span><span class="n">cov_matrix</span><span class="p">)</span>
 
 <span class="c1"># Any other scipy metric with custom parameters</span>
-<span class="n">cluster</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;your_metric&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">perform_clustering</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;your_metric&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Note:</strong> Internal implementation details (behavior splitting, distance calculations, plotting) are not exposed in the public API. For detailed implementation information, please refer to the source code repository.</p>
@@ -151,9 +151,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="clusterer.html">simgon.clusterer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.perform_clustering"><code class="docutils literal notranslate"><span class="pre">perform_clustering()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.read_time_series"><code class="docutils literal notranslate"><span class="pre">read_time_series()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.simulate_from_vensim"><code class="docutils literal notranslate"><span class="pre">simulate_from_vensim()</span></code></a></li>
 </ul>
 </li>
 </ul>

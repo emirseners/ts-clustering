@@ -7,14 +7,14 @@ Welcome to the API Reference section. Here you'll find detailed documentation fo
 
 The following functions and classes are available for end users:
 
-* :func:`simgon.import_data` - Import time series data from .xlsx or .csv files
-* :func:`simgon.import_from_pysd` - Import and run Vensim models with parameter sets
-* :func:`simgon.cluster` - Main clustering function for time series data
+* :func:`simgon.read_time_series` - Import time series data from .xlsx or .csv files
+* :func:`simgon.simulate_from_vensim` - Import and run Vensim models with parameter sets
+* :func:`simgon.perform_clustering` - Main clustering function for time series data
 * :class:`simgon.Cluster` - Container class for clustering results
 
 **Distance Metrics Available:**
 
-The cluster function supports various distance metrics through the `distance` parameter:
+The perform_clustering function supports various distance metrics through the `distance` parameter:
 
 **Pattern-based distances:**
 * `'pattern'` - Pattern distance using behavioral features
@@ -51,13 +51,13 @@ For advanced usage with custom parameters, use the `distance='scipy'` option:
 .. code-block:: python
 
     # Minkowski distance with p=3
-    cluster(data, distance='scipy', metric='minkowski', p=3)
+    perform_clustering(data, distance='scipy', metric='minkowski', p=3)
     
     # Mahalanobis distance with custom covariance matrix
-    cluster(data, distance='scipy', metric='mahalanobis', VI=cov_matrix)
+    perform_clustering(data, distance='scipy', metric='mahalanobis', VI=cov_matrix)
     
     # Any other scipy metric with custom parameters
-    cluster(data, distance='scipy', metric='your_metric', **kwargs)
+    perform_clustering(data, distance='scipy', metric='your_metric', **kwargs)
 
 **Note:** Internal implementation details (behavior splitting, distance calculations, plotting) are not exposed in the public API. For detailed implementation information, please refer to the source code repository.
 
