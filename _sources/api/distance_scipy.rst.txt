@@ -1,7 +1,0 @@
-simgon.distance_scipy
-========================
-
-.. automodule:: simgon.distance_scipy
-   :members:
-   :undoc-members:
-   :show-inheritance:

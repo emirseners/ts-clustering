@@ -1,7 +1,0 @@
-simgon.distance_pattern
-============================
-
-.. automodule:: simgon.distance_pattern
-   :members:
-   :show-inheritance:
-   :undoc-members:

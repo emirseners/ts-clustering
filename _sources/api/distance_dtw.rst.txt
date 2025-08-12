@@ -1,7 +1,0 @@
-simgon.distance_dtw
-=======================
-
-.. automodule:: simgon.distance_dtw
-   :members:
-   :show-inheritance:
-   :undoc-members:
