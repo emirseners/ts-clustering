@@ -5,6 +5,7 @@ Welcome to the API Reference section. Here you'll find detailed documentation fo
 
 **Available Modules:**
 
+* :doc:`clusterer.behavior_splitter <behavior_splitter>` - Behavioral feature extraction and splitting
 * :doc:`clusterer.clusterer <clusterer>` - Main clustering functionality
 * :doc:`clusterer.distance_dtw <distance_dtw>` - Dynamic Time Warping distance calculations
 * :doc:`clusterer.distance_pattern <distance_pattern>` - Pattern-based distance metrics
@@ -71,14 +72,9 @@ For advanced usage, use ``distance='scipy'`` with additional parameters:
    :maxdepth: 2
    :caption: API Modules:
 
+   behavior_splitter
    clusterer
    distance_dtw
    distance_pattern
    distance_pattern_dtw
    distance_scipy
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Internal Modules:
-
-   behavior_splitter

@@ -19,7 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="simgon.distance_scipy" href="distance_scipy.html" /> 
+    <link rel="next" title="simgon.clusterer" href="clusterer.html" />
+    <link rel="prev" title="API Reference" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -51,6 +52,11 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">simgon.behavior_splitter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="clusterer.html">simgon.clusterer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.no"><code class="docutils literal notranslate"><span class="pre">Cluster.no</span></code></a></li>
@@ -89,11 +95,6 @@
 <li class="toctree-l3"><a class="reference internal" href="distance_scipy.html#simgon.distance_scipy.distance_scipy"><code class="docutils literal notranslate"><span class="pre">distance_scipy()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">simgon.behavior_splitter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -123,14 +124,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="simgon-behavior-splitter">
-<h1>simgon.behavior_splitter<a class="headerlink" href="#simgon-behavior-splitter" title="Link to this heading"></a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This module is used internally by other modules and is not part of the main public API.
-It is documented here for reference and source code access.</p>
-</div>
-<dl class="py function" id="module-simgon.behavior_splitter">
+  <section id="module-simgon.behavior_splitter">
+<span id="simgon-behavior-splitter"></span><h1>simgon.behavior_splitter<a class="headerlink" href="#module-simgon.behavior_splitter" title="Link to this heading"></a></h1>
+<dl class="py function">
 <dt class="sig sig-object py" id="simgon.behavior_splitter.construct_features">
 <span class="sig-prename descclassname"><span class="pre">simgon.behavior_splitter.</span></span><span class="sig-name descname"><span class="pre">construct_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significanceLevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/behavior_splitter.html#construct_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.behavior_splitter.construct_features" title="Link to this definition"></a></dt>
 <dd><p>Construct feature vectors for time series data based on behavioral characteristics.</p>
@@ -175,18 +171,14 @@ The first dimension (2) represents: [0] slope sign, [1] curvature sign.</p>
 </dl>
 </dd></dl>
 
-<p><strong>Usage Note</strong></p>
-<p>The functions in this module are primarily used internally by:
-* <a class="reference internal" href="distance_pattern.html#module-simgon.distance_pattern" title="simgon.distance_pattern"><code class="xref py py-mod docutils literal notranslate"><span class="pre">simgon.distance_pattern</span></code></a> - for behavioral feature extraction
-* <a class="reference internal" href="distance_pattern_dtw.html#module-simgon.distance_pattern_dtw" title="simgon.distance_pattern_dtw"><code class="xref py py-mod docutils literal notranslate"><span class="pre">simgon.distance_pattern_dtw</span></code></a> - for behavioral feature extraction with DTW</p>
-<p>End users typically don’t need to call these functions directly, but they can access the source code to understand how behavioral features are extracted and processed.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="distance_scipy.html" class="btn btn-neutral float-left" title="simgon.distance_scipy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="clusterer.html" class="btn btn-neutral float-right" title="simgon.clusterer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

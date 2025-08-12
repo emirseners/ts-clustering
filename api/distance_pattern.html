@@ -52,6 +52,11 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">simgon.behavior_splitter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="clusterer.html">simgon.clusterer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.no"><code class="docutils literal notranslate"><span class="pre">Cluster.no</span></code></a></li>
@@ -88,11 +93,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="distance_scipy.html">simgon.distance_scipy</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="distance_scipy.html#simgon.distance_scipy.distance_scipy"><code class="docutils literal notranslate"><span class="pre">distance_scipy()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">simgon.behavior_splitter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -225,18 +225,6 @@ comparing two data series with unequal feature vector lengths (default=50).</p><
 </dl>
 </dd></dl>
 
-<p><strong>Internal Dependencies</strong></p>
-<p>This module internally uses functions from <a class="reference internal" href="behavior_splitter.html#module-simgon.behavior_splitter" title="simgon.behavior_splitter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">simgon.behavior_splitter</span></code></a> for feature extraction:</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features" title="simgon.behavior_splitter.construct_features"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.behavior_splitter.construct_features()</span></code></a> - Constructs feature vectors for time series data based on behavioral characteristics</p></li>
-<li><p><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior" title="simgon.behavior_splitter.split_behavior"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.behavior_splitter.split_behavior()</span></code></a> - Splits a time series into sections of different atomic behavior modes</p></li>
-</ul>
-<p>These functions are used to extract behavioral features (slope and curvature signs) from time series data before computing pattern distances. While end users don’t directly call these functions, they can access the source code to understand how the behavioral features are extracted and processed.</p>
-<p><strong>Source Code Access</strong></p>
-<p>To view the implementation of these functions, you can:
-* Click the <cite>[source]</cite> link next to any function in the documentation
-* Navigate to the source files in the project repository
-* Import and inspect the modules directly in Python</p>
 </section>
 
 
