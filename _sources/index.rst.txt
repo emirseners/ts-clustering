@@ -3,11 +3,6 @@ Welcome
 
 Welcome to the documentation for the **Time Series Clustering** library. This library provides powerful utilities for clustering time series data using various distance metrics and clustering algorithms.
 
-**Documentation Sections:**
-
-* :doc:`Installation <installation>` - Setup and dependency requirements
-* :doc:`API Reference <api/index>` - Complete function and class documentation
-
 **Getting Started:**
 
 To get started with the Time Series Clustering library, first check the :doc:`Installation <installation>` guide to set up your environment, then explore the :doc:`API Reference <api/index>` for detailed function documentation.
