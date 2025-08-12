@@ -1,7 +1,7 @@
-simgon.distance_pattern
+clusterer.distance_pattern
 ============================
 
-.. automodule:: simgon.distance_pattern
+.. automodule:: clusterer.distance_pattern
    :members:
    :show-inheritance:
    :undoc-members:

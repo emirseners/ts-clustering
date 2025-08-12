@@ -5,25 +5,25 @@ Welcome to the API Reference section. Here you'll find detailed documentation fo
 
 **Available Modules:**
 
-* :doc:`simgon.behavior_splitter <behavior_splitter>` - Behavioral feature extraction and splitting
-* :doc:`simgon.clusterer <clusterer>` - Main clustering functionality
-* :doc:`simgon.distance_dtw <distance_dtw>` - Dynamic Time Warping distance calculations
-* :doc:`simgon.distance_pattern <distance_pattern>` - Pattern-based distance metrics
-* :doc:`simgon.distance_pattern_dtw <distance_pattern_dtw>` - Pattern-based DTW distance metrics
+* :doc:`clusterer.behavior_splitter <behavior_splitter>` - Behavioral feature extraction and splitting
+* :doc:`clusterer.clusterer <clusterer>` - Main clustering functionality
+* :doc:`clusterer.distance_dtw <distance_dtw>` - Dynamic Time Warping distance calculations
+* :doc:`clusterer.distance_pattern <distance_pattern>` - Pattern-based distance metrics
+* :doc:`clusterer.distance_pattern_dtw <distance_pattern_dtw>` - Pattern-based DTW distance metrics
 
 **Distance Metrics Reference**
 
-The following distance metrics are available through the ``distance='scipy'`` parameter in the :func:`simgon.clusterer.cluster` function:
+The following distance metrics are available through the ``distance='scipy'`` parameter in the :func:`clusterer.clusterer.cluster` function:
 
 **Pattern-based distances:**
-* :func:`simgon.distance_pattern.distance_pattern` - Pattern distance using behavioral features
-* :func:`simgon.distance_pattern_dtw.distance_pattern_dtw` - Pattern distance with Dynamic Time Warping
-* :func:`simgon.distance_dtw.distance_dtw` - Dynamic Time Warping distance
+* :func:`clusterer.distance_pattern.distance_pattern` - Pattern distance using behavioral features
+* :func:`clusterer.distance_pattern_dtw.distance_pattern_dtw` - Pattern distance with Dynamic Time Warping
+* :func:`clusterer.distance_dtw.distance_dtw` - Dynamic Time Warping distance
 
 **Scipy distance metrics:**
-* :func:`simgon.distance_scipy.distance_scipy` - Access to all scipy.spatial.distance.pdist metrics
+* :func:`clusterer.distance_scipy.distance_scipy` - Access to all scipy.spatial.distance.pdist metrics
 
-**Note:** The `distance_scipy` module is designed to be used internally through the :func:`simgon.clusterer.cluster` function. Users typically don't need to import or use it directly. Instead, use `distance='scipy'` with additional parameters in the cluster function.
+**Note:** The `distance_scipy` module is designed to be used internally through the :func:`clusterer.clusterer.cluster` function. Users typically don't need to import or use it directly. Instead, use `distance='scipy'` with additional parameters in the cluster function.
 
 For detailed information about scipy distance metrics, see the `scipy documentation <https://docs.scipy.org/doc/scipy/reference/spatial.distance.html>`_.
 

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>simgon.clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>clusterer.clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="simgon.distance_dtw" href="distance_dtw.html" />
-    <link rel="prev" title="simgon.behavior_splitter" href="behavior_splitter.html" /> 
+    <link rel="next" title="clusterer.distance_dtw" href="distance_dtw.html" />
+    <link rel="prev" title="clusterer.behavior_splitter" href="behavior_splitter.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,39 +52,10 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">simgon.behavior_splitter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">simgon.clusterer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.Cluster.no"><code class="docutils literal notranslate"><span class="pre">Cluster.no</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.Cluster.indices"><code class="docutils literal notranslate"><span class="pre">Cluster.indices</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.Cluster.sample"><code class="docutils literal notranslate"><span class="pre">Cluster.sample</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.Cluster.members"><code class="docutils literal notranslate"><span class="pre">Cluster.members</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.Cluster.size"><code class="docutils literal notranslate"><span class="pre">Cluster.size</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.clusterer.create_cluster_list"><code class="docutils literal notranslate"><span class="pre">create_cluster_list()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.clusterer.flatcluster"><code class="docutils literal notranslate"><span class="pre">flatcluster()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="distance_dtw.html">simgon.distance_dtw</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="distance_dtw.html#simgon.distance_dtw.compute_dtw_distances"><code class="docutils literal notranslate"><span class="pre">compute_dtw_distances()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_dtw.html#simgon.distance_dtw.distance_dtw"><code class="docutils literal notranslate"><span class="pre">distance_dtw()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html">simgon.distance_pattern</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.create_sisters"><code class="docutils literal notranslate"><span class="pre">create_sisters()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_different_length"><code class="docutils literal notranslate"><span class="pre">distance_different_length()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_pattern"><code class="docutils literal notranslate"><span class="pre">distance_pattern()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_same_length"><code class="docutils literal notranslate"><span class="pre">distance_same_length()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">clusterer.behavior_splitter</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">clusterer.clusterer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distance_dtw.html">clusterer.distance_dtw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html">clusterer.distance_pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_pattern_dtw.html">clusterer.distance_pattern_dtw</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_scipy.html">distance_scipy</a></li>
 </ul>
@@ -106,7 +77,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
-      <li class="breadcrumb-item active">simgon.clusterer</li>
+      <li class="breadcrumb-item active">clusterer.clusterer</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/clusterer.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -116,267 +87,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-simgon.clusterer">
-<span id="simgon-clusterer"></span><h1>simgon.clusterer<a class="headerlink" href="#module-simgon.clusterer" title="Link to this heading"></a></h1>
-<p>Pattern-oriented behavior clustering module.</p>
-<p>This module provides methods for importing, pre-processing, clustering, and
-post-processing of bundles of time-series data.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="simgon.clusterer.Cluster">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">Cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_ds_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_dss</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#Cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.clusterer.Cluster" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Container for clustering results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_no</strong> (<em>int</em>)</p></li>
-<li><p><strong>all_ds_indices</strong> (<em>numpy.ndarray</em>)</p></li>
-<li><p><strong>sample_ds</strong> (<em>Tuple</em><em>[</em><em>str</em><em>, </em><em>numpy.ndarray</em><em>]</em>)</p></li>
-<li><p><strong>member_dss</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>numpy.ndarray</em><em>]</em><em>]</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="simgon.clusterer.Cluster.no">
-<span class="sig-name descname"><span class="pre">no</span></span><a class="headerlink" href="#simgon.clusterer.Cluster.no" title="Link to this definition"></a></dt>
-<dd><p>Cluster number/index.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="simgon.clusterer.Cluster.indices">
-<span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#simgon.clusterer.Cluster.indices" title="Link to this definition"></a></dt>
-<dd><p>Original indices of cluster members.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="simgon.clusterer.Cluster.sample">
-<span class="sig-name descname"><span class="pre">sample</span></span><a class="headerlink" href="#simgon.clusterer.Cluster.sample" title="Link to this definition"></a></dt>
-<dd><p>Representative data series.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[str, np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="simgon.clusterer.Cluster.members">
-<span class="sig-name descname"><span class="pre">members</span></span><a class="headerlink" href="#simgon.clusterer.Cluster.members" title="Link to this definition"></a></dt>
-<dd><p>List of all cluster members.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="simgon.clusterer.Cluster.size">
-<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#simgon.clusterer.Cluster.size" title="Link to this definition"></a></dt>
-<dd><p>Number of members in cluster.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.clusterer.cluster">
-<span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern_dtw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interClusterDistance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inconsistent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotDendrogram</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.clusterer.cluster" title="Link to this definition"></a></dt>
-<dd><p>Cluster time series data using hierarchical clustering.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples.</p></li>
-<li><p><strong>distance</strong> (<em>str</em><em>, </em><em>optional</em>) – <p>Distance metric to use for clustering. Available options include:</p>
-<p><strong>Pattern-based distances:</strong>
-- <a class="reference external" href="#module-simgon.distance_pattern">‘pattern’</a>: Pattern distance using behavioral features
-- <a class="reference external" href="#module-simgon.distance_pattern_dtw">‘pattern_dtw’</a>: Pattern distance with Dynamic Time Warping
-- <a class="reference external" href="#module-simgon.distance_dtw">‘dtw’</a>: Dynamic Time Warping distance</p>
-<p><strong>All available scipy.spatial.distance.pdist metrics:</strong>
-- <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html">‘braycurtis’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.canberra.html">‘canberra’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.chebyshev.html">‘chebyshev’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cityblock.html">‘cityblock’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.correlation.html">‘correlation’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html">‘cosine’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.dice.html">‘dice’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.euclidean.html">‘euclidean’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.hamming.html">‘hamming’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html">‘jaccard’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jensenshannon.html">‘jensenshannon’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.kulczynski1.html">‘kulczynski1’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.mahalanobis.html">‘mahalanobis’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.minkowski.html">‘minkowski’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.rogerstanimoto.html">‘rogerstanimoto’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.russellrao.html">‘russellrao’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.seuclidean.html">‘seuclidean’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalmichener.html">‘sokalmichener’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalsneath.html">‘sokalsneath’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sqeuclidean.html">‘sqeuclidean’</a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.yule.html">‘yule’</a></p>
-<p><strong>Custom scipy metric:</strong>
-- <a class="reference external" href="#distance_scipy_reference">‘scipy’</a>: Use any scipy.spatial.distance.pdist metric with custom parameters</p>
-<p><strong>Note:</strong> All scipy metrics use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html">scipy.spatial.distance.pdist</a>.
-Click metric names above for detailed documentation.</p>
-<p>Default is ‘pattern_dtw’.</p>
-</p></li>
-<li><p><strong>interClusterDistance</strong> (<em>str</em><em>, </em><em>optional</em>) – Linkage method (‘complete’, ‘single’, ‘average’, ‘ward’) (default=’complete’).</p></li>
-<li><p><strong>cMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Cutoff method (‘inconsistent’, ‘distance’, ‘maxclust’, ‘monocrit’) (default=’inconsistent’).</p></li>
-<li><p><strong>cValue</strong> (<em>float</em><em>, </em><em>optional</em>) – Cutoff value for clustering criterion (default=1.5).</p></li>
-<li><p><strong>plotDendrogram</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, displays dendrogram (default=False).</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – Additional distance function parameters.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Tuple of (distances, cluster_list, cluster_assignments).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray, List[‘Cluster’], np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.clusterer.create_cluster_list">
-<span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">create_cluster_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clusters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distRow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_w_desc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#create_cluster_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.clusterer.create_cluster_list" title="Link to this definition"></a></dt>
-<dd><p>Create Cluster objects from clustering results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>clusters</strong> (<em>np.ndarray</em>) – Array of cluster assignments.</p></li>
-<li><p><strong>distRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix.</p></li>
-<li><p><strong>data_w_desc</strong> (<em>List</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – List of data descriptors.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of Cluster objects.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[‘Cluster’]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.clusterer.flatcluster">
-<span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">flatcluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dRow</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interClusterDistance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotDendrogram</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inconsistent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#flatcluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.clusterer.flatcluster" title="Link to this definition"></a></dt>
-<dd><p>Perform flat clustering using hierarchical clustering.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix.</p></li>
-<li><p><strong>data</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (metadata_dict, data_array) tuples.</p></li>
-<li><p><strong>interClusterDistance</strong> (<em>str</em><em>, </em><em>optional</em>) – Linkage method (default=’complete’).</p></li>
-<li><p><strong>plotDendrogram</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, displays dendrogram (default=True).</p></li>
-<li><p><strong>cMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Clustering criterion (default=’inconsistent’).</p></li>
-<li><p><strong>cValue</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold value (default=2.5).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Tuple of (clusters, updated_data).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray, List[Tuple[Dict[str, Any], np.ndarray]]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.clusterer.import_data">
-<span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">import_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">withClusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#import_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.clusterer.import_data" title="Link to this definition"></a></dt>
-<dd><p>Import time series data from .xlsx or .csv files.</p>
-<p>The data file must have the following structure:</p>
-<p><strong>For Excel files (.xlsx):</strong>
-- Sheet ‘data’: Column A contains labels/names for each time series, Column B onwards contains time series data values
-- Sheet ‘clusters’ (optional, only if withClusters=True): Column A contains cluster labels</p>
-<p><strong>For CSV files (.csv):</strong>
-- Column A: Labels/names for each time series (e.g., “Run 1”, “Scenario A”, “Parameter Set 1”)
-- Column B onwards: Time series data values
-- Row 1: First time series (label in A1, data values in B1, C1, D1, …)
-- Row 2: Second time series (label in A2, data values in B2, C2, D2, …)
-- And so on…</p>
-<p>Note: CSV files do not support multiple sheets, so cluster information cannot be imported
-when reading from CSV files (withClusters parameter will be ignored).</p>
-<p>Example data structure:</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Label</p></th>
-<th class="head"><p>Time 1</p></th>
-<th class="head"><p>Time 2</p></th>
-<th class="head"><p>Time 3</p></th>
-<th class="head"><p>…</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Run 1</p></td>
-<td><p>10.5</p></td>
-<td><p>12.3</p></td>
-<td><p>15.7</p></td>
-<td><p>…</p></td>
-</tr>
-<tr class="row-odd"><td><p>Run 2</p></td>
-<td><p>11.2</p></td>
-<td><p>13.1</p></td>
-<td><p>16.2</p></td>
-<td><p>…</p></td>
-</tr>
-<tr class="row-even"><td><p>Run 3</p></td>
-<td><p>9.8</p></td>
-<td><p>11.9</p></td>
-<td><p>14.5</p></td>
-<td><p>…</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file_path</strong> (<em>str</em>) – Path to the .xlsx or .csv file (can be relative or absolute path).</p></li>
-<li><p><strong>withClusters</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, also reads cluster information from ‘clusters’ sheet (default=False).
-Note: This parameter is ignored for CSV files as they don’t support multiple sheets.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of (label, data_array) tuples, or (data_list, clusters_list) if withClusters=True and reading from Excel.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[List[Tuple[str, np.ndarray]], Tuple[List[Tuple[str, np.ndarray]], List[str]]]</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>FileNotFoundError</strong> – If the specified file cannot be found.</p></li>
-<li><p><strong>ValueError</strong> – If the file doesn’t have .xlsx or .csv extension.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.clusterer.import_from_pysd">
-<span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">import_from_pysd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#import_from_pysd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.clusterer.import_from_pysd" title="Link to this definition"></a></dt>
-<dd><p>Import and run Vensim models with parameter sets.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_path</strong> (<em>str</em>) – Path to the .mdl file (can be relative or absolute path).</p></li>
-<li><p><strong>parameter_set</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Union</em><em>[</em><em>float</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em><em>]</em>) – Dict of parameters and values to test.</p></li>
-<li><p><strong>output_variable</strong> (<em>str</em>) – Output variable to extract.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of (description, time_series_data) tuples.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the .mdl file cannot be found.</p>
-</dd>
-</dl>
-</dd></dl>
-
+  <section id="clusterer-clusterer">
+<h1>clusterer.clusterer<a class="headerlink" href="#clusterer-clusterer" title="Link to this heading"></a></h1>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="behavior_splitter.html" class="btn btn-neutral float-left" title="simgon.behavior_splitter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="distance_dtw.html" class="btn btn-neutral float-right" title="simgon.distance_dtw" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="behavior_splitter.html" class="btn btn-neutral float-left" title="clusterer.behavior_splitter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distance_dtw.html" class="btn btn-neutral float-right" title="clusterer.distance_dtw" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

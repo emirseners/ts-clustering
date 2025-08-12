@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="simgon.behavior_splitter" href="behavior_splitter.html" />
+    <link rel="next" title="clusterer.behavior_splitter" href="behavior_splitter.html" />
     <link rel="prev" title="Installation" href="../installation.html" /> 
 </head>
 
@@ -52,39 +52,10 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">simgon.behavior_splitter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html">simgon.clusterer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.no"><code class="docutils literal notranslate"><span class="pre">Cluster.no</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.indices"><code class="docutils literal notranslate"><span class="pre">Cluster.indices</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.sample"><code class="docutils literal notranslate"><span class="pre">Cluster.sample</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.members"><code class="docutils literal notranslate"><span class="pre">Cluster.members</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster.size"><code class="docutils literal notranslate"><span class="pre">Cluster.size</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.create_cluster_list"><code class="docutils literal notranslate"><span class="pre">create_cluster_list()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.flatcluster"><code class="docutils literal notranslate"><span class="pre">flatcluster()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="distance_dtw.html">simgon.distance_dtw</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="distance_dtw.html#simgon.distance_dtw.compute_dtw_distances"><code class="docutils literal notranslate"><span class="pre">compute_dtw_distances()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_dtw.html#simgon.distance_dtw.distance_dtw"><code class="docutils literal notranslate"><span class="pre">distance_dtw()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html">simgon.distance_pattern</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.create_sisters"><code class="docutils literal notranslate"><span class="pre">create_sisters()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_different_length"><code class="docutils literal notranslate"><span class="pre">distance_different_length()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_pattern"><code class="docutils literal notranslate"><span class="pre">distance_pattern()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_same_length"><code class="docutils literal notranslate"><span class="pre">distance_same_length()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">clusterer.behavior_splitter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clusterer.html">clusterer.clusterer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distance_dtw.html">clusterer.distance_dtw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html">clusterer.distance_pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_pattern_dtw.html">clusterer.distance_pattern_dtw</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distance_scipy.html">distance_scipy</a></li>
 </ul>
@@ -120,21 +91,21 @@
 <p>Welcome to the API Reference section. Here you’ll find detailed documentation for all modules and functions in the Time Series Clustering library.</p>
 <p><strong>Available Modules:</strong></p>
 <ul class="simple">
-<li><p><a class="reference internal" href="behavior_splitter.html"><span class="doc">simgon.behavior_splitter</span></a> - Behavioral feature extraction and splitting</p></li>
-<li><p><a class="reference internal" href="clusterer.html"><span class="doc">simgon.clusterer</span></a> - Main clustering functionality</p></li>
-<li><p><a class="reference internal" href="distance_dtw.html"><span class="doc">simgon.distance_dtw</span></a> - Dynamic Time Warping distance calculations</p></li>
-<li><p><a class="reference internal" href="distance_pattern.html"><span class="doc">simgon.distance_pattern</span></a> - Pattern-based distance metrics</p></li>
-<li><p><a class="reference internal" href="distance_pattern_dtw.html"><span class="doc">simgon.distance_pattern_dtw</span></a> - Pattern-based DTW distance metrics</p></li>
+<li><p><a class="reference internal" href="behavior_splitter.html"><span class="doc">clusterer.behavior_splitter</span></a> - Behavioral feature extraction and splitting</p></li>
+<li><p><a class="reference internal" href="clusterer.html"><span class="doc">clusterer.clusterer</span></a> - Main clustering functionality</p></li>
+<li><p><a class="reference internal" href="distance_dtw.html"><span class="doc">clusterer.distance_dtw</span></a> - Dynamic Time Warping distance calculations</p></li>
+<li><p><a class="reference internal" href="distance_pattern.html"><span class="doc">clusterer.distance_pattern</span></a> - Pattern-based distance metrics</p></li>
+<li><p><a class="reference internal" href="distance_pattern_dtw.html"><span class="doc">clusterer.distance_pattern_dtw</span></a> - Pattern-based DTW distance metrics</p></li>
 </ul>
 <p><strong>Distance Metrics Reference</strong></p>
-<p>The following distance metrics are available through the <code class="docutils literal notranslate"><span class="pre">distance='scipy'</span></code> parameter in the <a class="reference internal" href="clusterer.html#simgon.clusterer.cluster" title="simgon.clusterer.cluster"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.clusterer.cluster()</span></code></a> function:</p>
+<p>The following distance metrics are available through the <code class="docutils literal notranslate"><span class="pre">distance='scipy'</span></code> parameter in the <code class="xref py py-func docutils literal notranslate"><span class="pre">clusterer.clusterer.cluster()</span></code> function:</p>
 <p><strong>Pattern-based distances:</strong>
-* <a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_pattern" title="simgon.distance_pattern.distance_pattern"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.distance_pattern.distance_pattern()</span></code></a> - Pattern distance using behavioral features
-* <code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.distance_pattern_dtw.distance_pattern_dtw()</span></code> - Pattern distance with Dynamic Time Warping
-* <a class="reference internal" href="distance_dtw.html#simgon.distance_dtw.distance_dtw" title="simgon.distance_dtw.distance_dtw"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.distance_dtw.distance_dtw()</span></code></a> - Dynamic Time Warping distance</p>
+* <code class="xref py py-func docutils literal notranslate"><span class="pre">clusterer.distance_pattern.distance_pattern()</span></code> - Pattern distance using behavioral features
+* <code class="xref py py-func docutils literal notranslate"><span class="pre">clusterer.distance_pattern_dtw.distance_pattern_dtw()</span></code> - Pattern distance with Dynamic Time Warping
+* <code class="xref py py-func docutils literal notranslate"><span class="pre">clusterer.distance_dtw.distance_dtw()</span></code> - Dynamic Time Warping distance</p>
 <p><strong>Scipy distance metrics:</strong>
-* <code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.distance_scipy.distance_scipy()</span></code> - Access to all scipy.spatial.distance.pdist metrics</p>
-<p><strong>Note:</strong> The <cite>distance_scipy</cite> module is designed to be used internally through the <a class="reference internal" href="clusterer.html#simgon.clusterer.cluster" title="simgon.clusterer.cluster"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.clusterer.cluster()</span></code></a> function. Users typically don’t need to import or use it directly. Instead, use <cite>distance=’scipy’</cite> with additional parameters in the cluster function.</p>
+* <code class="xref py py-func docutils literal notranslate"><span class="pre">clusterer.distance_scipy.distance_scipy()</span></code> - Access to all scipy.spatial.distance.pdist metrics</p>
+<p><strong>Note:</strong> The <cite>distance_scipy</cite> module is designed to be used internally through the <code class="xref py py-func docutils literal notranslate"><span class="pre">clusterer.clusterer.cluster()</span></code> function. Users typically don’t need to import or use it directly. Instead, use <cite>distance=’scipy’</cite> with additional parameters in the cluster function.</p>
 <p>For detailed information about scipy distance metrics, see the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/spatial.distance.html">scipy documentation</a>.</p>
 <p><strong>Available Scipy Metrics:</strong></p>
 <p>The following metrics are directly available as string parameters in the cluster function:</p>
@@ -176,32 +147,10 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">API Modules:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="behavior_splitter.html">simgon.behavior_splitter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="clusterer.html">simgon.clusterer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.create_cluster_list"><code class="docutils literal notranslate"><span class="pre">create_cluster_list()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.flatcluster"><code class="docutils literal notranslate"><span class="pre">flatcluster()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="clusterer.html#simgon.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="distance_dtw.html">simgon.distance_dtw</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="distance_dtw.html#simgon.distance_dtw.compute_dtw_distances"><code class="docutils literal notranslate"><span class="pre">compute_dtw_distances()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="distance_dtw.html#simgon.distance_dtw.distance_dtw"><code class="docutils literal notranslate"><span class="pre">distance_dtw()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="distance_pattern.html">simgon.distance_pattern</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.create_sisters"><code class="docutils literal notranslate"><span class="pre">create_sisters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_different_length"><code class="docutils literal notranslate"><span class="pre">distance_different_length()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_pattern"><code class="docutils literal notranslate"><span class="pre">distance_pattern()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="distance_pattern.html#simgon.distance_pattern.distance_same_length"><code class="docutils literal notranslate"><span class="pre">distance_same_length()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="behavior_splitter.html">clusterer.behavior_splitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clusterer.html">clusterer.clusterer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distance_dtw.html">clusterer.distance_dtw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distance_pattern.html">clusterer.distance_pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distance_pattern_dtw.html">clusterer.distance_pattern_dtw</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distance_scipy.html">distance_scipy</a></li>
 </ul>
@@ -213,7 +162,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="behavior_splitter.html" class="btn btn-neutral float-right" title="simgon.behavior_splitter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="behavior_splitter.html" class="btn btn-neutral float-right" title="clusterer.behavior_splitter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

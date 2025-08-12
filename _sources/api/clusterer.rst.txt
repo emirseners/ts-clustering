@@ -1,7 +1,7 @@
-simgon.clusterer
+clusterer.clusterer
 ===================
 
-.. automodule:: simgon.clusterer
+.. automodule:: clusterer.clusterer
    :members:
    :show-inheritance:
    :undoc-members:

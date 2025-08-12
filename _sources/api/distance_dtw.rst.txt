@@ -1,7 +1,7 @@
-simgon.distance_dtw
+clusterer.distance_dtw
 =======================
 
-.. automodule:: simgon.distance_dtw
+.. automodule:: clusterer.distance_dtw
    :members:
    :show-inheritance:
    :undoc-members:
