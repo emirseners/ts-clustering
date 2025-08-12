@@ -82,24 +82,22 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    series1 : np.ndarray</span>
-<span class="sd">        Feature vector 1 (2-dimensional numpy array).</span>
+<span class="sd">        Feature vector 1 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.</span>
 <span class="sd">    series2 : np.ndarray</span>
-<span class="sd">        Feature vector 2 (2-dimensional numpy array).</span>
+<span class="sd">        Feature vector 2 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.</span>
 <span class="sd">    wDim1 : float</span>
-<span class="sd">        Weight of the error between the 1st dimensions of the two </span>
-<span class="sd">        feature vectors (i.e. Slope).</span>
+<span class="sd">        Weight of the error between the slope dimensions ([:, 0]) of the two feature vectors.</span>
 <span class="sd">    wDim2 : float</span>
-<span class="sd">        Weight of the error between the 2nd dimensions of the two </span>
-<span class="sd">        feature vectors (i.e. Curvature).</span>
-<span class="sd">        </span>
+<span class="sd">        Weight of the error between the curvature dimensions ([:, 1]) of the two feature vectors.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Weighted distance between the feature vectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">diff_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">series1</span> <span class="o">-</span> <span class="n">series2</span><span class="p">)</span>
-    <span class="n">weighted_error</span> <span class="o">=</span> <span class="n">wDim1</span> <span class="o">*</span> <span class="n">diff_sq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">wDim2</span> <span class="o">*</span> <span class="n">diff_sq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weighted_error</span><span class="p">)</span> <span class="o">/</span> <span class="n">series1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+    <span class="n">weighted_error</span> <span class="o">=</span> <span class="n">wDim1</span> <span class="o">*</span> <span class="n">diff_sq</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">wDim2</span> <span class="o">*</span> <span class="n">diff_sq</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weighted_error</span><span class="p">)</span> <span class="o">/</span> <span class="n">series1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 
@@ -108,31 +106,28 @@
 <span class="k">def</span> <span class="nf">distance_different_length</span><span class="p">(</span><span class="n">series1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">series2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">wDim1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">wDim2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sisterCount</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the distance between two feature vectors of different sizes.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    series1 : np.ndarray</span>
-<span class="sd">        Feature vector 1 (2-dimensional numpy array).</span>
+<span class="sd">        Feature vector 1 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.</span>
 <span class="sd">    series2 : np.ndarray</span>
-<span class="sd">        Feature vector 2 (2-dimensional numpy array).</span>
+<span class="sd">        Feature vector 2 with shape (n_sections, 2) where [:, 0] is slope and [:, 1] is curvature.</span>
 <span class="sd">    wDim1 : float</span>
-<span class="sd">        Weight of the error between the 1st dimensions of the two </span>
-<span class="sd">        feature vectors (i.e. Slope).</span>
+<span class="sd">        Weight of the error between the slope dimensions ([:, 0]) of the two feature vectors.</span>
 <span class="sd">    wDim2 : float</span>
-<span class="sd">        Weight of the error between the 2nd dimensions of the two </span>
-<span class="sd">        feature vectors (i.e. Curvature).</span>
+<span class="sd">        Weight of the error between the curvature dimensions ([:, 1]) of the two feature vectors.</span>
 <span class="sd">    sisterCount : int</span>
-<span class="sd">        Number of long-versions that will be created for the </span>
-<span class="sd">        short vector.</span>
-<span class="sd">        </span>
+<span class="sd">        Number of long-versions that will be created for the short vector.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    float</span>
 <span class="sd">        Minimum distance among all generated sister vectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">length1</span> <span class="o">=</span> <span class="n">series1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">length2</span> <span class="o">=</span> <span class="n">series2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    
+    <span class="n">length1</span> <span class="o">=</span> <span class="n">series1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">length2</span> <span class="o">=</span> <span class="n">series2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="k">if</span> <span class="n">length1</span> <span class="o">&gt;</span> <span class="n">length2</span><span class="p">:</span>
         <span class="n">shortFV</span> <span class="o">=</span> <span class="n">series2</span>
         <span class="n">longFV</span> <span class="o">=</span> <span class="n">series1</span>
@@ -140,44 +135,42 @@
         <span class="n">shortFV</span> <span class="o">=</span> <span class="n">series1</span>
         <span class="n">longFV</span> <span class="o">=</span> <span class="n">series2</span>
 
-    <span class="n">sisters</span> <span class="o">=</span> <span class="n">create_sisters</span><span class="p">(</span><span class="n">shortFV</span><span class="p">,</span> <span class="n">longFV</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">sisterCount</span><span class="p">)</span>
-    <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">sisters</span> <span class="o">-</span> <span class="n">longFV</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+    <span class="n">sisters</span> <span class="o">=</span> <span class="n">create_sisters</span><span class="p">(</span><span class="n">shortFV</span><span class="p">,</span> <span class="p">(</span><span class="n">longFV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> <span class="n">sisterCount</span><span class="p">)</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">sisters</span> <span class="o">-</span> <span class="n">longFV</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
     <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">wDim1</span><span class="p">,</span> <span class="n">wDim2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 
     <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="o">*</span> <span class="n">weights</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">total_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">total_error</span><span class="p">)</span> <span class="o">/</span> <span class="n">longFV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">total_error</span><span class="p">)</span> <span class="o">/</span> <span class="n">longFV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 
 <div class="viewcode-block" id="create_sisters">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.distance_pattern.create_sisters">[docs]</a>
 <span class="k">def</span> <span class="nf">create_sisters</span><span class="p">(</span><span class="n">shortFV</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">desired_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">sister_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create new feature vectors behaviorally identical to the given short feature vector.</span>
-<span class="sd">    </span>
-<span class="sd">    Creates a set of new feature vectors that are behaviorally identical to the given </span>
-<span class="sd">    short feature vector (shortFV), and that have the stated number of segments.</span>
-<span class="sd">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;    </span>
+<span class="sd">    Creates a set of extended feature vectors by randomly sampling and reordering</span>
+<span class="sd">    sections from the short feature vector (shortFV) to match the desired length.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    shortFV : np.ndarray</span>
-<span class="sd">        The feature vector to be extended.</span>
+<span class="sd">        The feature vector to be extended with shape (n_sections, 2).</span>
 <span class="sd">    desired_shape : Tuple[int, int]</span>
-<span class="sd">        The desired shape (2-by-number of sections) of the extended feature vectors (i.e. sisters).</span>
+<span class="sd">        The desired shape (n_sections, 2) of the extended feature vectors (i.e. sisters).</span>
 <span class="sd">    sister_count : int</span>
 <span class="sd">        The desired number of sisters to be created.</span>
-<span class="sd">        </span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    np.ndarray</span>
-<span class="sd">        Array of sister vectors with shape (sister_count, desired_shape[1], 2).</span>
+<span class="sd">        Array of sister vectors with shape (sister_count, desired_shape[0], 2).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">to_add</span> <span class="o">=</span> <span class="n">desired_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">shortFV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">short_length</span> <span class="o">=</span> <span class="n">shortFV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">to_add</span> <span class="o">=</span> <span class="n">desired_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">shortFV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">short_length</span> <span class="o">=</span> <span class="n">shortFV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     
-    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">sister_count</span><span class="p">,</span> <span class="n">desired_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">sister_count</span><span class="p">,</span> <span class="n">desired_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     
     <span class="n">random_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">short_length</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">sister_count</span><span class="p">,</span> <span class="n">to_add</span><span class="p">))</span>
     
@@ -187,8 +180,7 @@
     <span class="n">indices</span><span class="p">[:,</span> <span class="n">to_add</span><span class="p">:]</span> <span class="o">=</span> <span class="n">base_indices</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
 
     <span class="n">indices</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    
-    <span class="n">sisters</span> <span class="o">=</span> <span class="n">shortFV</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="p">:]</span> 
+    <span class="n">sisters</span> <span class="o">=</span> <span class="n">shortFV</span><span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="p">:]</span> 
 
     <span class="k">return</span> <span class="n">sisters</span></div>
 
@@ -205,11 +197,6 @@
 <span class="sd">    qualitative pattern features. In other words, it quantifies the proximity </span>
 <span class="sd">    between two different dynamic behaviour modes.</span>
 
-<span class="sd">    It is designed to work mainly on non-stationary data. Its current version </span>
-<span class="sd">    does not perform well in catching the proximity of two cyclic/repetitive </span>
-<span class="sd">    patterns with different number of cycles (e.g. oscillation with 4 cycles </span>
-<span class="sd">    versus oscillation with 6 cycles).</span>
-
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : np.ndarray</span>
@@ -221,11 +208,9 @@
 <span class="sd">        Number of long-versions that will be created for the short vector while </span>
 <span class="sd">        comparing two data series with unequal feature vector lengths (default=50).</span>
 <span class="sd">    wSlopeError : float, optional</span>
-<span class="sd">        Weight of the error between the 1st dimensions of the two feature vectors </span>
-<span class="sd">        (i.e. Slope) (default=1).</span>
+<span class="sd">        Weight of the error between the slope dimensions ([:, 0]) of the two feature vectors (default=1).</span>
 <span class="sd">    wCurvatureError : float, optional</span>
-<span class="sd">        Weight of the error between the 2nd dimensions of the two feature vectors </span>
-<span class="sd">        (i.e. Curvature) (default=1).</span>
+<span class="sd">        Weight of the error between the curvature dimensions ([:, 1]) of the two feature vectors (default=1).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -236,19 +221,20 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">features</span> <span class="o">=</span> <span class="n">construct_features</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="p">)</span>
 
+    <span class="n">transposed_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature</span><span class="o">.</span><span class="n">T</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">]</span>
+
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">dRow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,))</span>
 
-    <span class="n">data_w_desc</span> <span class="o">=</span> <span class="p">[({</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s1">&#39;Feature vector&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">])},</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> 
-                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+    <span class="n">data_w_desc</span> <span class="o">=</span> <span class="p">[({</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s1">&#39;Feature vector&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">transposed_features</span><span class="p">[</span><span class="n">i</span><span class="p">])},</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
 
     <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="n">feature_i</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">feature_i</span> <span class="o">=</span> <span class="n">transposed_features</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-            <span class="n">feature_j</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">feature_j</span> <span class="o">=</span> <span class="n">transposed_features</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">feature_i</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">feature_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">feature_i</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">feature_j</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="n">distance</span> <span class="o">=</span> <span class="n">distance_same_length</span><span class="p">(</span><span class="n">feature_i</span><span class="p">,</span> <span class="n">feature_j</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">distance</span> <span class="o">=</span> <span class="n">distance_different_length</span><span class="p">(</span><span class="n">feature_i</span><span class="p">,</span> <span class="n">feature_j</span><span class="p">,</span> <span class="n">wSlopeError</span><span class="p">,</span> <span class="n">wCurvatureError</span><span class="p">,</span> <span class="n">sisterCount</span><span class="p">)</span>

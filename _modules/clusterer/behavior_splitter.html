@@ -70,11 +70,11 @@
              
   <h1>Source code for clusterer.behavior_splitter</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <div class="viewcode-block" id="construct_features">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.behavior_splitter.construct_features">[docs]</a>
-<span class="k">def</span> <span class="nf">construct_features</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">construct_features</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct feature vectors for time series data based on behavioral characteristics.</span>
 
 <span class="sd">    Parameters</span>
@@ -86,9 +86,10 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    np.ndarray</span>
-<span class="sd">        3D array with shape (n_series, n_sections, 2) containing slope and curvature features.</span>
-<span class="sd">        The last dimension (2) represents: [0] slope sign, [1] curvature sign.</span>
+<span class="sd">    List[np.ndarray]</span>
+<span class="sd">        A list where each element is a 2D array with shape (2, n_sections)</span>
+<span class="sd">        containing slope and curvature signs for that series. The first row is</span>
+<span class="sd">        slope sign, the second row is curvature sign. Lengths can vary by series.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -99,7 +100,7 @@
         <span class="n">feature</span> <span class="o">=</span> <span class="n">split_behavior</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">curvatures</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">significanceLevel</span><span class="p">)</span>
         <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">features</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">features</span></div>
 
 
 
