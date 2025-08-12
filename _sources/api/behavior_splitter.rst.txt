@@ -1,7 +1,0 @@
-clusterer.behavior_splitter
-=============================
-
-.. automodule:: clusterer.behavior_splitter
-   :members:
-   :show-inheritance:
-   :undoc-members:

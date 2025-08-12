@@ -1,7 +1,7 @@
-distance_scipy
-==============
+simgon.distance_scipy
+========================
 
-.. automodule:: clusterer.distance_scipy
+.. automodule:: simgon.distance_scipy
    :members:
    :undoc-members:
    :show-inheritance:

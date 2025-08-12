@@ -1,7 +1,23 @@
-clusterer.distance_pattern
+simgon.distance_pattern
 ============================
 
-.. automodule:: clusterer.distance_pattern
+.. automodule:: simgon.distance_pattern
    :members:
    :show-inheritance:
    :undoc-members:
+
+**Internal Dependencies**
+
+This module internally uses functions from :mod:`simgon.behavior_splitter` for feature extraction:
+
+* :func:`simgon.behavior_splitter.construct_features` - Constructs feature vectors for time series data based on behavioral characteristics
+* :func:`simgon.behavior_splitter.split_behavior` - Splits a time series into sections of different atomic behavior modes
+
+These functions are used to extract behavioral features (slope and curvature signs) from time series data before computing pattern distances. While end users don't directly call these functions, they can access the source code to understand how the behavioral features are extracted and processed.
+
+**Source Code Access**
+
+To view the implementation of these functions, you can:
+* Click the `[source]` link next to any function in the documentation
+* Navigate to the source files in the project repository
+* Import and inspect the modules directly in Python
