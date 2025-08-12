@@ -1,7 +1,7 @@
-clusterer.behavior_splitter
+simgon.behavior_splitter
 =============================
 
-.. automodule:: clusterer.behavior_splitter
+.. automodule:: simgon.behavior_splitter
    :members:
    :show-inheritance:
    :undoc-members:
