@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>simgon.distance_dtw &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>simgon.behavior_splitter &mdash; Time Series Clustering 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -111,7 +111,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">simgon.distance_dtw</li>
+      <li class="breadcrumb-item active">simgon.behavior_splitter</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -120,79 +120,95 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for simgon.distance_dtw</h1><div class="highlight"><pre>
+  <h1>Source code for simgon.behavior_splitter</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
 
-<div class="viewcode-block" id="distance_dtw">
-<a class="viewcode-back" href="../../api/distance_dtw.html#simgon.distance_dtw.distance_dtw">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">distance_dtw</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate pairwise Dynamic Time Warping (DTW) distances between all data sequences.</span>
-
-<span class="sd">    DTW can handle sequences of different lengths by finding optimal alignment.</span>
+<div class="viewcode-block" id="construct_features">
+<a class="viewcode-back" href="../../api/behavior_splitter.html#simgon.behavior_splitter.construct_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">construct_features</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct feature vectors for time series data based on behavioral characteristics.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data : np.ndarray</span>
-<span class="sd">        2D array of shape (n_samples, n_features) containing sequences to compare.</span>
+<span class="sd">        Input data as 2D array. Each row represents a time series.</span>
+<span class="sd">    significanceLevel : float, optional</span>
+<span class="sd">        Threshold level for determining significant changes. Default is 0.01.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    dRow : np.ndarray</span>
-<span class="sd">        Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</span>
-<span class="sd">    runLogs : List[Tuple[Dict[str, str], np.ndarray]]</span>
-<span class="sd">        List of (index_dict, sequence) tuples for tracking original data.</span>
+<span class="sd">    List[np.ndarray]</span>
+<span class="sd">        A list where each element is a 2D array with shape (2, n_sections)</span>
+<span class="sd">        containing slope and curvature signs for that series. The first row is</span>
+<span class="sd">        slope sign, the second row is curvature sign. Lengths can vary by series.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">dRow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))),</span> <span class="p">))</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">runLogs</span> <span class="o">=</span> <span class="p">[({</span><span class="s1">&#39;Index&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)},</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
+    <span class="n">slopes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">curvatures</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">slopes</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="n">dRow</span> <span class="o">=</span> <span class="n">compute_dtw_distances</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dRow</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">feature</span> <span class="o">=</span> <span class="n">split_behavior</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">slopes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">curvatures</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">significanceLevel</span><span class="p">)</span>
+        <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">runLogs</span></div>
+    <span class="k">return</span> <span class="n">features</span></div>
 
 
-<span class="nd">@njit</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">compute_dtw_distances</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">dRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute DTW distances between all pairs using Numba for performance.</span>
+
+<div class="viewcode-block" id="split_behavior">
+<a class="viewcode-back" href="../../api/behavior_splitter.html#simgon.behavior_splitter.split_behavior">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">split_behavior</span><span class="p">(</span><span class="n">data_series</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">slope</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">curvature</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">significanceLevel</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split a time series into sections of different atomic behavior modes.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data : np.ndarray</span>
-<span class="sd">        Input sequences array.</span>
-<span class="sd">    dRow : np.ndarray</span>
-<span class="sd">        Array to store distances.</span>
+<span class="sd">    data_series : np.ndarray</span>
+<span class="sd">        1D array representing a single time series.</span>
+<span class="sd">    slope : np.ndarray</span>
+<span class="sd">        1D array containing the first derivative.</span>
+<span class="sd">    curvature : np.ndarray</span>
+<span class="sd">        1D array containing the second derivative.</span>
+<span class="sd">    significanceLevel : float, optional</span>
+<span class="sd">        Threshold level for filtering out insignificant changes.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    np.ndarray</span>
-<span class="sd">        Array filled with DTW distances.</span>
+<span class="sd">        2D array with shape (2, n_sections) containing slope and curvature signs.</span>
+<span class="sd">        The first dimension (2) represents: [0] slope sign, [1] curvature sign.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>            
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
-            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
-            
-            <span class="n">sample1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">sample2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            
-            <span class="n">dtw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sample1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sample2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="n">dtw</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-            <span class="n">dtw</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-            <span class="n">dtw</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-            
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-                    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">sample1</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">sample2</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
-                    <span class="n">dtw</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">cost</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">dtw</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">l</span><span class="p">],</span> <span class="n">dtw</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtw</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">l</span><span class="p">])</span>
-            
-            <span class="n">distance</span> <span class="o">=</span> <span class="n">dtw</span><span class="p">[</span><span class="n">sample1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sample2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-            <span class="n">dRow</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance</span>
-            
-    <span class="k">return</span> <span class="n">dRow</span>
+    <span class="n">abs_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data_series</span><span class="p">)</span>
+    <span class="n">abs_slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span>
+    <span class="n">abs_curvature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">curvature</span><span class="p">)</span>
+    
+    <span class="n">data_threshold</span> <span class="o">=</span> <span class="n">abs_data</span> <span class="o">*</span> <span class="n">significanceLevel</span>
+    <span class="n">slope_threshold</span> <span class="o">=</span> <span class="n">abs_slope</span> <span class="o">*</span> <span class="n">significanceLevel</span>
+
+    <span class="n">slope</span> <span class="o">=</span> <span class="n">slope</span> <span class="o">*</span> <span class="p">(</span><span class="n">abs_slope</span> <span class="o">&gt;=</span> <span class="n">data_threshold</span><span class="p">)</span>
+    <span class="n">curvature</span> <span class="o">=</span> <span class="n">curvature</span> <span class="o">*</span> <span class="p">(</span><span class="n">abs_curvature</span> <span class="o">&gt;=</span> <span class="n">slope_threshold</span><span class="p">)</span>
+
+    <span class="n">sign_slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span>
+    <span class="n">sign_curvature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">curvature</span><span class="p">)</span>
+
+    <span class="n">sections</span> <span class="o">=</span> <span class="n">sign_slope</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">sign_curvature</span>
+
+    <span class="n">transitions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sections</span><span class="p">)</span>
+    <span class="n">transition_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">transitions</span><span class="p">)</span>
+    <span class="n">number_of_sections</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">transition_points</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">feature_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="n">number_of_sections</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">number_of_sections</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">feature_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sign_slope</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">feature_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sign_curvature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">section_starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="mi">0</span><span class="p">],</span> <span class="n">transition_points</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">feature_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sign_slope</span><span class="p">[</span><span class="n">section_starts</span><span class="p">]</span>
+        <span class="n">feature_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sign_curvature</span><span class="p">[</span><span class="n">section_starts</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">feature_vector</span></div>
+
 </pre></div>
 
            </div>

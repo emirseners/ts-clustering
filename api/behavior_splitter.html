@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>simgon.distance_scipy &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>simgon.behavior_splitter &mdash; Time Series Clustering 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -19,8 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="simgon.behavior_splitter" href="behavior_splitter.html" />
-    <link rel="prev" title="simgon.distance_pattern_dtw" href="distance_pattern_dtw.html" /> 
+    <link rel="prev" title="simgon.distance_scipy" href="distance_scipy.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -86,13 +85,13 @@
 <li class="toctree-l3"><a class="reference internal" href="distance_pattern_dtw.html#simgon.distance_pattern_dtw.dtw_distance"><code class="docutils literal notranslate"><span class="pre">dtw_distance()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">simgon.distance_scipy</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#simgon.distance_scipy.distance_scipy"><code class="docutils literal notranslate"><span class="pre">distance_scipy()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="distance_scipy.html">simgon.distance_scipy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="distance_scipy.html#simgon.distance_scipy.distance_scipy"><code class="docutils literal notranslate"><span class="pre">distance_scipy()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">simgon.behavior_splitter</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">simgon.behavior_splitter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -114,9 +113,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
-      <li class="breadcrumb-item active">simgon.distance_scipy</li>
+      <li class="breadcrumb-item active">simgon.behavior_splitter</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/distance_scipy.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/behavior_splitter.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -124,63 +123,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-simgon.distance_scipy">
-<span id="simgon-distance-scipy"></span><h1>simgon.distance_scipy<a class="headerlink" href="#module-simgon.distance_scipy" title="Link to this heading"></a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.distance_scipy.distance_scipy">
-<span class="sig-prename descclassname"><span class="pre">simgon.distance_scipy.</span></span><span class="sig-name descname"><span class="pre">distance_scipy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euclidean'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/distance_scipy.html#distance_scipy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.distance_scipy.distance_scipy" title="Link to this definition"></a></dt>
-<dd><p>Calculate pairwise distances between all data sequences using scipy’s pdist function.</p>
-<p>This function provides access to all distance metrics available in scipy.spatial.distance.pdist.
-Click metric names above for detailed documentation.</p>
+  <section id="simgon-behavior-splitter">
+<h1>simgon.behavior_splitter<a class="headerlink" href="#simgon-behavior-splitter" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module is used internally by other modules and is not part of the main public API.
+It is documented here for reference and source code access.</p>
+</div>
+<dl class="py function" id="module-simgon.behavior_splitter">
+<dt class="sig sig-object py" id="simgon.behavior_splitter.construct_features">
+<span class="sig-prename descclassname"><span class="pre">simgon.behavior_splitter.</span></span><span class="sig-name descname"><span class="pre">construct_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significanceLevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/behavior_splitter.html#construct_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.behavior_splitter.construct_features" title="Link to this definition"></a></dt>
+<dd><p>Construct feature vectors for time series data based on behavioral characteristics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>np.ndarray</em>) – 2D array of shape (n_samples, n_features) with equal-length sequences.</p></li>
-<li><p><strong>metric</strong> (<em>str</em><em>, </em><em>optional</em>) – Distance metric to use. Must be one of the metrics supported by scipy.spatial.distance.pdist.
-Default is ‘euclidean’.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – Additional parameters for specific distance metrics:
-- For ‘minkowski’: p (norm parameter, default=2)
-- For ‘mahalanobis’: VI (inverse covariance matrix)
-- For ‘seuclidean’: V (variance vector)
-- For ‘wminkowski’: w (weight vector)
-- For ‘sokalsneath’: w (weight vector)</p></li>
+<li><p><strong>data</strong> (<em>np.ndarray</em>) – Input data as 2D array. Each row represents a time series.</p></li>
+<li><p><strong>significanceLevel</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold level for determining significant changes. Default is 0.01.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]]</span></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list where each element is a 2D array with shape (2, n_sections)
+containing slope and curvature signs for that series. The first row is
+slope sign, the second row is curvature sign. Lengths can vary by series.</p>
 </dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><strong>dRow</strong> (<em>np.ndarray</em>) – Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.</p></li>
-<li><p><strong>runLogs</strong> (<em>List[Tuple[Dict[str, str], np.ndarray]]</em>) – List of (metadata_dict, sequence) tuples for tracking original data.</p></li>
-</ul>
-</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[np.ndarray]</p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<p># Basic usage with default Euclidean distance
-distances, logs = distance_scipy(data)</p>
-<p># Using Manhattan distance
-distances, logs = distance_scipy(data, metric=’cityblock’)</p>
-<p># Using Minkowski distance with p=3
-distances, logs = distance_scipy(data, metric=’minkowski’, p=3)</p>
-<p># Using cosine distance
-distances, logs = distance_scipy(data, metric=’cosine’)</p>
-<p># Using squared Euclidean (equivalent to old ‘mse’ function)
-distances, logs = distance_scipy(data, metric=’sqeuclidean’)</p>
-<p># Using triangle distance (equivalent to old ‘triangle’ function)
-distances, logs = distance_scipy(data, metric=’cosine’)
-distances = 1 - distances  # Convert to similarity</p>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="simgon.behavior_splitter.split_behavior">
+<span class="sig-prename descclassname"><span class="pre">simgon.behavior_splitter.</span></span><span class="sig-name descname"><span class="pre">split_behavior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slope</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curvature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">significanceLevel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/behavior_splitter.html#split_behavior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.behavior_splitter.split_behavior" title="Link to this definition"></a></dt>
+<dd><p>Split a time series into sections of different atomic behavior modes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_series</strong> (<em>np.ndarray</em>) – 1D array representing a single time series.</p></li>
+<li><p><strong>slope</strong> (<em>np.ndarray</em>) – 1D array containing the first derivative.</p></li>
+<li><p><strong>curvature</strong> (<em>np.ndarray</em>) – 1D array containing the second derivative.</p></li>
+<li><p><strong>significanceLevel</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold level for filtering out insignificant changes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>2D array with shape (2, n_sections) containing slope and curvature signs.
+The first dimension (2) represents: [0] slope sign, [1] curvature sign.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><strong>Usage Note</strong></p>
+<p>The functions in this module are primarily used internally by:
+* <a class="reference internal" href="distance_pattern.html#module-simgon.distance_pattern" title="simgon.distance_pattern"><code class="xref py py-mod docutils literal notranslate"><span class="pre">simgon.distance_pattern</span></code></a> - for behavioral feature extraction
+* <a class="reference internal" href="distance_pattern_dtw.html#module-simgon.distance_pattern_dtw" title="simgon.distance_pattern_dtw"><code class="xref py py-mod docutils literal notranslate"><span class="pre">simgon.distance_pattern_dtw</span></code></a> - for behavioral feature extraction with DTW</p>
+<p>End users typically don’t need to call these functions directly, but they can access the source code to understand how behavioral features are extracted and processed.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="distance_pattern_dtw.html" class="btn btn-neutral float-left" title="simgon.distance_pattern_dtw" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="behavior_splitter.html" class="btn btn-neutral float-right" title="simgon.behavior_splitter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="distance_scipy.html" class="btn btn-neutral float-left" title="simgon.distance_scipy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

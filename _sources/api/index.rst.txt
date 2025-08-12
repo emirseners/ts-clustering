@@ -76,3 +76,9 @@ For advanced usage, use ``distance='scipy'`` with additional parameters:
    distance_pattern
    distance_pattern_dtw
    distance_scipy
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Internal Modules:
+
+   behavior_splitter

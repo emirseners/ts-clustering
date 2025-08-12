@@ -90,6 +90,11 @@
 <li class="toctree-l3"><a class="reference internal" href="distance_scipy.html#simgon.distance_scipy.distance_scipy"><code class="docutils literal notranslate"><span class="pre">distance_scipy()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="behavior_splitter.html">simgon.behavior_splitter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -198,10 +203,10 @@ the two feature vectors (default=1).</p></li>
 </dd></dl>
 
 <p><strong>Internal Dependencies</strong></p>
-<p>This module internally uses functions from <code class="xref py py-mod docutils literal notranslate"><span class="pre">simgon.behavior_splitter</span></code> for feature extraction:</p>
+<p>This module internally uses functions from <a class="reference internal" href="behavior_splitter.html#module-simgon.behavior_splitter" title="simgon.behavior_splitter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">simgon.behavior_splitter</span></code></a> for feature extraction:</p>
 <ul class="simple">
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.behavior_splitter.construct_features()</span></code> - Constructs feature vectors for time series data based on behavioral characteristics</p></li>
-<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.behavior_splitter.split_behavior()</span></code> - Splits a time series into sections of different atomic behavior modes</p></li>
+<li><p><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.construct_features" title="simgon.behavior_splitter.construct_features"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.behavior_splitter.construct_features()</span></code></a> - Constructs feature vectors for time series data based on behavioral characteristics</p></li>
+<li><p><a class="reference internal" href="behavior_splitter.html#simgon.behavior_splitter.split_behavior" title="simgon.behavior_splitter.split_behavior"><code class="xref py py-func docutils literal notranslate"><span class="pre">simgon.behavior_splitter.split_behavior()</span></code></a> - Splits a time series into sections of different atomic behavior modes</p></li>
 </ul>
 <p>These functions are used to extract behavioral features (slope and curvature signs) from time series data before computing pattern DTW distances. While end users don’t directly call these functions, they can access the source code to understand how the behavioral features are extracted and processed.</p>
 <p><strong>Source Code Access</strong></p>

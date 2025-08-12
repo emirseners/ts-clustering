@@ -1,0 +1,19 @@
+simgon.behavior_splitter
+============================
+
+.. note::
+   This module is used internally by other modules and is not part of the main public API.
+   It is documented here for reference and source code access.
+
+.. automodule:: simgon.behavior_splitter
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+**Usage Note**
+
+The functions in this module are primarily used internally by:
+* :mod:`simgon.distance_pattern` - for behavioral feature extraction
+* :mod:`simgon.distance_pattern_dtw` - for behavioral feature extraction with DTW
+
+End users typically don't need to call these functions directly, but they can access the source code to understand how behavioral features are extracted and processed.
