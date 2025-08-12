@@ -1,95 +1,165 @@
-'''
+"""
 Pattern-oriented behavior clustering module.
 
 This module provides methods for importing, pre-processing, clustering, and
-post-processing of bundles of time-series data (e.g., from a sensitivity
-analysis).
-'''
+post-processing of bundles of time-series data.
+"""
 
-import matplotlib.pyplot as plt
 import numpy as np
-import math
 from scipy.spatial.distance import squareform
-from scipy.cluster.hierarchy import fcluster, linkage, dendrogram
+from scipy.cluster.hierarchy import fcluster, linkage
 import os
 import pandas as pd
+from typing import List, Tuple, Dict, Any, Union, Callable
 from .distance_pattern import distance_pattern
 from .distance_pattern_dtw import distance_pattern_dtw
-from .distance_mse import distance_mse
-from .distance_sse import distance_sse
+from .distance_scipy import distance_scipy
 from .distance_dtw import distance_dtw
-from .distance_manhattan import distance_manhattan
+from .plotting import plot_clusters, plot_dendrogram
 import pysd
 import itertools
 
-distance_functions = {'pattern': distance_pattern, 'pattern_dtw': distance_pattern_dtw,'mse': distance_mse, 'sse': distance_sse, 'dtw': distance_dtw, 'manhattan': distance_manhattan}
+distance_functions: Dict[str, Callable] = {
+    'pattern': distance_pattern, 
+    'pattern_dtw': distance_pattern_dtw,
+    'dtw': distance_dtw,
+    'scipy': distance_scipy,
+    'euclidean': lambda data, **kwargs: distance_scipy(data, metric='euclidean', **kwargs),
+    'manhattan': lambda data, **kwargs: distance_scipy(data, metric='cityblock', **kwargs),
+    'cityblock': lambda data, **kwargs: distance_scipy(data, metric='cityblock', **kwargs),
+    'mse': lambda data, **kwargs: distance_scipy(data, metric='sqeuclidean', **kwargs),
+    'sse': lambda data, **kwargs: distance_scipy(data, metric='sqeuclidean', **kwargs),
+    'triangle': lambda data, **kwargs: distance_scipy(data, metric='cosine', **kwargs),
+    'cosine': lambda data, **kwargs: distance_scipy(data, metric='cosine', **kwargs),
+    'correlation': lambda data, **kwargs: distance_scipy(data, metric='correlation', **kwargs),
+    'chebyshev': lambda data, **kwargs: distance_scipy(data, metric='chebyshev', **kwargs),
+    'canberra': lambda data, **kwargs: distance_scipy(data, metric='canberra', **kwargs),
+    'braycurtis': lambda data, **kwargs: distance_scipy(data, metric='braycurtis', **kwargs),
+    'hamming': lambda data, **kwargs: distance_scipy(data, metric='hamming', **kwargs),
+    'jaccard': lambda data, **kwargs: distance_scipy(data, metric='jaccard', **kwargs),
+    'minkowski': lambda data, **kwargs: distance_scipy(data, metric='minkowski', **kwargs),
+    'mahalanobis': lambda data, **kwargs: distance_scipy(data, metric='mahalanobis', **kwargs),
+    'seuclidean': lambda data, **kwargs: distance_scipy(data, metric='seuclidean', **kwargs)
+}
 
-def import_data(inputFileName, withClusters = False):
-    '''
-    Method that imports dataseries to be analyzed from .xlsx files. Unless specified otherwise, looks for the file in the datasets folder of the project. Optionally it can also read the original clusters of the dataseries. For that, the input file should contain a sheet names *clusters*, and the order of the dataseries in this sheet should be identical to the sorting in the data sheet
+def import_data(file_path: str, withClusters: bool = False) -> Union[List[Tuple[str, np.ndarray]], Tuple[List[Tuple[str, np.ndarray]], List[str]]]:
+    """
+    Import time series data from .xlsx or .csv files.
 
-    :param inputFileName: The name of the .xlsx file that contains the dataset
-    :param withClusters: If True, checks the sheet names *clusters* and returns also the original clusters/classess of dataseries
-    :returns: Two lists. The first one contains 2D lists, each corresponding to a single dataseries. The first entry is a string that keeps the label of the sample, and the second entry is a numpy array that keeps the data. The second list is optional, and returns when *withClusters* is True. It contains the original clusters of the input data  
-    :rtype: List (3D)
-    '''
-    possible_paths = ['datasets', '../datasets']
-    file_path = None
+    The data file must have the following structure:
     
-    for relPathFileFolder in possible_paths:
-        test_path = relPathFileFolder+'/'+inputFileName+'.xlsx'
-        if os.path.exists(test_path):
-            file_path = test_path
-            break
+    **For Excel files (.xlsx):**
+    - Sheet 'data': Column A contains labels/names for each time series, Column B onwards contains time series data values
+    - Sheet 'clusters' (optional, only if withClusters=True): Column A contains cluster labels
     
-    if file_path is None:
-        raise FileNotFoundError(f"Could not find {inputFileName}.xlsx")
+    **For CSV files (.csv):**
+    - Column A: Labels/names for each time series (e.g., "Run 1", "Scenario A", "Parameter Set 1")
+    - Column B onwards: Time series data values
+    - Row 1: First time series (label in A1, data values in B1, C1, D1, ...)
+    - Row 2: Second time series (label in A2, data values in B2, C2, D2, ...)
+    - And so on...
     
-    # Read the data sheet using pandas
-    df_data = pd.read_excel(file_path, sheet_name='data')
+    Note: CSV files do not support multiple sheets, so cluster information cannot be imported
+    when reading from CSV files (withClusters parameter will be ignored).
+    
+    Example data structure:
+    ```
+    | Label    | Time 1 | Time 2 | Time 3 | ... |
+    |----------|--------|--------|--------|-----|
+    | Run 1    | 10.5   | 12.3   | 15.7   | ... |
+    | Run 2    | 11.2   | 13.1   | 16.2   | ... |
+    | Run 3    | 9.8    | 11.9   | 14.5   | ... |
+    ```
+
+    Parameters
+    ----------
+    file_path : str
+        Path to the .xlsx or .csv file (can be relative or absolute path).
+    withClusters : bool, optional
+        If True, also reads cluster information from 'clusters' sheet (default=False).
+        Note: This parameter is ignored for CSV files as they don't support multiple sheets.
+
+    Returns
+    -------
+    Union[List[Tuple[str, np.ndarray]], Tuple[List[Tuple[str, np.ndarray]], List[str]]]
+        List of (label, data_array) tuples, or (data_list, clusters_list) if withClusters=True and reading from Excel.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the specified file cannot be found.
+    ValueError
+        If the file doesn't have .xlsx or .csv extension.
+    """
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Could not find file: {file_path}")
+    
+    file_extension = os.path.splitext(file_path)[1].lower()
+    
+    if file_extension not in ['.xlsx', '.csv']:
+        raise ValueError("File must have .xlsx or .csv extension")
+
+    # Read data based on file type
+    if file_extension == '.xlsx':
+        df_data = pd.read_excel(file_path, sheet_name='data')
+    else:  # .csv
+        df_data = pd.read_csv(file_path)
+        # For CSV files, ignore withClusters parameter as they don't support multiple sheets
+        if withClusters:
+            print("Warning: CSV files do not support multiple sheets. Cluster information cannot be imported.")
+            withClusters = False
+    
     noRuns = len(df_data)
     
-    #dataSet is a 3D list. Each entry is a 2D list object. First dimension is a string that keeps the label of the data series, and the second dimension is a numpy array that keeps the actual data
+    # dataSet is a 3D list. Each entry is a 2D list object. 
+    # First dimension is a string that keeps the label of the data series, 
+    # and the second dimension is a numpy array that keeps the actual data
     all_rows = df_data.values.tolist()
     
-    # Vectorized separation of labels and data
     labels = [row[0] for row in all_rows]
     data_arrays = [np.array(row[1:]) for row in all_rows]
     
     data_w_desc = list(zip(labels, data_arrays))
     
-    if withClusters:
+    if withClusters and file_extension == '.xlsx':
         try:
             df_clusters = pd.read_excel(file_path, sheet_name='clusters')
             clusters_original = df_clusters.iloc[:, 0].tolist()
-        except:
+        except (FileNotFoundError, KeyError, ValueError):
             clusters_original = ['NA'] * noRuns
         return data_w_desc, clusters_original 
     else:
         return data_w_desc
 
-def import_from_pysd(model_name, parameter_set, output_variable, models_folder='vensim models'):
-    """
-    Import a model from pysd and run it with a given parameter set.
-    :param model_name: The name of the model to import
-    :param parameter_set: A dictionary of parameters, where keys are the parameter names and values are the parameter values or a list of parameter values
-    :param output_variable: The name of the output variable to extract from simulation results
-    :param models_folder: The folder containing the Vensim models (default: 'models')
-    :return: A list of tuples in the same format as import_data: [(description, time_series_data), ...]
-    """
-    possible_paths = [models_folder, '../' + models_folder, 'vensim_models', '../vensim_models']
-    model_path = None
-    
-    for rel_path in possible_paths:
-        test_path = os.path.join(rel_path, model_name + '.mdl')
-        if os.path.exists(test_path):
-            model_path = test_path
-            break
 
-    if model_path is None:
-        model_path = model_name + '.mdl'
-        if not os.path.exists(model_path):
-            raise FileNotFoundError(f"Could not find {model_name}.mdl.")
+def import_from_pysd(model_path: str, parameter_set: Dict[str, Union[float, List[float]]], output_variable: str) -> List[Tuple[str, np.ndarray]]:
+    """
+    Import and run Vensim models with parameter sets.
+
+    Parameters
+    ----------
+    model_path : str
+        Path to the .mdl file (can be relative or absolute path).
+    parameter_set : Dict[str, Union[float, List[float]]]
+        Dict of parameters and values to test.
+    output_variable : str
+        Output variable to extract.
+
+    Returns
+    -------
+    List[Tuple[str, np.ndarray]]
+        List of (description, time_series_data) tuples.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the .mdl file cannot be found.
+    """
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"Could not find model file: {model_path}")
+    
+    if not model_path.endswith('.mdl'):
+        raise ValueError("Model file must have .mdl extension")
 
     sd_model = pysd.read_vensim(model_path)
     param_names = list(parameter_set.keys())
@@ -104,64 +174,83 @@ def import_from_pysd(model_name, parameter_set, output_variable, models_folder='
 
     param_combinations = list(itertools.product(*param_values))
     
-    results = []
+    data_w_desc = []
 
     for combination in param_combinations:
         current_params = dict(zip(param_names, combination))
         simulation_results = sd_model.run(params=current_params)
         time_series_data = simulation_results[output_variable].values
         description = ', '.join([f"{name}={value}" for name, value in current_params.items()])
-        results.append((description, time_series_data))
+        data_w_desc.append((description, time_series_data))
     
-    return results
+    return data_w_desc
 
 
-def cluster(data_w_labels,  distance='pattern_dtw', interClusterDistance='complete',
-            cMethod='inconsistent', cValue=1.5, plotDendrogram=False, **kwargs):
-    '''
-    Method that clusters time-series data based on the specified distance measure using a hierarchical clustering algorithm. Optionally the method also plots the dendrogram generated by the clustering algorithm
-    
-    :param data: A list of lists. Each entry of the master list corresponds to a dataseries. The second order lists have two entries: The first entry is the label of the dataseries, and the second entry is a numpy array that keeps the data
-    :param str distance: The distance metric to be used. Default value is *'pattern'*
-    :param str interClusterDistance: How to calculate inter cluster distance.
-                                 see `linkage <http://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage>`_ 
-                                 for details. Default value is *'inconsistent'*
-    :param cMethod: Cutoff method, 
-                    see `fcluster <http://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster>`_ 
-                    for details.
-    :param cValue: Cutoff value, see 
-                   `fcluster <http://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster>`_ 
-                   for details.
-    :param plotDendogram: Boolean, if true, plot dendogram.
-    :returns: A tuple containing the list of distances (i.e. dRow), the list of Cluster objects (i.e. clusterList : for each cluster a Cluster object that contains basic info about the cluster), 
-            and a list that gives the index of the cluster each data series is allocated (i.e. clusters).     
-    :rtype: Tuple
-    
-    The remainder of the arguments are passed on to the specified distance 
-    function.
-    
-    Pattern Distance:
-    
-    * 'distance': String that specifies the distance to be used. 
-                  Options: pattern (default), mse, sse, triangle
-    * 'filter?': Boolean that specifies whether the data series will be 
-                 filtered (for bmd distance)
-    * 'slope filter': A float number that specifies the filtering threshold 
-                     for the slope (for every data point if change__in_the_
-                     outcome/average_value_of_the_outcome < threshold, 
-                     consider slope = 0) (for bmd distance)
-    * 'curvature filter': A float number that specifies the filtering 
-                          threshold for the curvature (for every data point if 
-                          change__in_the_slope/average_value_of_the_slope < 
-                          threshold, consider curvature = 0) (for bmd distance)
-    * 'no of sisters': 50 (for pattern distance)
-    '''
+def cluster(data_w_labels: List[Tuple[str, np.ndarray]], distance: str = 'pattern_dtw', 
+            interClusterDistance: str = 'complete', cMethod: str = 'inconsistent', 
+            cValue: float = 1.5, plotDendrogram: bool = False, **kwargs) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
+    """
+    Cluster time series data using hierarchical clustering.
+
+    Parameters
+    ----------
+    data_w_labels : List[Tuple[str, np.ndarray]]
+        List of (label, data_array) tuples.
+    distance : str, optional
+        Distance metric to use for clustering. Available options include:
+        
+        **Pattern-based distances:**
+        - 'pattern': Pattern distance using behavioral features
+        - 'pattern_dtw': Pattern distance with Dynamic Time Warping
+        
+        **Traditional distances (via scipy):**
+        - 'euclidean': Standard Euclidean distance (default for scipy)
+        - 'manhattan' or 'cityblock': Manhattan/L1 distance
+        - 'mse' or 'sse': Mean/Squared Euclidean distance
+        - 'cosine': Cosine distance
+        - 'correlation': Correlation distance
+        - 'chebyshev': Chebyshev distance
+        - 'canberra': Canberra distance
+        - 'braycurtis': Bray-Curtis distance
+        - 'hamming': Hamming distance
+        - 'jaccard': Jaccard distance
+        - 'minkowski': Minkowski distance (use p parameter)
+        - 'mahalanobis': Mahalanobis distance (use VI parameter)
+        - 'seuclidean': Standardized Euclidean distance (use V parameter)
+        
+        **Custom scipy metric:**
+        - 'scipy': Use any scipy.spatial.distance.pdist metric with custom parameters
+        
+        Default is 'pattern_dtw'.
+    interClusterDistance : str, optional
+        Linkage method ('complete', 'single', 'average', 'ward') (default='complete').
+    cMethod : str, optional
+        Cutoff method ('inconsistent', 'distance', 'maxclust', 'monocrit') (default='inconsistent').
+    cValue : float, optional
+        Cutoff value for clustering criterion (default=1.5).
+    plotDendrogram : bool, optional
+        If True, displays dendrogram (default=False).
+    **kwargs : dict
+        Additional distance function parameters.
+
+    Returns
+    -------
+    Tuple[np.ndarray, List['Cluster'], np.ndarray]
+        Tuple of (distances, cluster_list, cluster_assignments).
+    """
     # Construct a list that includes only the data part. Gets rid of the label string in dataSet[i][0]
     data_wo_labels = [item[1] for item in data_w_labels]
     
+    # Convert list of arrays to 2D numpy array for distance functions
+    data_wo_labels_array = np.array(data_wo_labels)
+    
     # Construct a list with distances. This list is the upper triangle
     # of the distance matrix
-    dRow, data_w_desc = construct_distances(data_wo_labels, distance, **kwargs)
+    try:
+        dRow, data_w_desc = distance_functions[distance](data_wo_labels_array, **kwargs)
+    except KeyError:
+        print(f'Unknown distance "{distance}" is used.')
+        raise ValueError(f'Unknown distance: {distance}')
 
     # Allocate individual runs into clusters using hierarchical agglomerative 
     # clustering. clusterSetup is a dictionary that customizes the clustering 
@@ -174,17 +263,25 @@ def cluster(data_w_labels,  distance='pattern_dtw', interClusterDistance='comple
     return dRow, clusterList, clusters
 
 
-def create_cluster_list(clusters, distRow, data_w_desc):
-    '''  
-    Given the results of a clustering, the method creates Cluster objects for each of the identified clusters. Each cluster object contains member data series, as well as a sample/representative dataseries
-    
-    :param clusters: A list that contains the cluster number of the corresponding dataseries in the dataset(If the clusters[5] is 12, data[5] belongs to cluster 12 
-    :param distRow: The row of distances coming from the distance function
-    :param data_w_desc: The list that contains the raw data as well as the descriptor dictionary for each data series 
-    
-    :returns: A list of Cluster objects
-    :rtype: List
-    '''
+def create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, 
+                       data_w_desc: List[Dict[str, Any]]) -> List['Cluster']:
+    """
+    Create Cluster objects from clustering results.
+
+    Parameters
+    ----------
+    clusters : np.ndarray
+        Array of cluster assignments.
+    distRow : np.ndarray
+        Condensed distance matrix.
+    data_w_desc : List[Dict[str, Any]]
+        List of data descriptors.
+
+    Returns
+    -------
+    List['Cluster']
+        List of Cluster objects.
+    """
     
     nr_clusters = np.max(clusters)
     cluster_list = []
@@ -232,114 +329,65 @@ def create_cluster_list(clusters, distRow, data_w_desc):
     return cluster_list
 
 
-def construct_distances(data_wo_labels, distance='pattern', **kwargs):
-    """ 
-    Constructs a row vector of distances (a condensed version of a n-by-n matrix of distances) for n data-series in data 
-    according to the specified distance.
-    
-    Distance argument specifies the distance measure to be used. Options are as follows;
-        * pattern: a distance based on qualitative dynamic pattern features 
-        * sse: regular sum of squared errors
-        * mse: regular mean squared error
-        * triangle: triangular distance 
-        * dtw: Dynamic time warping distance
-    
-    :param data: The list of dataseries to be clustered. Each entry is a numpy array that stores the data for a timeseries. 
-    :param distance: The distance type to be used in calculating the pairwise distances. Default is *'pattern'* 
-    :returns: A row vector of distances, and a list that stores the original data with distance-relevant dataseries descriptor 
-    :rtype: Tuple (2 lists)
+def flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]], 
+                interClusterDistance: str = 'complete', plotDendrogram: bool = True, 
+                cMethod: str = 'inconsistent', cValue: float = 2.5) -> Tuple[np.ndarray, List[Tuple[Dict[str, Any], np.ndarray]]]:
     """
-    # Sets up the distance function according to user specification
-    try:
-        return distance_functions[distance](data_wo_labels, **kwargs)
-    except KeyError:
-        print(f'Unknown distance "{distance}" is used.')
-        raise ValueError(f'Unknown distance: {distance}')
+    Perform flat clustering using hierarchical clustering.
 
+    Parameters
+    ----------
+    dRow : np.ndarray
+        Condensed distance matrix.
+    data : List[Tuple[Dict[str, Any], np.ndarray]]
+        List of (metadata_dict, data_array) tuples.
+    interClusterDistance : str, optional
+        Linkage method (default='complete').
+    plotDendrogram : bool, optional
+        If True, displays dendrogram (default=True).
+    cMethod : str, optional
+        Clustering criterion (default='inconsistent').
+    cValue : float, optional
+        Threshold value (default=2.5).
 
-def flatcluster(dRow, data, interClusterDistance='complete', plotDendrogram=True, cMethod='inconsistent', cValue=2.5):
+    Returns
+    -------
+    Tuple[np.ndarray, List[Tuple[Dict[str, Any], np.ndarray]]]
+        Tuple of (clusters, updated_data).
+    """
     z = linkage(dRow, method=interClusterDistance)
-    
+
     if plotDendrogram:
-        plotdendrogram(z)
+        plot_dendrogram(z)
     
     clusters = fcluster(z, t=cValue, criterion=cMethod)
-        
-    # Debug information to show clustering results
-    # unique_clusters, cluster_counts = np.unique(clusters, return_counts=True)
-    # print('Total number of clusters:', noClusters)
-    # print('Clustering method:', cMethod, 'with value:', cValue)
-    # for cluster_id, count in zip(unique_clusters, cluster_counts):
-    #     print(f"Cluster {cluster_id}: {count} members")
-    
+
     cluster_strings = [str(cluster_id) for cluster_id in clusters]
-    for i, log in enumerate(data):
-        log[0]['Cluster'] = cluster_strings[i]
+    for i, (metadata, _) in enumerate(data):
+        metadata['Cluster'] = cluster_strings[i]
     
     return clusters, data
 
 
-def plotdendrogram(z):
-    dendrogram(z, truncate_mode='lastp', show_leaf_counts=True, show_contracted=True)
-    plt.show()
+class Cluster:
+    """
+    Container for clustering results.
 
+    Attributes
+    ----------
+    no : int
+        Cluster number/index.
+    indices : np.ndarray
+        Original indices of cluster members.
+    sample : Tuple[str, np.ndarray]
+        Representative data series.
+    members : List[Tuple[str, np.ndarray]]
+        List of all cluster members.
+    size : int
+        Number of members in cluster.
+    """
 
-def plot_clusters(cluster_list, dist, mode='show',fname='results'):
-    '''
-    Takes a list of Cluster objects as an input. Plots the members of each cluster on a seperate plot
-    
-    :param clusterList: deneme
-    :param dataset:
-    :param groupPlot:
-    :param mode: default is show, use save to save the figure in png format
-    :param fname: if mode=save option is used this is used as the filename, type without extension
-    :rtype: Matplotlib graph
-    '''
-    main_fig = plt.figure(figsize=(14,10))
-    #main_fig.suptitle('deneme')
-    main_fig.canvas.manager.set_window_title(dist + ' distance')
-    no_plots = len(cluster_list)
-    no_cols = 4
-    no_rows = int(math.ceil(float(no_plots) / no_cols))
-    i = 1
-    
-    for clust in cluster_list:
-        sub_plot = main_fig.add_subplot(no_rows, no_cols, i)
-        i = i + 1
-               
-        #=======================================================================
-        # # For plotting only the sample of each cluster 
-        # t = np.array(range(clust.sample[1].shape[0]))
-        # sub_plot.plot(t, clust.sample[1], linewidth=2)
-        #=======================================================================
-         
-        for j in clust.members:
-            t = np.arange(j[1].shape[0])
-            sub_plot.plot(t, j[1], linewidth=2)
-        
-        plt.title('Cluster no: ' + str(clust.no), weight='bold')
-        #plt.ylim(0, 100)
-    plt.tight_layout()
-    if mode=='show':
-        plt.show()
-    elif mode=='save':
-        plt.savefig('{0}.png'.format(fname))
-
-
-class Cluster(object):
-    '''
-    Cluster container for time-series results.
-
-    Basic attributes of a cluster object are as follows:
-
-    - no: Cluster number/index
-    - indices: Original indices of the dataseries that are in the cluster
-    - sample: Original index of the dataseries that is the representative of the cluster (i.e., median element)
-    - members: Members of the cluster
-    - size: Number of elements (i.e., dataseries) in the cluster
-    '''
-
-    def __init__(self, cluster_no, all_ds_indices, sample_ds, member_dss):
+    def __init__(self, cluster_no: int, all_ds_indices: np.ndarray, sample_ds: Tuple[str, np.ndarray], member_dss: List[Tuple[str, np.ndarray]]):
         self.no = cluster_no
         self.indices = all_ds_indices
         self.sample = sample_ds
@@ -349,10 +397,6 @@ class Cluster(object):
 
 if __name__ == '__main__':
     inputFileName = 'TestSet_wo_Osc'
-
-    #experiment_controller(inputFileName, distanceMethod='pattern_dtw', flatMethod='complete',
-    #       transform='normalize', cMethod='maxclust', note="wSLope=6", cValue=9, replicate=1)
-
     data_set = import_data(inputFileName)
 
     #results = cluster(data_set, distance='manhattan')
@@ -364,7 +408,3 @@ if __name__ == '__main__':
     print('Clusters:', results[2])
 
     plot_clusters(results[1], 'pattern', mode='show')
-
-    #vensim_result_data = import_from_pysd(model_name = 'constantflow', parameter_set = {'constant flow value':[5, 10, 20]}, output_variable = 'OI')
-    #vensim_result = cluster(vensim_result_data, cValue=2, cMethod='maxclust')
-    #print('Vensim result:', vensim_result) Returns 1, 1, 1

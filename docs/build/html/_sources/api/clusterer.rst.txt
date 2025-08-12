@@ -1,7 +1,7 @@
 clusterer
 =================
 
-clusterer.behavior\_splitter
+clusterer.behavior_splitter
 -----------------------------------
 
 .. automodule:: clusterer.behavior_splitter
@@ -17,7 +17,7 @@ clusterer.clusterer
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_dtw
+clusterer.distance_dtw
 ------------------------------
 
 .. automodule:: clusterer.distance_dtw
@@ -25,23 +25,7 @@ clusterer.distance\_dtw
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_manhattan
-------------------------------------
-
-.. automodule:: clusterer.distance_manhattan
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-clusterer.distance\_mse
-------------------------------
-
-.. automodule:: clusterer.distance_mse
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-clusterer.distance\_pattern
+clusterer.distance_pattern
 ----------------------------------
 
 .. automodule:: clusterer.distance_pattern
@@ -49,7 +33,7 @@ clusterer.distance\_pattern
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_pattern\_dtw
+clusterer.distance_pattern_dtw
 ---------------------------------------
 
 .. automodule:: clusterer.distance_pattern_dtw
@@ -57,18 +41,10 @@ clusterer.distance\_pattern\_dtw
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance\_sse
+clusterer.distance_scipy
 ------------------------------
 
-.. automodule:: clusterer.distance_sse
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-clusterer.distance\_triangle
------------------------------------
-
-.. automodule:: clusterer.distance_triangle
+.. automodule:: clusterer.distance_scipy
    :members:
    :show-inheritance:
    :undoc-members:
