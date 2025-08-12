@@ -1,0 +1,7 @@
+clusterer.distance_dtw
+=======================
+
+.. automodule:: clusterer.distance_dtw
+   :members:
+   :show-inheritance:
+   :undoc-members:

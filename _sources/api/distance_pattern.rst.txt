@@ -1,0 +1,7 @@
+clusterer.distance_pattern
+============================
+
+.. automodule:: clusterer.distance_pattern
+   :members:
+   :show-inheritance:
+   :undoc-members:

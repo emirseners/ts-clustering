@@ -1,0 +1,7 @@
+distance_scipy
+==============
+
+.. automodule:: clusterer.distance_scipy
+   :members:
+   :undoc-members:
+   :show-inheritance:

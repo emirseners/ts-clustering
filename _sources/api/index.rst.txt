@@ -1,0 +1,80 @@
+API Reference
+=============
+
+Welcome to the API Reference section. Here you'll find detailed documentation for all modules and functions in the Time Series Clustering library.
+
+**Available Modules:**
+
+* :doc:`clusterer.behavior_splitter <behavior_splitter>` - Behavioral feature extraction and splitting
+* :doc:`clusterer.clusterer <clusterer>` - Main clustering functionality
+* :doc:`clusterer.distance_dtw <distance_dtw>` - Dynamic Time Warping distance calculations
+* :doc:`clusterer.distance_pattern <distance_pattern>` - Pattern-based distance metrics
+* :doc:`clusterer.distance_pattern_dtw <distance_pattern_dtw>` - Pattern-based DTW distance metrics
+
+**Distance Metrics Reference**
+
+The following distance metrics are available through the ``distance='scipy'`` parameter in the :func:`clusterer.clusterer.cluster` function:
+
+**Pattern-based distances:**
+* :func:`clusterer.distance_pattern.distance_pattern` - Pattern distance using behavioral features
+* :func:`clusterer.distance_pattern_dtw.distance_pattern_dtw` - Pattern distance with Dynamic Time Warping
+* :func:`clusterer.distance_dtw.distance_dtw` - Dynamic Time Warping distance
+
+**Scipy distance metrics:**
+* :func:`clusterer.distance_scipy.distance_scipy` - Access to all scipy.spatial.distance.pdist metrics
+
+**Note:** The `distance_scipy` module is designed to be used internally through the :func:`clusterer.clusterer.cluster` function. Users typically don't need to import or use it directly. Instead, use `distance='scipy'` with additional parameters in the cluster function.
+
+For detailed information about scipy distance metrics, see the `scipy documentation <https://docs.scipy.org/doc/scipy/reference/spatial.distance.html>`_.
+
+**Available Scipy Metrics:**
+
+The following metrics are directly available as string parameters in the cluster function:
+
+* **'euclidean'** - Euclidean distance (L2 norm)
+* **'manhattan'** / **'cityblock'** - Manhattan distance (L1 norm)
+* **'mse'** / **'sse'** / **'sqeuclidean'** - Squared Euclidean distance
+* **'triangle'** / **'cosine'** - Cosine distance
+* **'correlation'** - Correlation distance
+* **'chebyshev'** - Chebyshev distance (L∞ norm)
+* **'canberra'** - Canberra distance
+* **'braycurtis'** - Bray-Curtis distance
+* **'hamming'** - Hamming distance
+* **'jaccard'** - Jaccard distance
+* **'minkowski'** - Minkowski distance (with p parameter)
+* **'mahalanobis'** - Mahalanobis distance
+* **'seuclidean'** - Standardized Euclidean distance
+* **'dice'** - Dice distance
+* **'jensenshannon'** - Jensen-Shannon distance
+* **'kulczynski1'** - Kulczynski 1 distance
+* **'rogerstanimoto'** - Rogers-Tanimoto distance
+* **'russellrao'** - Russell-Rao distance
+* **'sokalmichener'** - Sokal-Michener distance
+* **'sokalsneath'** - Sokal-Sneath distance
+* **'yule'** - Yule distance
+
+**Custom Scipy Metrics:**
+
+For advanced usage, use ``distance='scipy'`` with additional parameters:
+
+.. code-block:: python
+
+    # Minkowski distance with p=3
+    cluster(data, distance='scipy', metric='minkowski', p=3)
+    
+    # Mahalanobis distance with custom covariance matrix
+    cluster(data, distance='scipy', metric='mahalanobis', VI=cov_matrix)
+    
+    # Any other scipy metric with custom parameters
+    cluster(data, distance='scipy', metric='your_metric', **kwargs)
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Modules:
+
+   behavior_splitter
+   clusterer
+   distance_dtw
+   distance_pattern
+   distance_pattern_dtw
+   distance_scipy

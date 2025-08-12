@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>clusterer.clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
   
@@ -41,7 +41,59 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/clusterer.html">clusterer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#installing-via-pip">Installing via pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#installing-with-conda">Installing with conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#required-dependencies">Required Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#optional-dependencies">Optional Dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/behavior_splitter.html">clusterer.behavior_splitter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/behavior_splitter.html#clusterer.behavior_splitter.construct_features"><code class="docutils literal notranslate"><span class="pre">construct_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/behavior_splitter.html#clusterer.behavior_splitter.split_behavior"><code class="docutils literal notranslate"><span class="pre">split_behavior()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/clusterer.html">clusterer.clusterer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.Cluster"><code class="docutils literal notranslate"><span class="pre">Cluster</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.Cluster.no"><code class="docutils literal notranslate"><span class="pre">Cluster.no</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.Cluster.indices"><code class="docutils literal notranslate"><span class="pre">Cluster.indices</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.Cluster.sample"><code class="docutils literal notranslate"><span class="pre">Cluster.sample</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.Cluster.members"><code class="docutils literal notranslate"><span class="pre">Cluster.members</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.Cluster.size"><code class="docutils literal notranslate"><span class="pre">Cluster.size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.cluster"><code class="docutils literal notranslate"><span class="pre">cluster()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.create_cluster_list"><code class="docutils literal notranslate"><span class="pre">create_cluster_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.flatcluster"><code class="docutils literal notranslate"><span class="pre">flatcluster()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.import_data"><code class="docutils literal notranslate"><span class="pre">import_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/clusterer.html#clusterer.clusterer.import_from_pysd"><code class="docutils literal notranslate"><span class="pre">import_from_pysd()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/distance_dtw.html">clusterer.distance_dtw</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_dtw.html#clusterer.distance_dtw.compute_dtw_distances"><code class="docutils literal notranslate"><span class="pre">compute_dtw_distances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_dtw.html#clusterer.distance_dtw.distance_dtw"><code class="docutils literal notranslate"><span class="pre">distance_dtw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/distance_pattern.html">clusterer.distance_pattern</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_pattern.html#clusterer.distance_pattern.create_sisters"><code class="docutils literal notranslate"><span class="pre">create_sisters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_pattern.html#clusterer.distance_pattern.distance_different_length"><code class="docutils literal notranslate"><span class="pre">distance_different_length()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_pattern.html#clusterer.distance_pattern.distance_pattern"><code class="docutils literal notranslate"><span class="pre">distance_pattern()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_pattern.html#clusterer.distance_pattern.distance_same_length"><code class="docutils literal notranslate"><span class="pre">distance_same_length()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/distance_pattern_dtw.html">clusterer.distance_pattern_dtw</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_pattern_dtw.html#clusterer.distance_pattern_dtw.compute_pattern_dtw_distances"><code class="docutils literal notranslate"><span class="pre">compute_pattern_dtw_distances()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_pattern_dtw.html#clusterer.distance_pattern_dtw.distance_pattern_dtw"><code class="docutils literal notranslate"><span class="pre">distance_pattern_dtw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_pattern_dtw.html#clusterer.distance_pattern_dtw.dtw_distance"><code class="docutils literal notranslate"><span class="pre">dtw_distance()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/distance_scipy.html">distance_scipy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/distance_scipy.html#clusterer.distance_scipy.distance_scipy"><code class="docutils literal notranslate"><span class="pre">distance_scipy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -76,19 +128,19 @@
 <span class="sd">post-processing of bundles of time-series data.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">squareform</span>
-<span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">fcluster</span><span class="p">,</span> <span class="n">linkage</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">.distance_pattern</span> <span class="kn">import</span> <span class="n">distance_pattern</span>
-<span class="kn">from</span> <span class="nn">.distance_pattern_dtw</span> <span class="kn">import</span> <span class="n">distance_pattern_dtw</span>
-<span class="kn">from</span> <span class="nn">.distance_scipy</span> <span class="kn">import</span> <span class="n">distance_scipy</span>
-<span class="kn">from</span> <span class="nn">.distance_dtw</span> <span class="kn">import</span> <span class="n">distance_dtw</span>
-<span class="kn">from</span> <span class="nn">.plotting</span> <span class="kn">import</span> <span class="n">plot_clusters</span><span class="p">,</span> <span class="n">plot_dendrogram</span>
-<span class="kn">import</span> <span class="nn">pysd</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">squareform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.cluster.hierarchy</span><span class="w"> </span><span class="kn">import</span> <span class="n">fcluster</span><span class="p">,</span> <span class="n">linkage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_pattern</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_pattern</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_pattern_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_pattern_dtw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_scipy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.distance_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance_dtw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_clusters</span><span class="p">,</span> <span class="n">plot_dendrogram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pysd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
 <span class="n">distance_functions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="n">distance_pattern</span><span class="p">,</span> 
@@ -110,12 +162,21 @@
     <span class="s1">&#39;jaccard&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;jaccard&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
     <span class="s1">&#39;minkowski&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;minkowski&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
     <span class="s1">&#39;mahalanobis&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;mahalanobis&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
-    <span class="s1">&#39;seuclidean&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;seuclidean&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="s1">&#39;seuclidean&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;seuclidean&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;dice&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;dice&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;jensenshannon&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;jensenshannon&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;kulczynski1&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;kulczynski1&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;rogerstanimoto&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;rogerstanimoto&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;russellrao&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;russellrao&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;sokalmichener&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;sokalmichener&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;sokalsneath&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;sokalsneath&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;sqeuclidean&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;sqeuclidean&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+    <span class="s1">&#39;yule&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">distance_scipy</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;yule&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="p">}</span>
 
 <div class="viewcode-block" id="import_data">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_data">[docs]</a>
-<span class="k">def</span> <span class="nf">import_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">withClusters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_data</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">withClusters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import time series data from .xlsx or .csv files.</span>
 
@@ -136,13 +197,16 @@
 <span class="sd">    when reading from CSV files (withClusters parameter will be ignored).</span>
 <span class="sd">    </span>
 <span class="sd">    Example data structure:</span>
-<span class="sd">    ```</span>
-<span class="sd">    | Label    | Time 1 | Time 2 | Time 3 | ... |</span>
-<span class="sd">    |----------|--------|--------|--------|-----|</span>
-<span class="sd">    | Run 1    | 10.5   | 12.3   | 15.7   | ... |</span>
-<span class="sd">    | Run 2    | 11.2   | 13.1   | 16.2   | ... |</span>
-<span class="sd">    | Run 3    | 9.8    | 11.9   | 14.5   | ... |</span>
-<span class="sd">    ```</span>
+<span class="sd">    </span>
+<span class="sd">    +---------+---------+---------+---------+-----+</span>
+<span class="sd">    | Label   | Time 1  | Time 2  | Time 3  | ... |</span>
+<span class="sd">    +=========+=========+=========+=========+=====+</span>
+<span class="sd">    | Run 1   | 10.5    | 12.3    | 15.7    | ... |</span>
+<span class="sd">    +---------+---------+---------+---------+-----+</span>
+<span class="sd">    | Run 2   | 11.2    | 13.1    | 16.2    | ... |</span>
+<span class="sd">    +---------+---------+---------+---------+-----+</span>
+<span class="sd">    | Run 3   | 9.8     | 11.9    | 14.5    | ... |</span>
+<span class="sd">    +---------+---------+---------+---------+-----+</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -208,7 +272,7 @@
 
 <div class="viewcode-block" id="import_from_pysd">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.import_from_pysd">[docs]</a>
-<span class="k">def</span> <span class="nf">import_from_pysd</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">output_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">import_from_pysd</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">output_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import and run Vensim models with parameter sets.</span>
 
@@ -265,7 +329,7 @@
 
 <div class="viewcode-block" id="cluster">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.cluster">[docs]</a>
-<span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">cluster</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> 
             <span class="n">interClusterDistance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> 
             <span class="n">cValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -277,28 +341,20 @@
 <span class="sd">        List of (label, data_array) tuples.</span>
 <span class="sd">    distance : str, optional</span>
 <span class="sd">        Distance metric to use for clustering. Available options include:</span>
-<span class="sd">        </span>
+
 <span class="sd">        **Pattern-based distances:**</span>
-<span class="sd">        - &#39;pattern&#39;: Pattern distance using behavioral features</span>
-<span class="sd">        - &#39;pattern_dtw&#39;: Pattern distance with Dynamic Time Warping</span>
-<span class="sd">        </span>
-<span class="sd">        **Traditional distances (via scipy):**</span>
-<span class="sd">        - &#39;euclidean&#39;: Standard Euclidean distance (default for scipy)</span>
-<span class="sd">        - &#39;manhattan&#39; or &#39;cityblock&#39;: Manhattan/L1 distance</span>
-<span class="sd">        - &#39;mse&#39; or &#39;sse&#39;: Mean/Squared Euclidean distance</span>
-<span class="sd">        - &#39;cosine&#39;: Cosine distance</span>
-<span class="sd">        - &#39;correlation&#39;: Correlation distance</span>
-<span class="sd">        - &#39;chebyshev&#39;: Chebyshev distance</span>
-<span class="sd">        - &#39;canberra&#39;: Canberra distance</span>
-<span class="sd">        - &#39;braycurtis&#39;: Bray-Curtis distance</span>
-<span class="sd">        - &#39;hamming&#39;: Hamming distance</span>
-<span class="sd">        - &#39;jaccard&#39;: Jaccard distance</span>
-<span class="sd">        - &#39;minkowski&#39;: Minkowski distance (use p parameter)</span>
-<span class="sd">        - &#39;mahalanobis&#39;: Mahalanobis distance (use VI parameter)</span>
-<span class="sd">        - &#39;seuclidean&#39;: Standardized Euclidean distance (use V parameter)</span>
+<span class="sd">        - `&#39;pattern&#39; &lt;#module-clusterer.distance_pattern&gt;`_: Pattern distance using behavioral features</span>
+<span class="sd">        - `&#39;pattern_dtw&#39; &lt;#module-clusterer.distance_pattern_dtw&gt;`_: Pattern distance with Dynamic Time Warping</span>
+<span class="sd">        - `&#39;dtw&#39; &lt;#module-clusterer.distance_dtw&gt;`_: Dynamic Time Warping distance</span>
+
+<span class="sd">        **All available scipy.spatial.distance.pdist metrics:**</span>
+<span class="sd">        - `&#39;braycurtis&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html&gt;`_, `&#39;canberra&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.canberra.html&gt;`_, `&#39;chebyshev&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.chebyshev.html&gt;`_, `&#39;cityblock&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cityblock.html&gt;`_, `&#39;correlation&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.correlation.html&gt;`_, `&#39;cosine&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html&gt;`_, `&#39;dice&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.dice.html&gt;`_, `&#39;euclidean&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.euclidean.html&gt;`_, `&#39;hamming&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.hamming.html&gt;`_, `&#39;jaccard&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html&gt;`_, `&#39;jensenshannon&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jensenshannon.html&gt;`_, `&#39;kulczynski1&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.kulczynski1.html&gt;`_, `&#39;mahalanobis&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.mahalanobis.html&gt;`_, `&#39;minkowski&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.minkowski.html&gt;`_, `&#39;rogerstanimoto&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.rogerstanimoto.html&gt;`_, `&#39;russellrao&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.russellrao.html&gt;`_, `&#39;seuclidean&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.seuclidean.html&gt;`_, `&#39;sokalmichener&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalmichener.html&gt;`_, `&#39;sokalsneath&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalsneath.html&gt;`_, `&#39;sqeuclidean&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sqeuclidean.html&gt;`_, `&#39;yule&#39; &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.yule.html&gt;`_</span>
 <span class="sd">        </span>
 <span class="sd">        **Custom scipy metric:**</span>
-<span class="sd">        - &#39;scipy&#39;: Use any scipy.spatial.distance.pdist metric with custom parameters</span>
+<span class="sd">        - `&#39;scipy&#39; &lt;#distance_scipy_reference&gt;`_: Use any scipy.spatial.distance.pdist metric with custom parameters</span>
+<span class="sd">        </span>
+<span class="sd">        **Note:** All scipy metrics use `scipy.spatial.distance.pdist &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html&gt;`_. </span>
+<span class="sd">        Click metric names above for detailed documentation.</span>
 <span class="sd">        </span>
 <span class="sd">        Default is &#39;pattern_dtw&#39;.</span>
 <span class="sd">    interClusterDistance : str, optional</span>
@@ -345,7 +401,7 @@
 
 <div class="viewcode-block" id="create_cluster_list">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.create_cluster_list">[docs]</a>
-<span class="k">def</span> <span class="nf">create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">distRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">distRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
                        <span class="n">data_w_desc</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create Cluster objects from clustering results.</span>
@@ -414,7 +470,7 @@
 
 <div class="viewcode-block" id="flatcluster">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.flatcluster">[docs]</a>
-<span class="k">def</span> <span class="nf">flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> 
                 <span class="n">interClusterDistance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
                 <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -457,7 +513,7 @@
 
 <div class="viewcode-block" id="Cluster">
 <a class="viewcode-back" href="../../api/clusterer.html#clusterer.clusterer.Cluster">[docs]</a>
-<span class="k">class</span> <span class="nc">Cluster</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Cluster</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for clustering results.</span>
 
@@ -475,7 +531,7 @@
 <span class="sd">        Number of members in cluster.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_no</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">all_ds_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_ds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">member_dss</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_no</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">all_ds_indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">sample_ds</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">member_dss</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">cluster_no</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">all_ds_indices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample_ds</span>
