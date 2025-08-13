@@ -1,6 +1,6 @@
+:orphan:
+
 .. _cluster_class_page:
-.. toctree::
-   :hidden:
 
 Cluster
 =================
