@@ -27,13 +27,3 @@ perform_clustering
 ^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: simgon.clusterer.perform_clustering
-
-.. _cluster_class:
-
-Cluster
-^^^^^^^
-
-.. autoclass:: simgon.clusterer.Cluster
-   :members:
-   :show-inheritance:
-   :undoc-members:

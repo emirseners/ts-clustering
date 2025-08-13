@@ -1,0 +1,13 @@
+.. _cluster_class_page:
+
+Cluster
+=================
+
+.. currentmodule:: simgon.clusterer
+
+.. autoclass:: Cluster
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+
