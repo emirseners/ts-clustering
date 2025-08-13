@@ -1,0 +1,12 @@
+API Reference
+=================
+
+simgon.experiment_controller
+----------------------------
+
+.. _experiment_controller:
+
+experiment_controller
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: simgon.experiment_controller.experiment_controller
