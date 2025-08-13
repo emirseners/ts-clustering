@@ -17,6 +17,5 @@ Welcome to the documentation for ``clusterer``. This library provides simple uti
    :caption: Contents:
 
    installation
-   api/clusterer
-   api/experimental_control
+   api/index
    PySD usage <pysd/notebook>

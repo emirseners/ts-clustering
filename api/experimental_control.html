@@ -20,7 +20,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="PySD usage" href="../pysd/notebook.html" />
+    <link rel="next" title="Cluster" href="cluster.html" />
     <link rel="prev" title="API Reference" href="clusterer.html" /> 
 </head>
 
@@ -46,16 +46,17 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clusterer.html">API Reference</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#simgon-experimental-control">simgon.experimental_control</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#experiment-controller">experiment_controller</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#run-experiment-batch">run_experiment_batch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#compare-clusterings">_compare_clusterings</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#normalize-data">_normalize_data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#standardize-data">_standardize_data</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clusterer.html">API Reference</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simgon-experimental-control">simgon.experimental_control</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#experiment-controller">experiment_controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-experiment-batch">run_experiment_batch</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cluster.html">Cluster</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../pysd/notebook.html">PySD usage</a></li>
@@ -75,6 +76,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
       <li class="breadcrumb-item active">API Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/api/experimental_control.rst.txt" rel="nofollow"> View page source</a>
@@ -176,71 +178,6 @@ Default is None</p></li>
 </dd></dl>
 
 </section>
-<section id="compare-clusterings">
-<span id="id3"></span><h3>_compare_clusterings<a class="headerlink" href="#compare-clusterings" title="Link to this heading"></a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.experimental_control._compare_clusterings">
-<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">_compare_clusterings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clusters1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#_compare_clusterings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control._compare_clusterings" title="Link to this definition"></a></dt>
-<dd><p>Compare two clusterings using Rand index and Jaccard index.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>clusters1</strong> (<em>Union</em><em>[</em><em>List</em><em>, </em><em>np.ndarray</em><em>]</em>) – The list of cluster numbers according to the first clustering method</p></li>
-<li><p><strong>clusters2</strong> (<em>Union</em><em>[</em><em>List</em><em>, </em><em>np.ndarray</em><em>]</em>) – The list of cluster numbers according to the second clustering method</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Two numbers: first being the Rand index, second being the Jaccard index</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[float, float]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="normalize-data">
-<span id="id4"></span><h3>_normalize_data<a class="headerlink" href="#normalize-data" title="Link to this heading"></a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.experimental_control._normalize_data">
-<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">_normalize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#_normalize_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control._normalize_data" title="Link to this definition"></a></dt>
-<dd><p>Compute the normalized version of the time-series data such that
-y_i = (x_i - min(x)) / (max(x) - min(x))</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of (label, normalized_data_array) tuples</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="standardize-data">
-<span id="id5"></span><h3>_standardize_data<a class="headerlink" href="#standardize-data" title="Link to this heading"></a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="simgon.experimental_control._standardize_data">
-<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">_standardize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#_standardize_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control._standardize_data" title="Link to this definition"></a></dt>
-<dd><p>Compute the standardized version of the time-series data such that
-y_i = (x_i - mean(x)) / std(x)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of (label, standardized_data_array) tuples</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
 </section>
 </section>
 
@@ -249,7 +186,7 @@ y_i = (x_i - mean(x)) / std(x)</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="clusterer.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../pysd/notebook.html" class="btn btn-neutral float-right" title="PySD usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cluster.html" class="btn btn-neutral float-right" title="Cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
