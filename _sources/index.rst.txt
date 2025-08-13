@@ -18,4 +18,3 @@ Welcome to the documentation for ``clusterer``. This library provides simple uti
 
    installation
    api/clusterer
-   api/cluster
