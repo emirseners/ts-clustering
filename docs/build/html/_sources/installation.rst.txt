@@ -1,8 +1,8 @@
 Installation
-===========
+============
 
 Installing via pip
------------------
+------------------
 
 To install the clusterer package from the Python package index use the pip command:
 
@@ -11,7 +11,7 @@ To install the clusterer package from the Python package index use the pip comma
    pip install simgon
 
 Installing with conda
---------------------
+---------------------
 
 To install clusterer with conda, using the conda-forge channel, use the following command:
 
@@ -20,7 +20,7 @@ To install clusterer with conda, using the conda-forge channel, use the followin
    conda install -c conda-forge simgon
 
 Required Dependencies
--------------------
+--------------------
 
 Clusterer requires **Python X.X** or above.
 
@@ -34,7 +34,7 @@ Clusterer builds on the core Python data analytics stack, and the following thir
 These modules should build automatically if you are installing via pip. If you are building from source, or if pip fails to load them, they can be loaded with the same pip syntax as above.
 
 Optional Dependencies
---------------------
+---------------------
 
 For enhanced plotting capabilities:
 

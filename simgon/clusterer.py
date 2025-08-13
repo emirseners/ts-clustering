@@ -15,7 +15,7 @@ from ._distance_pattern import _distance_pattern
 from ._distance_pattern_dtw import _distance_pattern_dtw
 from ._distance_scipy import _distance_scipy
 from ._distance_dtw import _distance_dtw
-from ._plotting import _plot_dendrogram
+from ._plotting import _plot_dendrogram, _plot_clusters
 import pysd
 import itertools
 
@@ -199,9 +199,9 @@ def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, 
     return data_w_desc
 
 
-def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: str = 'pattern_dtw', 
-            interClusterDistance: str = 'complete', cMethod: str = 'inconsistent', 
-            cValue: float = 1.5, plotDendrogram: bool = False, **kwargs) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
+def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: str = 'pattern_dtw', interClusterDistance: str = 'complete', 
+            cMethod: str = 'inconsistent', cValue: float = 1.5, plotDendrogram: bool = False, plotClusters: bool = False, 
+            plotClustersMode: str = 'show', **kwargs) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
     """
     Cluster time series data using hierarchical clustering.
 
@@ -217,8 +217,9 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
         - `'pattern_dtw'`: Pattern distance with Dynamic Time Warping
         - `'dtw'`: Dynamic Time Warping distance
 
-        **All available `scipy.spatial.distance.pdist <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html>`_ metrics:**
-        - `'braycurtis' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html>`_, `'canberra' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.canberra.html>`_, `'chebyshev' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.chebyshev.html>`_, `'cityblock' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cityblock.html>`_, `'correlation' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.correlation.html>`_, `'cosine' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html>`_, `'dice' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.dice.html>`_, `'euclidean' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.euclidean.html>`_, `'hamming' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.hamming.html>`_, `'jaccard' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html>`_, `'jensenshannon' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jensenshannon.html>`_, `'kulczynski1' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.kulczynski1.html>`_, `'mahalanobis' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.mahalanobis.html>`_, `'minkowski' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.minkowski.html>`_, `'rogerstanimoto' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.rogerstanimoto.html>`_, `'russellrao' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.russellrao.html>`_, `'seuclidean' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.seuclidean.html>`_, `'sokalmichener' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalmichener.html>`_, `'sokalsneath' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalsneath.html>`_, `'sqeuclidean' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sqeuclidean.html>`_, `'yule' <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.yule.html>`_
+        `scipy.spatial.distance.pdist <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html>`_
+
+        - `braycurtis <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.braycurtis.html>`_, `canberra <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.canberra.html>`_, `chebyshev <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.chebyshev.html>`_, `cityblock <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cityblock.html>`_, `correlation <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.correlation.html>`_, `cosine <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cosine.html>`_, `dice <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.dice.html>`_, `euclidean <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.euclidean.html>`_, `hamming <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.hamming.html>`_, `jaccard <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jaccard.html>`_, `jensenshannon <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.jensenshannon.html>`_, `kulczynski1 <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.kulczynski1.html>`_, `mahalanobis <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.mahalanobis.html>`_, `minkowski <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.minkowski.html>`_, `rogerstanimoto <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.rogerstanimoto.html>`_, `russellrao <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.russellrao.html>`_, `seuclidean <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.seuclidean.html>`_, `sokalmichener <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalmichener.html>`_, `sokalsneath <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sokalsneath.html>`_, `sqeuclidean <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.sqeuclidean.html>`_, `yule <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.yule.html>`_
 
         Default is 'pattern_dtw'.
     interClusterDistance : str, optional
@@ -229,6 +230,10 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
         Cutoff value for clustering criterion (default=1.5).
     plotDendrogram : bool, optional
         If True, displays dendrogram (default=False).
+    plotClusters : bool, optional
+        If True, displays clusters (default=False).
+    plotClustersMode : str, optional
+        Mode for plotting clusters ('show', 'save') (default='show').
     **kwargs : dict
         Additional distance function parameters.
 
@@ -259,11 +264,14 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
                                         interClusterDistance=interClusterDistance, cMethod=cMethod, cValue=cValue)
 
     clusterList = _create_cluster_list(clusters, dRow, data_w_desc)
+
+    if plotClusters:
+        _plot_clusters(clusterList, distance, mode=plotClustersMode)
+
     return dRow, clusterList, clusters
 
 
-def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, 
-                       data_w_desc: List[Dict[str, Any]]) -> List['Cluster']:
+def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, data_w_desc: List[Dict[str, Any]]) -> List['Cluster']:
     """
     Create Cluster objects from clustering results.
 
@@ -328,8 +336,7 @@ def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray,
     return cluster_list
 
 
-def _flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]], 
-                interClusterDistance: str = 'complete', plotDendrogram: bool = True, 
+def _flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]], interClusterDistance: str = 'complete', plotDendrogram: bool = True, 
                 cMethod: str = 'inconsistent', cValue: float = 2.5) -> Tuple[np.ndarray, List[Tuple[Dict[str, Any], np.ndarray]]]:
     """
     Perform flat clustering using hierarchical clustering.
@@ -400,10 +407,8 @@ if __name__ == '__main__':
 
     #results = perform_clustering(data_set, distance='manhattan')
     #results = perform_clustering(data_set, cValue=10000, distance='manhattan', cMethod='distance')
-    results = perform_clustering(data_set, cValue=10, cMethod='maxclust', plotDendrogram=True)
+    results = perform_clustering(data_set, cValue=10, cMethod='maxclust', plotDendrogram=True, plotClusters=True)
 
     print('Distances:', results[0])
     print('Number of members in each cluster:', [results[1][i].size for i in range(len(results[1]))])
     print('Clusters:', results[2])
-
-    _plot_clusters(results[1], 'pattern', mode='show')
