@@ -4,27 +4,27 @@ Installation
 Installing via pip
 ------------------
 
-To install the clusterer package from the Python package index use the pip command:
+To install the simclstr package from the Python package index use the pip command:
 
 .. code-block:: bash
 
-   pip install simgon
+   pip install simclstr
 
 Installing with conda
 ---------------------
 
-To install clusterer with conda, using the conda-forge channel, use the following command:
+To install simclstr with conda, using the conda-forge channel, use the following command:
 
 .. code-block:: bash
 
-   conda install -c conda-forge simgon
+   conda install -c conda-forge simclstr
 
 Required Dependencies
---------------------
+---------------------
 
-Clusterer requires **Python X.X** or above.
+Simclstr requires **Python X.X** or above.
 
-Clusterer builds on the core Python data analytics stack, and the following third party libraries:
+Simclstr builds on the core Python data analytics stack, and the following third party libraries:
 
 * Numpy >= 1.24.0
 * Scipy >= 1.16.0

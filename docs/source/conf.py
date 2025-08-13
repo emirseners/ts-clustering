@@ -6,7 +6,7 @@ CURRENT_DIR = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", ".."))
 sys.path.insert(0, PROJECT_ROOT)
 
-project = "Time Series Clustering"
+project = "Simclstr"
 author = "Gonenc"
 current_year = str(date.today().year)
 copyright = f"{current_year}, {author}"
@@ -19,6 +19,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.doctest",
     "sphinx_autodoc_typehints",
+    "nbsphinx",
 ]
 
 templates_path = ["_templates"]
@@ -52,3 +53,9 @@ autodoc_mock_imports = [
     "numba",
     "pysd",
 ]
+
+#Subcontent function display
+toc_object_entries = False
+
+# Do not execute notebooks during docs build. We only render them.
+nbsphinx_execute = "never"

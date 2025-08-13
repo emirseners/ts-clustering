@@ -1,39 +1,26 @@
 API Reference
 =================
 
-simgon.clusterer
+simclstr.clusterer
 --------------------------
-
-.. automodule:: simgon.clusterer
-   :noindex:
 
 .. _read_time_series:
 
 read_time_series
 ^^^^^^^^^^^^^^^^^^^
 
-.. autofunction:: simgon.clusterer.read_time_series
+.. autofunction:: simclstr.clusterer.read_time_series
 
 .. _simulate_from_vensim:
 
 simulate_from_vensim
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. autofunction:: simgon.clusterer.simulate_from_vensim
+.. autofunction:: simclstr.clusterer.simulate_from_vensim
 
 .. _perform_clustering:
 
 perform_clustering
 ^^^^^^^^^^^^^^^^^^^^
 
-.. autofunction:: simgon.clusterer.perform_clustering
-
-.. _cluster_class:
-
-Cluster
-^^^^^^^
-
-.. autoclass:: simgon.clusterer.Cluster
-   :members:
-   :show-inheritance:
-   :undoc-members:
+.. autofunction:: simclstr.clusterer.perform_clustering

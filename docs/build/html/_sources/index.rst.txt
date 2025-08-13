@@ -1,7 +1,7 @@
-Clusterer documentation
+Simclstr documentation
 ===========================
 
-Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series clustering.
+Welcome to the documentation for ``simclstr``. This library provides simple utilities for time series clustering.
 
 **Core Dependencies:**
 
@@ -17,4 +17,7 @@ Welcome to the documentation for ``clusterer``. This library provides simple uti
    :caption: Contents:
 
    installation
-   api/clusterer
+   Clusterer <api/clusterer>
+   Experiment Controller <api/experiment_controller>
+   PySD usage <pysd/pysd_notebook>
+   BasicA Instance Usage <basicA/basicA_notebook>
