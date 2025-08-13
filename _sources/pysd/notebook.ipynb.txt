@@ -1,0 +1,37 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# PySD + Clustering Demo\n",
+        "\n",
+        "This notebook shows how to run a simple Vensim model with PySD and feed results to `simgon.clusterer`.\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {},
+      "outputs": [],
+      "source": [
+        "import numpy as np\n",
+        "from simgon.clusterer import perform_clustering\n",
+        "# In this demo, we generate synthetic data; replace with `simulate_from_vensim` when a .mdl file is available.\n",
+        "rng = np.random.default_rng(0)\n",
+        "labels = [f'Run {i+1}' for i in range(5)]\n",
+        "data = [rng.normal(loc=mu, scale=0.2, size=50) for mu in [0, 0.1, 0.2, 1.0, 1.1]]\n",
+        "data_w_labels = list(zip(labels, data))\n",
+        "dRow, clusters, assignments = perform_clustering(data_w_labels, plotDendrogram=False, plotClusters=False)\n",
+        "assignments\n"
+      ]
+    }
+  ],
+  "metadata": {
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 2
+}
