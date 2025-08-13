@@ -1,50 +1,58 @@
-clusterer
+simgon
 =================
 
-clusterer.behavior_splitter
+simgon.behavior_splitter
 -----------------------------------
 
-.. automodule:: clusterer.behavior_splitter
+.. automodule:: simgon._behavior_splitter
    :members:
    :show-inheritance:
    :undoc-members:
 
-clusterer.clusterer
+simgon.clusterer
 --------------------------
 
-.. automodule:: clusterer.clusterer
+.. automodule:: simgon.clusterer
    :members:
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance_dtw
+simgon.distance_dtw
 ------------------------------
 
-.. automodule:: clusterer.distance_dtw
+.. automodule:: simgon._distance_dtw
    :members:
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance_pattern
+simgon.distance_pattern
 ----------------------------------
 
-.. automodule:: clusterer.distance_pattern
+.. automodule:: simgon._distance_pattern
    :members:
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance_pattern_dtw
+simgon.distance_pattern_dtw
 ---------------------------------------
 
-.. automodule:: clusterer.distance_pattern_dtw
+.. automodule:: simgon._distance_pattern_dtw
    :members:
    :show-inheritance:
    :undoc-members:
 
-clusterer.distance_scipy
+simgon.distance_scipy
 ------------------------------
 
-.. automodule:: clusterer.distance_scipy
+.. automodule:: simgon._distance_scipy
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+simgon.plotting
+------------------------------
+
+.. automodule:: simgon._plotting
    :members:
    :show-inheritance:
    :undoc-members:
