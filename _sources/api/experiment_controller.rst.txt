@@ -1,7 +1,7 @@
 API Reference
 =================
 
-simgon.experiment_controller
+simclstr.experiment_controller
 ----------------------------
 
 .. _experiment_controller:
@@ -9,4 +9,4 @@ simgon.experiment_controller
 experiment_controller
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. autofunction:: simgon.experiment_controller.experiment_controller
+.. autofunction:: simclstr.experiment_controller.experiment_controller

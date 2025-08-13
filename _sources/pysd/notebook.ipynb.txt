@@ -98,6 +98,39 @@
       "source": [
         "clustering_results = perform_clustering(simulation_results, cMethod='maxclust', cValue = 8, plotDendrogram=True, plotClusters=True)"
       ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 11,
+      "metadata": {},
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Unknown distance \"scipy:euclidean\" is used.\n"
+          ]
+        },
+        {
+          "ename": "ValueError",
+          "evalue": "Unknown distance: scipy:euclidean",
+          "output_type": "error",
+          "traceback": [
+            "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+            "\u001b[31mKeyError\u001b[39m                                  Traceback (most recent call last)",
+            "\u001b[36mFile \u001b[39m\u001b[32m~/Desktop/ts-clustering/simgon/clusterer.py:242\u001b[39m, in \u001b[36mperform_clustering\u001b[39m\u001b[34m(data_w_labels, distance, interClusterDistance, cMethod, cValue, plotDendrogram, plotClusters, plotClustersMode, **kwargs)\u001b[39m\n\u001b[32m    241\u001b[39m \u001b[38;5;28;01mtry\u001b[39;00m:\n\u001b[32m--> \u001b[39m\u001b[32m242\u001b[39m     dRow, data_w_desc = \u001b[43m_distance_functions\u001b[49m\u001b[43m[\u001b[49m\u001b[43mdistance\u001b[49m\u001b[43m]\u001b[49m(data_wo_labels_array, **kwargs)\n\u001b[32m    243\u001b[39m \u001b[38;5;28;01mexcept\u001b[39;00m \u001b[38;5;167;01mKeyError\u001b[39;00m:\n",
+            "\u001b[31mKeyError\u001b[39m: 'scipy:euclidean'",
+            "\nDuring handling of the above exception, another exception occurred:\n",
+            "\u001b[31mValueError\u001b[39m                                Traceback (most recent call last)",
+            "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[11]\u001b[39m\u001b[32m, line 1\u001b[39m\n\u001b[32m----> \u001b[39m\u001b[32m1\u001b[39m clustering_results = \u001b[43mperform_clustering\u001b[49m\u001b[43m(\u001b[49m\u001b[43msimulation_results\u001b[49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mdistance\u001b[49m\u001b[43m=\u001b[49m\u001b[33;43m'\u001b[39;49m\u001b[33;43mscipy:euclidean\u001b[39;49m\u001b[33;43m'\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mcMethod\u001b[49m\u001b[43m=\u001b[49m\u001b[33;43m'\u001b[39;49m\u001b[33;43mmaxclust\u001b[39;49m\u001b[33;43m'\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mcValue\u001b[49m\u001b[43m \u001b[49m\u001b[43m=\u001b[49m\u001b[43m \u001b[49m\u001b[32;43m8\u001b[39;49m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mplotDendrogram\u001b[49m\u001b[43m=\u001b[49m\u001b[38;5;28;43;01mTrue\u001b[39;49;00m\u001b[43m,\u001b[49m\u001b[43m \u001b[49m\u001b[43mplotClusters\u001b[49m\u001b[43m=\u001b[49m\u001b[38;5;28;43;01mTrue\u001b[39;49;00m\u001b[43m)\u001b[49m\n",
+            "\u001b[36mFile \u001b[39m\u001b[32m~/Desktop/ts-clustering/simgon/clusterer.py:245\u001b[39m, in \u001b[36mperform_clustering\u001b[39m\u001b[34m(data_w_labels, distance, interClusterDistance, cMethod, cValue, plotDendrogram, plotClusters, plotClustersMode, **kwargs)\u001b[39m\n\u001b[32m    243\u001b[39m \u001b[38;5;28;01mexcept\u001b[39;00m \u001b[38;5;167;01mKeyError\u001b[39;00m:\n\u001b[32m    244\u001b[39m     \u001b[38;5;28mprint\u001b[39m(\u001b[33mf\u001b[39m\u001b[33m'\u001b[39m\u001b[33mUnknown distance \u001b[39m\u001b[33m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mdistance\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m\"\u001b[39m\u001b[33m is used.\u001b[39m\u001b[33m'\u001b[39m)\n\u001b[32m--> \u001b[39m\u001b[32m245\u001b[39m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\u001b[33mf\u001b[39m\u001b[33m'\u001b[39m\u001b[33mUnknown distance: \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mdistance\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m'\u001b[39m)\n\u001b[32m    247\u001b[39m \u001b[38;5;66;03m# Allocate individual runs into clusters using hierarchical agglomerative \u001b[39;00m\n\u001b[32m    248\u001b[39m \u001b[38;5;66;03m# clustering. clusterSetup is a dictionary that customizes the clustering \u001b[39;00m\n\u001b[32m    249\u001b[39m \u001b[38;5;66;03m# algorithm to be used.\u001b[39;00m\n\u001b[32m    251\u001b[39m clusters, data_w_desc = _flatcluster(dRow, data_w_desc, plotDendrogram=plotDendrogram, \n\u001b[32m    252\u001b[39m                                     interClusterDistance=interClusterDistance, cMethod=cMethod, cValue=cValue)\n",
+            "\u001b[31mValueError\u001b[39m: Unknown distance: scipy:euclidean"
+          ]
+        }
+      ],
+      "source": [
+        "clustering_results = perform_clustering(simulation_results, distance='scipy:euclidean', cMethod='maxclust', cValue = 8, plotDendrogram=True, plotClusters=True)"
+      ]
     }
   ],
   "metadata": {

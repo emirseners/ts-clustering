@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>simgon.clusterer &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>simclstr.clusterer &mdash; Simclstr 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
 
@@ -30,7 +30,7 @@
           
           
           <a href="../../index.html" class="icon icon-home">
-            Time Series Clustering
+            Simclstr
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -54,7 +54,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">Time Series Clustering</a>
+          <a href="../../index.html">Simclstr</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -63,7 +63,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">simgon.clusterer</li>
+      <li class="breadcrumb-item active">simclstr.clusterer</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -72,7 +72,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for simgon.clusterer</h1><div class="highlight"><pre>
+  <h1>Source code for simclstr.clusterer</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Pattern-oriented behavior clustering module.</span>
 
@@ -124,7 +124,7 @@
 <span class="p">}</span>
 
 <div class="viewcode-block" id="read_time_series">
-<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.read_time_series">[docs]</a>
+<a class="viewcode-back" href="../../api/clusterer.html#simclstr.clusterer.read_time_series">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_time_series</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">withClusters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import time series data from .xlsx or .csv files.</span>
@@ -214,7 +214,7 @@
 
 
 <div class="viewcode-block" id="simulate_from_vensim">
-<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.simulate_from_vensim">[docs]</a>
+<a class="viewcode-back" href="../../api/clusterer.html#simclstr.clusterer.simulate_from_vensim">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">simulate_from_vensim</span><span class="p">(</span><span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parameter_set</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]],</span> <span class="n">output_variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Import and run Vensim models.</span>
@@ -267,7 +267,7 @@
 
 
 <div class="viewcode-block" id="perform_clustering">
-<a class="viewcode-back" href="../../api/clusterer.html#simgon.clusterer.perform_clustering">[docs]</a>
+<a class="viewcode-back" href="../../api/clusterer.html#simclstr.clusterer.perform_clustering">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">perform_clustering</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> 
             <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">plotClusters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
             <span class="n">plotClustersMode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
@@ -447,6 +447,8 @@
     <span class="k">return</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">data</span>
 
 
+<div class="viewcode-block" id="Cluster">
+<a class="viewcode-back" href="../../api/cluster.html#simclstr.clusterer.Cluster">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Cluster</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for clustering results.</span>
@@ -470,7 +472,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">all_ds_indices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample_ds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">members</span> <span class="o">=</span> <span class="n">member_dss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">members</span> <span class="o">=</span> <span class="n">member_dss</span></div>
+
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

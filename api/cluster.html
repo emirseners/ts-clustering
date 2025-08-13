@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cluster &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>Cluster &mdash; Simclstr 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -31,7 +31,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            Time Series Clustering
+            Simclstr
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -55,7 +55,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Time Series Clustering</a>
+          <a href="../index.html">Simclstr</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -75,6 +75,78 @@
              
   <section id="cluster">
 <span id="cluster-class-page"></span><h1>Cluster<a class="headerlink" href="#cluster" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="simclstr.clusterer.Cluster">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">simclstr.clusterer.</span></span><span class="sig-name descname"><span class="pre">Cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_ds_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_dss</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/clusterer.html#Cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.clusterer.Cluster" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for clustering results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cluster_no</strong> (<em>int</em>)</p></li>
+<li><p><strong>all_ds_indices</strong> (<em>numpy.ndarray</em>)</p></li>
+<li><p><strong>sample_ds</strong> (<em>Tuple</em><em>[</em><em>str</em><em>, </em><em>numpy.ndarray</em><em>]</em>)</p></li>
+<li><p><strong>member_dss</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>numpy.ndarray</em><em>]</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.no">
+<span class="sig-name descname"><span class="pre">no</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.no" title="Link to this definition"></a></dt>
+<dd><p>Cluster number/index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.indices">
+<span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.indices" title="Link to this definition"></a></dt>
+<dd><p>Original indices of cluster members.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.sample" title="Link to this definition"></a></dt>
+<dd><p>Representative data series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[str, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.members">
+<span class="sig-name descname"><span class="pre">members</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.members" title="Link to this definition"></a></dt>
+<dd><p>List of all cluster members.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.size">
+<span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.size" title="Link to this definition"></a></dt>
+<dd><p>Number of members in cluster.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

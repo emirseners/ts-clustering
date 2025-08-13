@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PySD usage &mdash; Time Series Clustering 0.1.0 documentation</title>
+  <title>PySD usage &mdash; Simclstr 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
@@ -33,7 +33,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            Time Series Clustering
+            Simclstr
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -57,7 +57,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Time Series Clustering</a>
+          <a href="../index.html">Simclstr</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -157,6 +157,55 @@ Simulation Run 5:
 <div class="output_area docutils container">
 <img alt="../_images/pysd_notebook_2_1.png" src="../_images/pysd_notebook_2_1.png" />
 </div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clustering_results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">simulation_results</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;scipy:euclidean&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Unknown distance &#34;scipy:euclidean&#34; is used.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/Desktop/ts-clustering/simgon/clusterer.py:242</span>, in <span class="ansi-cyan-fg">perform_clustering</span><span class="ansi-blue-fg">(data_w_labels, distance, interClusterDistance, cMethod, cValue, plotDendrogram, plotClusters, plotClustersMode, **kwargs)</span>
+<span class="ansi-green-fg">    241</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">242</span>     dRow, data_w_desc = <span class="ansi-yellow-bg">_distance_functions</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">distance</span><span class="ansi-yellow-bg">]</span>(data_wo_labels_array, **kwargs)
+<span class="ansi-green-fg">    243</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">KeyError</span>:
+
+<span class="ansi-red-fg">KeyError</span>: &#39;scipy:euclidean&#39;
+
+During handling of the above exception, another exception occurred:
+
+<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[11]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> clustering_results = <span class="ansi-yellow-bg">perform_clustering</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">simulation_results</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">distance</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#39;</span><span class="ansi-yellow-fg ansi-yellow-bg">scipy:euclidean</span><span class="ansi-yellow-fg ansi-yellow-bg">&#39;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">cMethod</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#39;</span><span class="ansi-yellow-fg ansi-yellow-bg">maxclust</span><span class="ansi-yellow-fg ansi-yellow-bg">&#39;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">cValue</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg"> </span><span class="ansi-green-fg ansi-yellow-bg">8</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">plotDendrogram</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">plotClusters</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/Desktop/ts-clustering/simgon/clusterer.py:245</span>, in <span class="ansi-cyan-fg">perform_clustering</span><span class="ansi-blue-fg">(data_w_labels, distance, interClusterDistance, cMethod, cValue, plotDendrogram, plotClusters, plotClustersMode, **kwargs)</span>
+<span class="ansi-green-fg">    243</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">KeyError</span>:
+<span class="ansi-green-fg">    244</span>     <span style="color: rgb(0,135,0)">print</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Unknown distance </span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>distance<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg"> is used.</span><span class="ansi-yellow-fg">&#39;</span>)
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">245</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>(<span class="ansi-yellow-fg">f</span><span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Unknown distance: </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>distance<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span class="ansi-yellow-fg">&#39;</span>)
+<span class="ansi-green-fg">    247</span> <span style="color: rgb(95,135,135)"># Allocate individual runs into clusters using hierarchical agglomerative </span>
+<span class="ansi-green-fg">    248</span> <span style="color: rgb(95,135,135)"># clustering. clusterSetup is a dictionary that customizes the clustering </span>
+<span class="ansi-green-fg">    249</span> <span style="color: rgb(95,135,135)"># algorithm to be used.</span>
+<span class="ansi-green-fg">    251</span> clusters, data_w_desc = _flatcluster(dRow, data_w_desc, plotDendrogram=plotDendrogram,
+<span class="ansi-green-fg">    252</span>                                     interClusterDistance=interClusterDistance, cMethod=cMethod, cValue=cValue)
+
+<span class="ansi-red-fg">ValueError</span>: Unknown distance: scipy:euclidean
+</pre></div></div>
 </div>
 </section>
 

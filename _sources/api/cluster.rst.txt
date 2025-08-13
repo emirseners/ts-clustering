@@ -5,7 +5,7 @@
 Cluster
 =================
 
-.. currentmodule:: simgon.clusterer
+.. currentmodule:: simclstr.clusterer
 
 .. autoclass:: Cluster
    :members:

@@ -1,7 +1,7 @@
-Clusterer documentation
+Simclstr documentation
 ===========================
 
-Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series clustering.
+Welcome to the documentation for ``simclstr``. This library provides simple utilities for time series clustering.
 
 **Core Dependencies:**
 
