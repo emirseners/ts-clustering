@@ -19,5 +19,5 @@ Welcome to the documentation for ``simclstr``. This library provides simple util
    installation
    Clusterer <api/clusterer>
    Experiment Controller <api/experiment_controller>
-   PySD usage <pysd/notebook>
+   PySD usage <pysd/pysd_notebook>
    BasicA Instance Usage <basicA/basicA_notebook>
