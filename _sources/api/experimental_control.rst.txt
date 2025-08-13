@@ -1,0 +1,40 @@
+API Reference
+=================
+
+simgon.experimental_control
+----------------------------
+
+.. _experiment_controller:
+
+experiment_controller
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: simgon.experimental_control.experiment_controller
+
+.. _run_experiment_batch:
+
+run_experiment_batch
+^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: simgon.experimental_control.run_experiment_batch
+
+.. _compare_clusterings:
+
+_compare_clusterings
+^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: simgon.experimental_control._compare_clusterings
+
+.. _normalize_data:
+
+_normalize_data
+^^^^^^^^^^^^^^^
+
+.. autofunction:: simgon.experimental_control._normalize_data
+
+.. _standardize_data:
+
+_standardize_data
+^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: simgon.experimental_control._standardize_data

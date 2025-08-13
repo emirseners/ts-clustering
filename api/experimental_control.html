@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; Time Series Clustering 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="PySD usage" href="../pysd/notebook.html" />
+    <link rel="prev" title="API Reference" href="clusterer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Time Series Clustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clusterer.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#simgon-experimental-control">simgon.experimental_control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#experiment-controller">experiment_controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-experiment-batch">run_experiment_batch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compare-clusterings">_compare_clusterings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#normalize-data">_normalize_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#standardize-data">_standardize_data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pysd/notebook.html">PySD usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Time Series Clustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/experimental_control.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<section id="simgon-experimental-control">
+<h2>simgon.experimental_control<a class="headerlink" href="#simgon-experimental-control" title="Link to this heading"></a></h2>
+<section id="experiment-controller">
+<span id="id1"></span><h3>experiment_controller<a class="headerlink" href="#experiment-controller" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="simgon.experimental_control.experiment_controller">
+<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">experiment_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distanceMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern_dtw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'original'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'maxclust'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#experiment_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control.experiment_controller" title="Link to this definition"></a></dt>
+<dd><p>Run a controlled clustering experiment with comprehensive reporting.</p>
+<p>This function performs clustering experiments with different parameters and generates
+detailed reports including performance metrics and visualizations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputFileName</strong> (<em>str</em>) – Path to the input file containing time series data</p></li>
+<li><p><strong>distanceMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Distance method to use. Options: ‘pattern’, ‘pattern_dtw’, ‘dtw’, ‘scipy’,
+‘euclidean’, ‘minkowski’, ‘cityblock’, ‘seuclidean’, ‘sqeuclidean’,
+‘cosine’, ‘correlation’, ‘hamming’, ‘jaccard’, ‘jensenshannon’,
+‘chebyshev’, ‘canberra’, ‘braycurtis’, ‘mahalobis’, ‘yule’,
+‘matching’, ‘dice’, ‘rogerstanimoto’, ‘russellrao’,
+‘sokalsneath’, ‘kulczynski1’
+Default is ‘pattern_dtw’</p></li>
+<li><p><strong>flatMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Hierarchical clustering linkage method. Options: ‘complete’, ‘single’,
+‘average’, ‘weighted’, ‘centroid’, ‘median’, ‘ward’
+Default is ‘complete’</p></li>
+<li><p><strong>transform</strong> (<em>str</em><em>, </em><em>optional</em>) – Data transformation method. Options: ‘original’, ‘normalize’, ‘standardize’
+Default is ‘original’</p></li>
+<li><p><strong>cMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Clustering method. Options: ‘maxclust’, ‘distance’, ‘inconsistent’, ‘monocrit’
+Default is ‘maxclust’</p></li>
+<li><p><strong>cValue</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of clusters or distance threshold depending on cMethod
+Default is 9</p></li>
+<li><p><strong>replicate</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of replications for pattern distance method (only applicable when distanceMethod=’pattern’)
+Default is 1</p></li>
+<li><p><strong>note</strong> (<em>str</em><em>, </em><em>optional</em>) – Additional note to append to output filename
+Default is ‘’</p></li>
+<li><p><strong>plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to generate and save cluster plots
+Default is True</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to save output files. If None, creates ‘output’ directory in package root
+Default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing experiment results including:
+- ‘clusters’: Final cluster assignments
+- ‘cluster_list’: Detailed cluster information
+- ‘distance_matrix’: Computed distance matrix
+- ‘rand_index’: Rand index comparing with original clusters
+- ‘jaccard_index’: Jaccard index comparing with original clusters
+- ‘run_time’: Execution time in seconds
+- ‘output_file’: Path to generated Excel report
+- ‘plot_file’: Path to generated plot (if plot=True)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – If input file doesn’t exist</p></li>
+<li><p><strong>ValueError</strong> – If parameters are invalid</p></li>
+<li><p><strong>ImportError</strong> – If xlsxwriter is not available and Excel output is requested</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="run-experiment-batch">
+<span id="id2"></span><h3>run_experiment_batch<a class="headerlink" href="#run-experiment-batch" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="simgon.experimental_control.run_experiment_batch">
+<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">run_experiment_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_configs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#run_experiment_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control.run_experiment_batch" title="Link to this definition"></a></dt>
+<dd><p>Run multiple experiments with different configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_files</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – List of input file paths</p></li>
+<li><p><strong>experiment_configs</strong> (<em>List</em><em>[</em><em>dict</em><em>]</em>) – List of experiment configurations (each dict should contain parameters for experiment_controller)</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Output directory for all experiments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of experiment results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="compare-clusterings">
+<span id="id3"></span><h3>_compare_clusterings<a class="headerlink" href="#compare-clusterings" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="simgon.experimental_control._compare_clusterings">
+<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">_compare_clusterings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clusters1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clusters2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#_compare_clusterings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control._compare_clusterings" title="Link to this definition"></a></dt>
+<dd><p>Compare two clusterings using Rand index and Jaccard index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>clusters1</strong> (<em>Union</em><em>[</em><em>List</em><em>, </em><em>np.ndarray</em><em>]</em>) – The list of cluster numbers according to the first clustering method</p></li>
+<li><p><strong>clusters2</strong> (<em>Union</em><em>[</em><em>List</em><em>, </em><em>np.ndarray</em><em>]</em>) – The list of cluster numbers according to the second clustering method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Two numbers: first being the Rand index, second being the Jaccard index</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="normalize-data">
+<span id="id4"></span><h3>_normalize_data<a class="headerlink" href="#normalize-data" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="simgon.experimental_control._normalize_data">
+<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">_normalize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#_normalize_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control._normalize_data" title="Link to this definition"></a></dt>
+<dd><p>Compute the normalized version of the time-series data such that
+y_i = (x_i - min(x)) / (max(x) - min(x))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of (label, normalized_data_array) tuples</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="standardize-data">
+<span id="id5"></span><h3>_standardize_data<a class="headerlink" href="#standardize-data" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="simgon.experimental_control._standardize_data">
+<span class="sig-prename descclassname"><span class="pre">simgon.experimental_control.</span></span><span class="sig-name descname"><span class="pre">_standardize_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/experimental_control.html#_standardize_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.experimental_control._standardize_data" title="Link to this definition"></a></dt>
+<dd><p>Compute the standardized version of the time-series data such that
+y_i = (x_i - mean(x)) / std(x)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of (label, standardized_data_array) tuples</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="clusterer.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../pysd/notebook.html" class="btn btn-neutral float-right" title="PySD usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Gonenc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
