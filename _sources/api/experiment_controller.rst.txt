@@ -2,7 +2,7 @@ API Reference
 =================
 
 simclstr.experiment_controller
---------------------------------
+----------------------------
 
 .. _experiment_controller:
 
