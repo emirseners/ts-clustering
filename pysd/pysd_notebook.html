@@ -79,14 +79,16 @@
              
   <section id="PySD-usage">
 <h1>PySD usage<a class="headerlink" href="#PySD-usage" title="Link to this heading"></a></h1>
-<p>This notebook shows how to run a simple Vensim model with PySD and feed results to <code class="docutils literal notranslate"><span class="pre">simgon.clusterer</span></code>.</p>
+<p>This notebook shows how to run a simple Vensim model with PySD and feed results to <code class="docutils literal notranslate"><span class="pre">simclstr.clusterer</span></code>.</p>
 <p>MDL dosyasının bulunduğu yerde, path’de pycache ve py dosyaları oluşuyor, onları main kodda fonksiyonun altında silmek lazım.</p>
-<p>3,4,8,9. linelar kütüphane oluşturulmak istendiği zaman silinmeli</p>
+<p>import sys’den model_path’e olan 4 satır package yayımlanmadan silinerek commented linelar kullanılmalıdır.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#model_path = &#39;path/to/your/model.mdl&#39;</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from simclstr.clusterer import perform_clustering, simulate_from_vensim</span>
+
+<span class="c1">#model_path = &#39;path/to/your/model.mdl&#39;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;/Users/emirsener/Desktop/ts-clustering&quot;</span><span class="p">)</span>
@@ -137,7 +139,7 @@ Simulation Run 5:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clustering_results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">simulation_results</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -159,7 +161,7 @@ Simulation Run 5:
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clustering_results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">simulation_results</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
