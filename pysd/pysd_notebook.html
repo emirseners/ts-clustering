@@ -20,9 +20,7 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Basic Usage Examples" href="../basicA/basicA_notebook.html" />
-    <link rel="prev" title="API Reference" href="../api/experiment_controller.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,11 +43,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/clusterer.html">Clusterer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PySD usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
 </ul>
 
@@ -69,7 +66,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">PySD usage</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/pysd/notebook.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/pysd/pysd_notebook.ipynb.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -81,9 +78,9 @@
 <h1>PySD usage<a class="headerlink" href="#PySD-usage" title="Link to this heading"></a></h1>
 <p>This notebook shows how to run a simple Vensim model with PySD and feed results to <code class="docutils literal notranslate"><span class="pre">simgon.clusterer</span></code>.</p>
 <p>MDL dosyasının bulunduğu yerde, path’de pycache ve py dosyaları oluşuyor, onları main kodda fonksiyonun altında silmek lazım.</p>
-<p>import sys’den model_path’e olan 4 satır package yayımlanmadan silinerek commented linelar kullanılmalıdır.</p>
+<p>3,4,8,9. linelar kütüphane oluşturulmak istendiği zaman silinmeli</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#model_path = &#39;path/to/your/model.mdl&#39;</span>
@@ -137,7 +134,7 @@ Simulation Run 5:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clustering_results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">simulation_results</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -148,18 +145,18 @@ Simulation Run 5:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/pysd_notebook_2_0.png" src="../_images/pysd_notebook_2_0.png" />
+<img alt="../_images/pysd_pysd_notebook_2_0.png" src="../_images/pysd_pysd_notebook_2_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/pysd_notebook_2_1.png" src="../_images/pysd_notebook_2_1.png" />
+<img alt="../_images/pysd_pysd_notebook_2_1.png" src="../_images/pysd_pysd_notebook_2_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clustering_results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">simulation_results</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -170,14 +167,14 @@ Simulation Run 5:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/pysd_notebook_3_0.png" src="../_images/pysd_notebook_3_0.png" />
+<img alt="../_images/pysd_pysd_notebook_3_0.png" src="../_images/pysd_pysd_notebook_3_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/pysd_notebook_3_1.png" src="../_images/pysd_notebook_3_1.png" />
+<img alt="../_images/pysd_pysd_notebook_3_1.png" src="../_images/pysd_pysd_notebook_3_1.png" />
 </div>
 </div>
 </section>
@@ -185,10 +182,7 @@ Simulation Run 5:
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../api/experiment_controller.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../basicA/basicA_notebook.html" class="btn btn-neutral float-right" title="Basic Usage Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
