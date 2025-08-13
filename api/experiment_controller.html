@@ -97,12 +97,10 @@ detailed reports including performance metrics and visualizations.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>inputFileName</strong> (<em>str</em>) – Path to the input file containing time series data</p></li>
-<li><p><strong>distanceMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Distance method to use. Options: ‘pattern’, ‘pattern_dtw’, ‘dtw’, ‘scipy’,
-‘euclidean’, ‘minkowski’, ‘cityblock’, ‘seuclidean’, ‘sqeuclidean’,
-‘cosine’, ‘correlation’, ‘hamming’, ‘jaccard’, ‘jensenshannon’,
-‘chebyshev’, ‘canberra’, ‘braycurtis’, ‘mahalobis’, ‘yule’,
-‘matching’, ‘dice’, ‘rogerstanimoto’, ‘russellrao’,
-‘sokalsneath’, ‘kulczynski1’
+<li><p><strong>distanceMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Distance method to use. Options: pattern, pattern_dtw, dtw,
+euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation,
+hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis,
+yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1
 Default is ‘pattern_dtw’</p></li>
 <li><p><strong>flatMethod</strong> (<em>str</em><em>, </em><em>optional</em>) – Hierarchical clustering linkage method. Options: ‘complete’, ‘single’,
 ‘average’, ‘weighted’, ‘centroid’, ‘median’, ‘ward’
@@ -136,13 +134,6 @@ Default is None</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>FileNotFoundError</strong> – If input file doesn’t exist</p></li>
-<li><p><strong>ValueError</strong> – If parameters are invalid</p></li>
-<li><p><strong>ImportError</strong> – If xlsxwriter is not available and Excel output is requested</p></li>
-</ul>
 </dd>
 </dl>
 </dd></dl>

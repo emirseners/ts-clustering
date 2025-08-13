@@ -215,12 +215,10 @@
 <span class="sd">    inputFileName : str</span>
 <span class="sd">        Path to the input file containing time series data</span>
 <span class="sd">    distanceMethod : str, optional</span>
-<span class="sd">        Distance method to use. Options: &#39;pattern&#39;, &#39;pattern_dtw&#39;, &#39;dtw&#39;, &#39;scipy&#39;, </span>
-<span class="sd">        &#39;euclidean&#39;, &#39;minkowski&#39;, &#39;cityblock&#39;, &#39;seuclidean&#39;, &#39;sqeuclidean&#39;, </span>
-<span class="sd">        &#39;cosine&#39;, &#39;correlation&#39;, &#39;hamming&#39;, &#39;jaccard&#39;, &#39;jensenshannon&#39;, </span>
-<span class="sd">        &#39;chebyshev&#39;, &#39;canberra&#39;, &#39;braycurtis&#39;, &#39;mahalobis&#39;, &#39;yule&#39;, </span>
-<span class="sd">        &#39;matching&#39;, &#39;dice&#39;, &#39;rogerstanimoto&#39;, &#39;russellrao&#39;, </span>
-<span class="sd">        &#39;sokalsneath&#39;, &#39;kulczynski1&#39;</span>
+<span class="sd">        Distance method to use. Options: pattern, pattern_dtw, dtw, </span>
+<span class="sd">        euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation, </span>
+<span class="sd">        hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis, </span>
+<span class="sd">        yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</span>
 <span class="sd">        Default is &#39;pattern_dtw&#39;</span>
 <span class="sd">    flatMethod : str, optional</span>
 <span class="sd">        Hierarchical clustering linkage method. Options: &#39;complete&#39;, &#39;single&#39;, </span>
@@ -260,15 +258,6 @@
 <span class="sd">        - &#39;run_time&#39;: Execution time in seconds</span>
 <span class="sd">        - &#39;output_file&#39;: Path to generated Excel report</span>
 <span class="sd">        - &#39;plot_file&#39;: Path to generated plot (if plot=True)</span>
-<span class="sd">        </span>
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    FileNotFoundError</span>
-<span class="sd">        If input file doesn&#39;t exist</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        If parameters are invalid</span>
-<span class="sd">    ImportError</span>
-<span class="sd">        If xlsxwriter is not available and Excel output is requested</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">very_begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     
