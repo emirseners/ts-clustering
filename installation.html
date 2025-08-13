@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="simgon" href="api/clusterer.html" />
+    <link rel="next" title="API Reference" href="api/clusterer.html" />
     <link rel="prev" title="Clusterer documentation" href="index.html" /> 
 </head>
 
@@ -47,13 +47,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installing-via-pip">Installing via pip</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-with-conda">Installing with conda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#required-dependencies">Required Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#optional-dependencies">Optional Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#additional-resources">Additional Resources</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/clusterer.html">simgon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/clusterer.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -85,39 +83,25 @@
 <section id="installing-via-pip">
 <h2>Installing via pip<a class="headerlink" href="#installing-via-pip" title="Link to this heading"></a></h2>
 <p>To install the clusterer package from the Python package index use the pip command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>clusterer
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>simgon
 </pre></div>
 </div>
 </section>
 <section id="installing-with-conda">
 <h2>Installing with conda<a class="headerlink" href="#installing-with-conda" title="Link to this heading"></a></h2>
 <p>To install clusterer with conda, using the conda-forge channel, use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>clusterer
-</pre></div>
-</div>
-</section>
-<section id="installing-from-source">
-<h2>Installing from source<a class="headerlink" href="#installing-from-source" title="Link to this heading"></a></h2>
-<p>To install from source, clone the project with git:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourusername/ts-clustering.git
-</pre></div>
-</div>
-<p>or download the latest version from the project repository.</p>
-<p>In the source directory use the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>install
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>simgon
 </pre></div>
 </div>
 </section>
 <section id="required-dependencies">
 <h2>Required Dependencies<a class="headerlink" href="#required-dependencies" title="Link to this heading"></a></h2>
-<p>Clusterer requires <strong>Python 3.9</strong> or above.</p>
+<p>Clusterer requires <strong>Python X.X</strong> or above.</p>
 <p>Clusterer builds on the core Python data analytics stack, and the following third party libraries:</p>
 <ul class="simple">
 <li><p>Numpy &gt;= 1.24.0</p></li>
 <li><p>Scipy &gt;= 1.16.0</p></li>
-<li><p>Matplotlib &gt;= 3.7.0</p></li>
 <li><p>Pandas &gt;= 2.0.0</p></li>
-<li><p>PySD &gt;= 3.0.0</p></li>
 <li><p>Numba &gt;= 0.57.0</p></li>
 </ul>
 <p>These modules should build automatically if you are installing via pip. If you are building from source, or if pip fails to load them, they can be loaded with the same pip syntax as above.</p>
@@ -126,27 +110,11 @@
 <h2>Optional Dependencies<a class="headerlink" href="#optional-dependencies" title="Link to this heading"></a></h2>
 <p>For enhanced plotting capabilities:</p>
 <ul class="simple">
-<li><p>Matplotlib (already included in core dependencies)</p></li>
+<li><p>Matplotlib &gt;= 3.7.0</p></li>
 </ul>
-<p>For additional data export capabilities:</p>
+<p>For using <a class="reference external" href="https://pysd.readthedocs.io/en/master/index.html">PySD</a> for simulation:</p>
 <ul class="simple">
-<li><p>XlsxWriter &gt;= 3.0.0 (for Excel export functionality)</p></li>
-</ul>
-<p>For advanced time series analysis:</p>
-<ul class="simple">
-<li><p>Scikit-learn (for additional clustering algorithms)</p></li>
-<li><p>NetworkX (for network-based clustering)</p></li>
-</ul>
-<p>These modules can be installed using pip with a syntax similar to the above.</p>
-</section>
-<section id="additional-resources">
-<h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Link to this heading"></a></h2>
-<p>The documentation contains examples and API references that can help you get started with clusterer.</p>
-<p>For development and contribution:</p>
-<ul class="simple">
-<li><p>Sphinx &gt;= 7.0 (for building documentation)</p></li>
-<li><p>Sphinx-autodoc-typehints &gt;= 2.0 (for type hint documentation)</p></li>
-<li><p>Sphinx-rtd-theme &gt;= 2.0 (for documentation theme)</p></li>
+<li><p>PySD &gt;= 3.0.0</p></li>
 </ul>
 </section>
 </section>
@@ -156,7 +124,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Clusterer documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api/clusterer.html" class="btn btn-neutral float-right" title="simgon" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="api/clusterer.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

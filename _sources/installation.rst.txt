@@ -8,7 +8,7 @@ To install the clusterer package from the Python package index use the pip comma
 
 .. code-block:: bash
 
-   pip install clusterer
+   pip install simgon
 
 Installing with conda
 --------------------
@@ -17,37 +17,18 @@ To install clusterer with conda, using the conda-forge channel, use the followin
 
 .. code-block:: bash
 
-   conda install -c conda-forge clusterer
-
-Installing from source
----------------------
-
-To install from source, clone the project with git:
-
-.. code-block:: bash
-
-   git clone https://github.com/yourusername/ts-clustering.git
-
-or download the latest version from the project repository.
-
-In the source directory use the command:
-
-.. code-block:: bash
-
-   python setup.py install
+   conda install -c conda-forge simgon
 
 Required Dependencies
 -------------------
 
-Clusterer requires **Python 3.9** or above.
+Clusterer requires **Python X.X** or above.
 
 Clusterer builds on the core Python data analytics stack, and the following third party libraries:
 
 * Numpy >= 1.24.0
 * Scipy >= 1.16.0
-* Matplotlib >= 3.7.0
 * Pandas >= 2.0.0
-* PySD >= 3.0.0
 * Numba >= 0.57.0
 
 These modules should build automatically if you are installing via pip. If you are building from source, or if pip fails to load them, they can be loaded with the same pip syntax as above.
@@ -57,26 +38,8 @@ Optional Dependencies
 
 For enhanced plotting capabilities:
 
-* Matplotlib (already included in core dependencies)
+* Matplotlib >= 3.7.0
 
-For additional data export capabilities:
+For using `PySD <https://pysd.readthedocs.io/en/master/index.html>`_ for simulation:
 
-* XlsxWriter >= 3.0.0 (for Excel export functionality)
-
-For advanced time series analysis:
-
-* Scikit-learn (for additional clustering algorithms)
-* NetworkX (for network-based clustering)
-
-These modules can be installed using pip with a syntax similar to the above.
-
-Additional Resources
-------------------
-
-The documentation contains examples and API references that can help you get started with clusterer.
-
-For development and contribution:
-
-* Sphinx >= 7.0 (for building documentation)
-* Sphinx-autodoc-typehints >= 2.0 (for type hint documentation)
-* Sphinx-rtd-theme >= 2.0 (for documentation theme)
+* PySD >= 3.0.0

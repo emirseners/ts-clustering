@@ -1,58 +1,31 @@
-simgon
+API Reference
 =================
-
-simgon.behavior_splitter
------------------------------------
-
-.. automodule:: simgon._behavior_splitter
-   :members:
-   :show-inheritance:
-   :undoc-members:
 
 simgon.clusterer
 --------------------------
 
 .. automodule:: simgon.clusterer
-   :members:
-   :show-inheritance:
-   :undoc-members:
+   :noindex:
 
-simgon.distance_dtw
-------------------------------
+read_time_series
+^^^^^^^^^^^^^^^^
 
-.. automodule:: simgon._distance_dtw
-   :members:
-   :show-inheritance:
-   :undoc-members:
+.. autofunction:: simgon.clusterer.read_time_series
 
-simgon.distance_pattern
-----------------------------------
+simulate_from_vensim
+^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: simgon._distance_pattern
-   :members:
-   :show-inheritance:
-   :undoc-members:
+.. autofunction:: simgon.clusterer.simulate_from_vensim
 
-simgon.distance_pattern_dtw
----------------------------------------
+perform_clustering
+^^^^^^^^^^^^^^^^^
 
-.. automodule:: simgon._distance_pattern_dtw
-   :members:
-   :show-inheritance:
-   :undoc-members:
+.. autofunction:: simgon.clusterer.perform_clustering
 
-simgon.distance_scipy
-------------------------------
+Cluster
+^^^^^^^
 
-.. automodule:: simgon._distance_scipy
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-simgon.plotting
-------------------------------
-
-.. automodule:: simgon._plotting
+.. autoclass:: simgon.clusterer.Cluster
    :members:
    :show-inheritance:
    :undoc-members:
