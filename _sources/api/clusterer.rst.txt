@@ -4,11 +4,6 @@ API Reference
 simgon.clusterer
 --------------------------
 
-.. automodule:: simgon.clusterer
-   :noindex:
-   :undoc-members: False
-   :exclude-members: Cluster, _distance_functions, _create_cluster_list, _flatcluster
-
 .. _read_time_series:
 
 read_time_series
