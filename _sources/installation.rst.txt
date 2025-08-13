@@ -20,7 +20,7 @@ To install clusterer with conda, using the conda-forge channel, use the followin
    conda install -c conda-forge simgon
 
 Required Dependencies
---------------------
+---------------------
 
 Clusterer requires **Python X.X** or above.
 

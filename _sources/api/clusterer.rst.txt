@@ -6,7 +6,6 @@ simgon.clusterer
 
 .. automodule:: simgon.clusterer
    :noindex:
-   :members: read_time_series, simulate_from_vensim, perform_clustering
    :undoc-members: False
    :exclude-members: Cluster, _distance_functions, _create_cluster_list, _flatcluster
 
