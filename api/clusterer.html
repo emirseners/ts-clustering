@@ -44,24 +44,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#simgon-clusterer">simgon.clusterer</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#read-time-series">read_time_series</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.read_time_series"><code class="docutils literal notranslate"><span class="pre">read_time_series()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#simulate-from-vensim">simulate_from_vensim</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.simulate_from_vensim"><code class="docutils literal notranslate"><span class="pre">simulate_from_vensim()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#perform-clustering">perform_clustering</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#simgon.clusterer.perform_clustering"><code class="docutils literal notranslate"><span class="pre">perform_clustering()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a></li>
 </ul>
 
         </div>
@@ -99,13 +82,6 @@ post-processing of bundles of time-series data.</p>
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">perform_clustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern_dtw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interClusterDistance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inconsistent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotDendrogram</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotClusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotClustersMode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'show'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#perform_clustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Cluster time series data using hierarchical clustering.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<dl class="simple">
-<dt><a class="reference internal" href="cluster.html#cluster-class-page"><span class="std std-ref">Cluster</span></a></dt><dd><p>Detailed API reference for the <a class="reference internal" href="cluster.html#simgon.clusterer.Cluster" title="simgon.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a> object.</p>
-</dd>
-</dl>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -339,13 +315,6 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <dt class="sig sig-object py" id="simgon.clusterer.perform_clustering">
 <span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">perform_clustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern_dtw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interClusterDistance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inconsistent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotDendrogram</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotClusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotClustersMode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'show'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#perform_clustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simgon.clusterer.perform_clustering" title="Link to this definition"></a></dt>
 <dd><p>Cluster time series data using hierarchical clustering.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<dl class="simple">
-<dt><a class="reference internal" href="cluster.html#cluster-class-page"><span class="std std-ref">Cluster</span></a></dt><dd><p>Detailed API reference for the <a class="reference internal" href="cluster.html#simgon.clusterer.Cluster" title="simgon.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a> object.</p>
-</dd>
-</dl>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

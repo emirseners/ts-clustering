@@ -13,7 +13,7 @@ Welcome to the documentation for ``clusterer``. This library provides simple uti
 * ``numba>=0.57.0``
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    installation
