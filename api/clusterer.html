@@ -19,6 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cluster" href="cluster.html" />
     <link rel="prev" title="Installation" href="../installation.html" /> 
 </head>
 
@@ -62,6 +63,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="cluster.html">Cluster</a></li>
 </ul>
 
         </div>
@@ -95,78 +97,6 @@
 <p>Pattern-oriented behavior clustering module.</p>
 <p>This module provides methods for importing, pre-processing, clustering, and
 post-processing of bundles of time-series data.</p>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">Cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_no</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_ds_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_dss</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#Cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Container for clustering results.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_no</strong> (<em>int</em>)</p></li>
-<li><p><strong>all_ds_indices</strong> (<em>numpy.ndarray</em>)</p></li>
-<li><p><strong>sample_ds</strong> (<em>Tuple</em><em>[</em><em>str</em><em>, </em><em>numpy.ndarray</em><em>]</em>)</p></li>
-<li><p><strong>member_dss</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>numpy.ndarray</em><em>]</em><em>]</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">no</span></span></dt>
-<dd><p>Cluster number/index.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">indices</span></span></dt>
-<dd><p>Original indices of cluster members.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">sample</span></span></dt>
-<dd><p>Representative data series.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[str, np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">members</span></span></dt>
-<dd><p>List of all cluster members.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">size</span></span></dt>
-<dd><p>Number of members in cluster.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">simgon.clusterer.</span></span><span class="sig-name descname"><span class="pre">perform_clustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_w_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern_dtw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interClusterDistance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inconsistent'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotDendrogram</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotClusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotClustersMode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'show'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simgon/clusterer.html#perform_clustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
@@ -174,7 +104,7 @@ post-processing of bundles of time-series data.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference internal" href="cluster.html#cluster-class-page"><span class="std std-ref">Cluster</span></a></dt><dd><p>Detailed API reference for the <a class="reference internal" href="cluster.html#simgon.clusterer.Cluster" title="simgon.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a> object.</p>
+<dt><span class="xref std std-ref">cluster_class_page</span></dt><dd><p>Detailed API reference for the <a class="reference internal" href="cluster.html#simgon.clusterer.Cluster" title="simgon.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a> object.</p>
 </dd>
 </dl>
 </div>
@@ -414,7 +344,7 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference internal" href="cluster.html#cluster-class-page"><span class="std std-ref">Cluster</span></a></dt><dd><p>Detailed API reference for the <a class="reference internal" href="cluster.html#simgon.clusterer.Cluster" title="simgon.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a> object.</p>
+<dt><span class="xref std std-ref">cluster_class_page</span></dt><dd><p>Detailed API reference for the <a class="reference internal" href="cluster.html#simgon.clusterer.Cluster" title="simgon.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a> object.</p>
 </dd>
 </dl>
 </div>
@@ -460,6 +390,7 @@ yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cluster.html" class="btn btn-neutral float-right" title="Cluster" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
