@@ -6,15 +6,15 @@ Welcome to the documentation for ``clusterer``. This library provides simple uti
 **Core Dependencies:**
 
 * ``numpy>=1.24.0``
-* ``scipy>=1.10.0``
+* ``scipy>=1.16.0``
 * ``matplotlib>=3.7.0``
 * ``pandas>=2.0.0``
-* ``xlsxwriter>=3.0.0``
-* ``numba>=0.57.0``
 * ``pysd>=3.0.0``
+* ``numba>=0.57.0``
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   installation
    api/clusterer
