@@ -1,15 +1,20 @@
-Welcome
-========
+Clusterer documentation
+===========================
 
-Welcome to the documentation for the **Time Series Clustering** library. This library provides powerful utilities for clustering time series data using various distance metrics and clustering algorithms.
+Welcome to the documentation for ``clusterer``. This library provides simple utilities for time series clustering.
 
-**Getting Started:**
+**Core Dependencies:**
 
-To get started with the Time Series Clustering library, first check the :doc:`Installation <installation>` guide to set up your environment, then explore the :doc:`API Reference <api/index>` for detailed function documentation.
+* ``numpy>=1.24.0``
+* ``scipy>=1.10.0``
+* ``matplotlib>=3.7.0``
+* ``pandas>=2.0.0``
+* ``xlsxwriter>=3.0.0``
+* ``numba>=0.57.0``
+* ``pysd>=3.0.0``
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   installation
-   api/index
+   api/clusterer
