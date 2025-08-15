@@ -42,7 +42,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installing via pip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html#installing-with-conda">Installing with conda</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html#required-dependencies">Required Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html#optional-dependencies">Optional Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/clusterer.html">Clusterer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/experiment_controller.html">Experiment Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pysd/pysd_notebook.html">PySD usage</a></li>
@@ -91,11 +94,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_pattern_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_pattern_dtw</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_scipy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_dtw</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">._plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">_plot_dendrogram</span><span class="p">,</span> <span class="n">_plot_clusters</span><span class="p">,</span> <span class="n">_interactive_plot_clusterers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">_plot_dendrogram</span><span class="p">,</span> <span class="n">plot_clusters</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pysd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
-<span class="c1"># Internal distance functions dictionary - not exposed to end users</span>
 <span class="n">_distance_functions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="n">_distance_pattern</span><span class="p">,</span> 
     <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">:</span> <span class="n">_distance_pattern_dtw</span><span class="p">,</span>
@@ -162,8 +164,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    file_path : str</span>
 <span class="sd">        Path to the .xlsx or .csv file (can be relative or absolute path).</span>
-<span class="sd">    withClusters : bool, optional</span>
-<span class="sd">        If True, also reads cluster information from &#39;clusters&#39; sheet (default=False).</span>
+<span class="sd">    withClusters : bool, default=False</span>
+<span class="sd">        If True, also reads cluster information from &#39;clusters&#39; sheet.</span>
 <span class="sd">        Note: This parameter is ignored for CSV files as they don&#39;t support multiple sheets.</span>
 
 <span class="sd">    Returns</span>
@@ -270,8 +272,7 @@
 <div class="viewcode-block" id="perform_clustering">
 <a class="viewcode-back" href="../../api/clusterer.html#simclstr.clusterer.perform_clustering">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">perform_clustering</span><span class="p">(</span><span class="n">data_w_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> 
-            <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">plotClusters</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> 
-            <span class="n">plotClustersMode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+            <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cluster time series data using hierarchical clustering.</span>
 
@@ -279,13 +280,18 @@
 <span class="sd">    ----------</span>
 <span class="sd">    data_w_labels : List[Tuple[str, np.ndarray]]</span>
 <span class="sd">        List of (label, data_array) tuples.</span>
-<span class="sd">    distance : str, optional</span>
+<span class="sd">    distance : str, default=&#39;pattern_dtw&#39;</span>
 <span class="sd">        Distance metric to use for clustering. Available options include:</span>
 
 <span class="sd">        **Pattern-based distances:**</span>
+
 <span class="sd">        - `&#39;pattern&#39;`: Pattern distance using behavioral features</span>
+
 <span class="sd">        - `&#39;pattern_dtw&#39;`: Pattern distance with Dynamic Time Warping</span>
+
 <span class="sd">        - `&#39;dtw&#39;`: Dynamic Time Warping distance</span>
+
+<span class="sd">        **Scipy distance metrics:**</span>
 
 <span class="sd">        Based on `scipy.spatial.distance.pdist &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html&gt;`_, supported metrics include:</span>
 
@@ -293,19 +299,14 @@
 <span class="sd">        hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis, </span>
 <span class="sd">        yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</span>
 
-<span class="sd">        Default is &#39;pattern_dtw&#39;.</span>
-<span class="sd">    interClusterDistance : str, optional</span>
-<span class="sd">        Linkage method (&#39;complete&#39;, &#39;single&#39;, &#39;average&#39;, &#39;ward&#39;) (default=&#39;complete&#39;).</span>
-<span class="sd">    cMethod : str, optional</span>
-<span class="sd">        Cutoff method (&#39;inconsistent&#39;, &#39;distance&#39;, &#39;maxclust&#39;, &#39;monocrit&#39;) (default=&#39;inconsistent&#39;).</span>
-<span class="sd">    cValue : float, optional</span>
-<span class="sd">        Cutoff value for clustering criterion (default=1.5).</span>
-<span class="sd">    plotDendrogram : bool, optional</span>
-<span class="sd">        If True, displays dendrogram (default=False).</span>
-<span class="sd">    plotClusters : bool, optional</span>
-<span class="sd">        If True, displays clusters (default=False).</span>
-<span class="sd">    plotClustersMode : str, optional</span>
-<span class="sd">        Mode for plotting clusters (&#39;show&#39;, &#39;save&#39;) (default=&#39;show&#39;).</span>
+<span class="sd">    interClusterDistance : str, default=&#39;complete&#39;</span>
+<span class="sd">        Linkage method. Options: &#39;complete&#39;, &#39;single&#39;, &#39;average&#39;, &#39;ward&#39;.</span>
+<span class="sd">    cMethod : str, default=&#39;inconsistent&#39;</span>
+<span class="sd">        Cutoff method. Options: &#39;inconsistent&#39;, &#39;distance&#39;, &#39;maxclust&#39;, &#39;monocrit&#39;.</span>
+<span class="sd">    cValue : float, default=1.5</span>
+<span class="sd">        Cutoff value for clustering criterion.</span>
+<span class="sd">    plotDendrogram : bool, default=False</span>
+<span class="sd">        If True, displays dendrogram.</span>
 <span class="sd">    **kwargs : dict</span>
 <span class="sd">        Additional distance function parameters.</span>
 
@@ -332,46 +333,12 @@
     <span class="c1"># clustering. clusterSetup is a dictionary that customizes the clustering </span>
     <span class="c1"># algorithm to be used.</span>
     
-    <span class="n">clusters</span><span class="p">,</span> <span class="n">data_w_desc</span> <span class="o">=</span> <span class="n">_flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="n">plotDendrogram</span><span class="p">,</span> 
-                                        <span class="n">interClusterDistance</span><span class="o">=</span><span class="n">interClusterDistance</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="n">cValue</span><span class="p">)</span>
+    <span class="n">clusters</span><span class="p">,</span> <span class="n">data_w_desc</span> <span class="o">=</span> <span class="n">_flatcluster</span><span class="p">(</span><span class="n">dRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="n">plotDendrogram</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="o">=</span><span class="n">interClusterDistance</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="n">cValue</span><span class="p">)</span>
 
     <span class="n">clusterList</span> <span class="o">=</span> <span class="n">_create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">plotClusters</span><span class="p">:</span>
-        <span class="n">_plot_clusters</span><span class="p">(</span><span class="n">clusterList</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">plotClustersMode</span><span class="p">)</span>
-
     <span class="k">return</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">clusterList</span><span class="p">,</span> <span class="n">clusters</span></div>
 
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create an interactive plot of clustering results.</span>
-<span class="sd">    </span>
-<span class="sd">    This function creates an interactive visualization where users can:</span>
-<span class="sd">    - Click on time series lines to see detailed information (label, data points, statistics)</span>
-<span class="sd">    - Click on cluster subplot areas to see cluster information (sample, size, indices, members)</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    cluster_list : List[Cluster]</span>
-<span class="sd">        List of Cluster objects from perform_clustering()</span>
-<span class="sd">    distance : str, optional</span>
-<span class="sd">        Distance metric name for display (default=&#39;pattern_dtw&#39;)</span>
-<span class="sd">        </span>
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    This function requires an interactive matplotlib backend. The plot window will</span>
-<span class="sd">    remain open until manually closed. Information about clicked elements will</span>
-<span class="sd">    appear in the bottom panel of the plot.</span>
-<span class="sd">    </span>
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; data = read_time_series(&#39;data.xlsx&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; dRow, clusters, assignments = perform_clustering(data)</span>
-<span class="sd">    &gt;&gt;&gt; interactive_plot_clusters(clusters, &#39;pattern_dtw&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_interactive_plot_clusterers</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">distRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]:</span>
@@ -398,7 +365,6 @@
     <span class="n">total_size</span> <span class="o">=</span> <span class="n">clusters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nr_clusters</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="c1"># Determine the indices for cluster i</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">clusters</span><span class="o">==</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">cluster_size</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         
@@ -427,8 +393,7 @@
         <span class="c1">#get the index of the result with the lowest sum of distances</span>
         <span class="n">min_cIndex</span> <span class="o">=</span> <span class="n">row_sum</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
     
-        <span class="c1"># convert this cluster specific index back to the overall cluster list </span>
-        <span class="c1"># of indices</span>
+        <span class="c1"># convert this cluster specific index back to the overall cluster list of indices</span>
         <span class="n">originalIndex</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">min_cIndex</span><span class="p">]</span>
 
         <span class="n">indices_list</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -450,14 +415,14 @@
 <span class="sd">        Condensed distance matrix.</span>
 <span class="sd">    data : List[Tuple[Dict[str, Any], np.ndarray]]</span>
 <span class="sd">        List of (metadata_dict, data_array) tuples.</span>
-<span class="sd">    interClusterDistance : str, optional</span>
-<span class="sd">        Linkage method (default=&#39;complete&#39;).</span>
-<span class="sd">    plotDendrogram : bool, optional</span>
-<span class="sd">        If True, displays dendrogram (default=True).</span>
-<span class="sd">    cMethod : str, optional</span>
-<span class="sd">        Clustering criterion (default=&#39;inconsistent&#39;).</span>
-<span class="sd">    cValue : float, optional</span>
-<span class="sd">        Threshold value (default=2.5).</span>
+<span class="sd">    interClusterDistance : str, default=&#39;complete&#39;</span>
+<span class="sd">        Linkage method.</span>
+<span class="sd">    plotDendrogram : bool, default=True</span>
+<span class="sd">        If True, displays dendrogram.</span>
+<span class="sd">    cMethod : str, default=&#39;inconsistent&#39;</span>
+<span class="sd">        Clustering criterion.</span>
+<span class="sd">    cValue : float, default=2.5</span>
+<span class="sd">        Threshold value.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -478,8 +443,6 @@
     <span class="k">return</span> <span class="n">clusters</span><span class="p">,</span> <span class="n">data</span>
 
 
-<div class="viewcode-block" id="Cluster">
-<a class="viewcode-back" href="../../api/cluster.html#simclstr.clusterer.Cluster">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Cluster</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for clustering results.</span>
@@ -503,8 +466,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">all_ds_indices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample_ds</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">members</span> <span class="o">=</span> <span class="n">member_dss</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">members</span> <span class="o">=</span> <span class="n">member_dss</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -513,7 +475,8 @@
 
     <span class="c1">#results = perform_clustering(data_set, distance=&#39;manhattan&#39;)</span>
     <span class="c1">#results = perform_clustering(data_set, cValue=10000, distance=&#39;manhattan&#39;, cMethod=&#39;distance&#39;)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data_set</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data_set</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plot_clusters</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;show&#39;</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distances:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of members in each cluster:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]))])</span>
@@ -527,7 +490,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Gonenc.</p>
+    <p>&#169; Copyright 2025, Sesdyn Geeks.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
