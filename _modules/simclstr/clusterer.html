@@ -91,7 +91,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_pattern_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_pattern_dtw</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_scipy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_dtw</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">._plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">_plot_dendrogram</span><span class="p">,</span> <span class="n">_plot_clusters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">._plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">_plot_dendrogram</span><span class="p">,</span> <span class="n">_plot_clusters</span><span class="p">,</span> <span class="n">_interactive_plot_clusterers</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pysd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
@@ -342,6 +342,36 @@
 
     <span class="k">return</span> <span class="n">dRow</span><span class="p">,</span> <span class="n">clusterList</span><span class="p">,</span> <span class="n">clusters</span></div>
 
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an interactive plot of clustering results.</span>
+<span class="sd">    </span>
+<span class="sd">    This function creates an interactive visualization where users can:</span>
+<span class="sd">    - Click on time series lines to see detailed information (label, data points, statistics)</span>
+<span class="sd">    - Click on cluster subplot areas to see cluster information (sample, size, indices, members)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cluster_list : List[Cluster]</span>
+<span class="sd">        List of Cluster objects from perform_clustering()</span>
+<span class="sd">    distance : str, optional</span>
+<span class="sd">        Distance metric name for display (default=&#39;pattern_dtw&#39;)</span>
+<span class="sd">        </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function requires an interactive matplotlib backend. The plot window will</span>
+<span class="sd">    remain open until manually closed. Information about clicked elements will</span>
+<span class="sd">    appear in the bottom panel of the plot.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; data = read_time_series(&#39;data.xlsx&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; dRow, clusters, assignments = perform_clustering(data)</span>
+<span class="sd">    &gt;&gt;&gt; interactive_plot_clusters(clusters, &#39;pattern_dtw&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_interactive_plot_clusterers</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_create_cluster_list</span><span class="p">(</span><span class="n">clusters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">distRow</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data_w_desc</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Cluster&#39;</span><span class="p">]:</span>
