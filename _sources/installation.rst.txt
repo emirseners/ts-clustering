@@ -1,5 +1,8 @@
+Installation
+===========
+
 Installing via pip
-------------------
+-----------------
 
 To install the simclstr package from the Python package index use the pip command:
 
