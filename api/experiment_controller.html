@@ -91,6 +91,48 @@
 <h2>simclstr.experiment_controller<a class="headerlink" href="#simclstr-experiment-controller" title="Link to this heading"></a></h2>
 <section id="experiment-controller">
 <span id="id1"></span><h3>experiment_controller<a class="headerlink" href="#experiment-controller" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="simclstr.experiment_controller.experiment_controller">
+<span class="sig-prename descclassname"><span class="pre">simclstr.experiment_controller.</span></span><span class="sig-name descname"><span class="pre">experiment_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distanceMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern_dtw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'original'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'maxclust'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/experiment_controller.html#experiment_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.experiment_controller.experiment_controller" title="Link to this definition"></a></dt>
+<dd><p>Run a controlled clustering experiment with comprehensive reporting.</p>
+<p>This function performs clustering experiments with different parameters and generates
+detailed reports including performance metrics and visualizations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputFileName</strong> (<em>str</em>) – Path to the input file containing time series data</p></li>
+<li><p><strong>distanceMethod</strong> (<em>str</em><em>, </em><em>default='pattern_dtw'</em>) – pattern, pattern_dtw, dtw,
+euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation,
+hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis,
+yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</p></li>
+<li><p><strong>flatMethod</strong> (<em>str</em><em>, </em><em>default='complete'</em>) – Hierarchical clustering linkage method. Options: ‘complete’, ‘single’,
+‘average’, ‘weighted’, ‘centroid’, ‘median’, ‘ward’</p></li>
+<li><p><strong>transform</strong> (<em>str</em><em>, </em><em>default='original'</em>) – Data transformation method. Options: ‘original’, ‘normalize’, ‘standardize’</p></li>
+<li><p><strong>cMethod</strong> (<em>str</em><em>, </em><em>default='maxclust'</em>) – Clustering method. Options: ‘maxclust’, ‘distance’, ‘inconsistent’, ‘monocrit’</p></li>
+<li><p><strong>cValue</strong> (<em>int</em><em>, </em><em>default=9</em>) – Number of clusters or distance threshold depending on cMethod</p></li>
+<li><p><strong>replicate</strong> (<em>int</em><em>, </em><em>default=1</em>) – Number of replications for pattern distance method (only applicable when distanceMethod=’pattern’)</p></li>
+<li><p><strong>note</strong> (<em>str</em><em>, </em><em>default=''</em>) – Additional note to append to output filename</p></li>
+<li><p><strong>save_plots</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Whether to generate and save cluster plots</p></li>
+<li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=None</em>) – Directory to save output files. If None, creates ‘output’ directory in package root</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing experiment results including:
+- ‘clusters’: Final cluster assignments
+- ‘cluster_list’: Detailed cluster information
+- ‘distance_matrix’: Computed distance matrix
+- ‘rand_index’: Rand index comparing with original clusters
+- ‘jaccard_index’: Jaccard index comparing with original clusters
+- ‘run_time’: Execution time in seconds
+- ‘output_file’: Path to generated Excel report
+- ‘plot_file’: Path to generated plot (if plot=True)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 </section>
