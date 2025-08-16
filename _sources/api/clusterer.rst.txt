@@ -2,7 +2,7 @@ API Reference
 =================
 
 simclstr.clusterer
---------------------------
+---------------------
 
 .. _read_time_series:
 
