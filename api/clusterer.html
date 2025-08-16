@@ -190,14 +190,14 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples.</p></li>
-<li><p><strong>distance</strong> (<em>str</em><em>, </em><em>default='pattern_dtw'</em>) – <p>Distance metric to use for clustering. Available options include:</p>
-<p><strong>Pattern-based distances:</strong></p>
+<li><p><strong>distance</strong> (<em>str</em><em>, </em><em>default='pattern_dtw'</em>) – <p>Available distance metrics include:</p>
+<p>Pattern-based distances:</p>
 <ul>
 <li><p><cite>’pattern’</cite>: Pattern distance using behavioral features</p></li>
 <li><p><cite>’pattern_dtw’</cite>: Pattern distance with Dynamic Time Warping</p></li>
 <li><p><cite>’dtw’</cite>: Dynamic Time Warping distance</p></li>
 </ul>
-<p><strong>`Scipy distance metrics &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html&gt;`__</strong>:</p>
+<p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html">Scipy distance metrics</a>:</p>
 <p>euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation,
 hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis,
 yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</p>
