@@ -1,15 +1,7 @@
 Plotting Functions
-================
+====================
 
 This module provides utilities for visualizing clustering results.
-
-.. automodule:: simclstr.plotting
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Functions
----------
 
 .. autofunction:: simclstr.plotting.plot_clusters
 
