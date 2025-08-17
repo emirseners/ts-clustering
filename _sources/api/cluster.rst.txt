@@ -14,19 +14,6 @@ Cluster
     :undoc-members:
     :show-inheritance:
 
-Description
-~~~~~~~~~~~
-
-The Cluster class is a container for clustering results. It holds information about:
-
-- Cluster number/identifier
-- Original indices of cluster members in the dataset
-- Representative (sample) data series for the cluster
-- All member data series in the cluster
-- Cluster size
-
-Each cluster object provides easy access to cluster metadata and member data, making it convenient to analyze clustering results and perform visualizations.
-
 Attributes
 ~~~~~~~~~~
 
@@ -46,23 +33,3 @@ Attributes
      - List of all cluster members (List[Tuple[str, np.ndarray]])
    * - ``size``
      - Number of members in cluster (int)
-
-Usage Example
-~~~~~~~~~~~~~
-
-.. code-block:: python
-
-    from simclstr import read_time_series, perform_clustering
-    
-    # Load data and perform clustering
-    data = read_time_series('data.xlsx')
-    distances, clusters, cluster_assignments = perform_clustering(data)
-    
-    # Access cluster information
-    for cluster in clusters:
-        print(f"Cluster {cluster.no} has {cluster.size} members")
-        print(f"Representative sample: {cluster.sample[0]}")
-        
-        # Access all members
-        for label, series in cluster.members:
-            print(f"  Member: {label}")
