@@ -2,7 +2,7 @@ API Reference
 =================
 
 simclstr.clusterer
---------------------------
+---------------------
 
 .. _read_time_series:
 
@@ -24,3 +24,11 @@ perform_clustering
 ^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: simclstr.clusterer.perform_clustering
+
+Cluster
+^^^^^^^
+
+.. autoclass:: simclstr.clusterer.Cluster
+    :members:
+    :undoc-members:
+    :show-inheritance:

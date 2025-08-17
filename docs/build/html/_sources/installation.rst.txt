@@ -1,8 +1,8 @@
 Installation
-============
+=============
 
 Installing via pip
-------------------
+--------------------
 
 To install the simclstr package from the Python package index use the pip command:
 
@@ -43,3 +43,7 @@ For enhanced plotting capabilities:
 For using `PySD <https://pysd.readthedocs.io/en/master/index.html>`_ for simulation:
 
 * PySD >= 3.0.0
+
+For using `Plotly <https://plotly.com/python/>`_ for interactive plotting:
+
+* Plotly >= 6.3.0

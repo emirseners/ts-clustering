@@ -40,13 +40,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Library Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/clusterer.html">Clusterer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/clusterer.html">Main Clustering Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basicA/basicA_notebook.html">BasicA Instance Example</a></li>
 </ul>
 
         </div>
@@ -84,10 +88,10 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xlsxwriter</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">._plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">_plot_clusters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_clusters</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.clusterer</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_time_series</span><span class="p">,</span> <span class="n">perform_clustering</span>
 
 
@@ -204,61 +208,99 @@
 <a class="viewcode-back" href="../../api/experiment_controller.html#simclstr.experiment_controller.experiment_controller">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">experiment_controller</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> <span class="n">flatMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> 
                         <span class="n">transform</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span>  <span class="n">replicate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> 
-                        <span class="n">note</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+                        <span class="n">note</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">save_plots</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a controlled clustering experiment with comprehensive reporting.</span>
 
 <span class="sd">    This function performs clustering experiments with different parameters and generates</span>
-<span class="sd">    detailed reports including performance metrics and visualizations.</span>
+<span class="sd">    detailed reports including performance metrics, visualizations, and Excel summaries.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    inputFileName : str</span>
-<span class="sd">        Path to the input file containing time series data</span>
-<span class="sd">    distanceMethod : str, optional</span>
-<span class="sd">        Distance method to use. Options: pattern, pattern_dtw, dtw, </span>
-<span class="sd">        euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation, </span>
-<span class="sd">        hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis, </span>
-<span class="sd">        yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</span>
-<span class="sd">        Default is &#39;pattern_dtw&#39;</span>
-<span class="sd">    flatMethod : str, optional</span>
-<span class="sd">        Hierarchical clustering linkage method. Options: &#39;complete&#39;, &#39;single&#39;, </span>
-<span class="sd">        &#39;average&#39;, &#39;weighted&#39;, &#39;centroid&#39;, &#39;median&#39;, &#39;ward&#39;</span>
-<span class="sd">        Default is &#39;complete&#39;</span>
-<span class="sd">    transform : str, optional</span>
-<span class="sd">        Data transformation method. Options: &#39;original&#39;, &#39;normalize&#39;, &#39;standardize&#39;</span>
-<span class="sd">        Default is &#39;original&#39;</span>
-<span class="sd">    cMethod : str, optional</span>
-<span class="sd">        Clustering method. Options: &#39;maxclust&#39;, &#39;distance&#39;, &#39;inconsistent&#39;, &#39;monocrit&#39;</span>
-<span class="sd">        Default is &#39;maxclust&#39;</span>
-<span class="sd">    cValue : int, optional</span>
-<span class="sd">        Number of clusters or distance threshold depending on cMethod</span>
-<span class="sd">        Default is 9</span>
-<span class="sd">    replicate : int, optional</span>
-<span class="sd">        Number of replications for pattern distance method (only applicable when distanceMethod=&#39;pattern&#39;)</span>
-<span class="sd">        Default is 1</span>
-<span class="sd">    note : str, optional</span>
-<span class="sd">        Additional note to append to output filename</span>
-<span class="sd">        Default is &#39;&#39;</span>
-<span class="sd">    plot : bool, optional</span>
-<span class="sd">        Whether to generate and save cluster plots</span>
-<span class="sd">        Default is True</span>
-<span class="sd">    output_dir : str, optional</span>
-<span class="sd">        Directory to save output files. If None, creates &#39;output&#39; directory in package root</span>
-<span class="sd">        Default is None</span>
+<span class="sd">        Path to the input file containing time series data. Supports .xlsx and .csv formats.</span>
+<span class="sd">        For .xlsx files, expects &#39;data&#39; sheet with time series and optional &#39;clusters&#39; sheet</span>
+<span class="sd">        with ground truth cluster assignments.</span>
+<span class="sd">    distanceMethod : str, default=&#39;pattern_dtw&#39;</span>
+<span class="sd">        Distance metric to use for clustering. Available options:</span>
+<span class="sd">        </span>
+<span class="sd">        **Pattern-based distances:**</span>
+<span class="sd">        </span>
+<span class="sd">        - ``&#39;pattern&#39;``: Pattern distance using behavioral features</span>
+<span class="sd">        - ``&#39;pattern_dtw&#39;``: Pattern distance with Dynamic Time Warping</span>
+<span class="sd">        - ``&#39;dtw&#39;``: Dynamic Time Warping distance</span>
+<span class="sd">        </span>
+<span class="sd">        **Scipy distance metrics:**</span>
+<span class="sd">        </span>
+<span class="sd">        - ``&#39;euclidean&#39;``, ``&#39;minkowski&#39;``, ``&#39;cityblock&#39;``, ``&#39;seuclidean&#39;``, ``&#39;sqeuclidean&#39;``</span>
+<span class="sd">        - ``&#39;cosine&#39;``, ``&#39;correlation&#39;``, ``&#39;hamming&#39;``, ``&#39;jaccard&#39;``, ``&#39;jensenshannon&#39;``</span>
+<span class="sd">        - ``&#39;chebyshev&#39;``, ``&#39;canberra&#39;``, ``&#39;braycurtis&#39;``, ``&#39;mahalanobis&#39;``</span>
+<span class="sd">        - ``&#39;yule&#39;``, ``&#39;matching&#39;``, ``&#39;dice&#39;``, ``&#39;rogerstanimoto&#39;``, ``&#39;russellrao&#39;``</span>
+<span class="sd">        - ``&#39;sokalsneath&#39;``, ``&#39;kulczynski1&#39;``</span>
+<span class="sd">        </span>
+<span class="sd">    flatMethod : str, default=&#39;complete&#39;</span>
+<span class="sd">        Hierarchical clustering linkage method for agglomerative clustering:</span>
+<span class="sd">        </span>
+<span class="sd">        - ``&#39;complete&#39;``: Maximum distances between all observations of two sets</span>
+<span class="sd">        - ``&#39;single&#39;``: Minimum distances between all observations of two sets  </span>
+<span class="sd">        - ``&#39;average&#39;``: Average distances between all observations of two sets</span>
+<span class="sd">        - ``&#39;weighted&#39;``: Weighted average distances </span>
+<span class="sd">        - ``&#39;centroid&#39;``: Distance between centroids of clusters</span>
+<span class="sd">        - ``&#39;median&#39;``: Distance between medians of clusters</span>
+<span class="sd">        - ``&#39;ward&#39;``: Minimizes within-cluster sum of squared differences</span>
+<span class="sd">        </span>
+<span class="sd">    transform : str, default=&#39;original&#39;</span>
+<span class="sd">        Data transformation method applied before clustering:</span>
+<span class="sd">        </span>
+<span class="sd">        - ``&#39;original&#39;``: No transformation applied</span>
+<span class="sd">        - ``&#39;normalize&#39;``: Min-max normalization to [0,1] range</span>
+<span class="sd">        - ``&#39;standardize&#39;``: Z-score standardization (mean=0, std=1)</span>
+<span class="sd">        </span>
+<span class="sd">    cMethod : str, default=&#39;maxclust&#39;</span>
+<span class="sd">        Clustering criterion for forming flat clusters from hierarchy:</span>
+<span class="sd">        </span>
+<span class="sd">        - ``&#39;maxclust&#39;``: Maximum number of clusters (requires cValue = number of clusters)</span>
+<span class="sd">        - ``&#39;distance&#39;``: Distance threshold (requires cValue = distance threshold)</span>
+<span class="sd">        - ``&#39;inconsistent&#39;``: Inconsistency criterion (requires cValue = inconsistency threshold)</span>
+<span class="sd">        - ``&#39;monocrit&#39;``: Monotonic criterion (requires cValue = threshold)</span>
+<span class="sd">        </span>
+<span class="sd">    cValue : int, default=9</span>
+<span class="sd">        Threshold value for clustering criterion. Interpretation depends on cMethod:</span>
+<span class="sd">        </span>
+<span class="sd">        - For ``&#39;maxclust&#39;``: Number of desired clusters</span>
+<span class="sd">        - For ``&#39;distance&#39;``: Distance threshold for cluster formation</span>
+<span class="sd">        - For ``&#39;inconsistent&#39;``: Inconsistency coefficient threshold</span>
+<span class="sd">        - For ``&#39;monocrit&#39;``: Threshold for monotonic criterion</span>
+<span class="sd">        </span>
+<span class="sd">    replicate : int, default=1</span>
+<span class="sd">        Number of replications for pattern distance method. Only applicable when</span>
+<span class="sd">        distanceMethod=&#39;pattern&#39;. Higher values provide more robust results for</span>
+<span class="sd">        stochastic pattern distance but increase computation time.</span>
+<span class="sd">    note : str, default=&#39;&#39;</span>
+<span class="sd">        Additional note to append to output filename for identification purposes.</span>
+<span class="sd">        Useful for experiment tracking and organization.</span>
+<span class="sd">    save_plots : bool, default=True</span>
+<span class="sd">        Whether to generate and save cluster visualization plots as PNG files.</span>
+<span class="sd">        Plots show all time series grouped by their assigned clusters.</span>
+<span class="sd">    output_dir : Optional[str], default=None</span>
+<span class="sd">        Directory path to save output files. If None, creates &#39;output&#39; directory </span>
+<span class="sd">        in the package root. Directory will be created if it doesn&#39;t exist.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    dict</span>
-<span class="sd">        Dictionary containing experiment results including:</span>
-<span class="sd">        - &#39;clusters&#39;: Final cluster assignments</span>
-<span class="sd">        - &#39;cluster_list&#39;: Detailed cluster information</span>
-<span class="sd">        - &#39;distance_matrix&#39;: Computed distance matrix</span>
-<span class="sd">        - &#39;rand_index&#39;: Rand index comparing with original clusters</span>
-<span class="sd">        - &#39;jaccard_index&#39;: Jaccard index comparing with original clusters</span>
-<span class="sd">        - &#39;run_time&#39;: Execution time in seconds</span>
-<span class="sd">        - &#39;output_file&#39;: Path to generated Excel report</span>
-<span class="sd">        - &#39;plot_file&#39;: Path to generated plot (if plot=True)</span>
+<span class="sd">    Dict[str, Any]</span>
+<span class="sd">        Dictionary containing comprehensive experiment results:</span>
+<span class="sd">        </span>
+<span class="sd">        - ``&#39;clusters&#39;``: Final cluster assignments as numpy array</span>
+<span class="sd">        - ``&#39;cluster_list&#39;``: List of Cluster objects with detailed information</span>
+<span class="sd">        - ``&#39;distance_matrix&#39;``: Computed condensed distance matrix  </span>
+<span class="sd">        - ``&#39;rand_index&#39;``: Rand index comparing with original clusters (if available)</span>
+<span class="sd">        - ``&#39;jaccard_index&#39;``: Jaccard index comparing with original clusters (if available)</span>
+<span class="sd">        - ``&#39;run_time&#39;``: Clustering execution time in seconds</span>
+<span class="sd">        - ``&#39;total_time&#39;``: Total experiment time including I/O in seconds</span>
+<span class="sd">        - ``&#39;num_clusters&#39;``: Number of clusters formed</span>
+<span class="sd">        - ``&#39;output_file&#39;``: Path to generated Excel report file</span>
+<span class="sd">        - ``&#39;plot_file&#39;``: Path to generated plot file (if save_plots=True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">very_begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     
@@ -270,9 +312,10 @@
     <span class="n">valid_distance_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pattern&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> <span class="s1">&#39;dtw&#39;</span><span class="p">,</span> <span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> 
                              <span class="s1">&#39;minkowski&#39;</span><span class="p">,</span> <span class="s1">&#39;cityblock&#39;</span><span class="p">,</span> <span class="s1">&#39;seuclidean&#39;</span><span class="p">,</span> <span class="s1">&#39;sqeuclidean&#39;</span><span class="p">,</span> 
                              <span class="s1">&#39;cosine&#39;</span><span class="p">,</span> <span class="s1">&#39;correlation&#39;</span><span class="p">,</span> <span class="s1">&#39;hamming&#39;</span><span class="p">,</span> <span class="s1">&#39;jaccard&#39;</span><span class="p">,</span> <span class="s1">&#39;jensenshannon&#39;</span><span class="p">,</span> 
-                             <span class="s1">&#39;chebyshev&#39;</span><span class="p">,</span> <span class="s1">&#39;canberra&#39;</span><span class="p">,</span> <span class="s1">&#39;braycurtis&#39;</span><span class="p">,</span> <span class="s1">&#39;mahalobis&#39;</span><span class="p">,</span> <span class="s1">&#39;yule&#39;</span><span class="p">,</span> 
+                             <span class="s1">&#39;chebyshev&#39;</span><span class="p">,</span> <span class="s1">&#39;canberra&#39;</span><span class="p">,</span> <span class="s1">&#39;braycurtis&#39;</span><span class="p">,</span> <span class="s1">&#39;mahalanobis&#39;</span><span class="p">,</span> <span class="s1">&#39;yule&#39;</span><span class="p">,</span> 
                              <span class="s1">&#39;matching&#39;</span><span class="p">,</span> <span class="s1">&#39;dice&#39;</span><span class="p">,</span> <span class="s1">&#39;rogerstanimoto&#39;</span><span class="p">,</span> <span class="s1">&#39;russellrao&#39;</span><span class="p">,</span> 
                              <span class="s1">&#39;sokalsneath&#39;</span><span class="p">,</span> <span class="s1">&#39;kulczynski1&#39;</span><span class="p">]</span>
+
     <span class="k">if</span> <span class="n">distanceMethod</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_distance_methods</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid distance method: </span><span class="si">{</span><span class="n">distanceMethod</span><span class="si">}</span><span class="s2">. Valid options: </span><span class="si">{</span><span class="n">valid_distance_methods</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     
@@ -442,11 +485,11 @@
         <span class="n">output_file_path</span> <span class="o">=</span> <span class="kc">None</span>
     
     <span class="c1"># Generate plots if requested</span>
-    <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">save_plots</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">plot_base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">outputFileName</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">plot_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">plot_base_name</span><span class="p">)</span>
-            <span class="n">_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">plot_file_path</span><span class="p">)</span>
+            <span class="n">plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;save&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="n">plot_file_path</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster plots saved to: </span><span class="si">{</span><span class="n">plot_file_path</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to generate plots: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -481,7 +524,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Gonenc.</p>
+    <p>&#169; Copyright 2025, Sesdyn Geeks.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

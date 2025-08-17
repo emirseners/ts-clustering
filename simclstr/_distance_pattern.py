@@ -109,33 +109,42 @@ def create_sisters(shortFV: np.ndarray, desired_shape: Tuple[int, int], sister_c
 def _distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterCount: int = 50, 
                     wSlopeError: float = 1, wCurvatureError: float = 1) -> Tuple[np.ndarray, List[Tuple[Dict[str, str], np.ndarray]]]:
     """
-    Calculate pairwise pattern distances between all data sequences.
-
-    The distance measures the proximity of data series in terms of their 
-    qualitative pattern features. In other words, it quantifies the proximity 
-    between two different dynamic behaviour modes.
+    This function computes distances based on qualitative behavioral patterns rather than
+    raw data values. It extracts slope and curvature features from time series and compares
+    these behavioral characteristics to determine similarity between different dynamic modes.
+    
+    The pattern distance is particularly useful for identifying similar behavioral patterns
+    even when the actual values differ significantly, focusing on the shape and trends
+    rather than magnitude.
 
     Parameters
     ----------
     data : np.ndarray
-        2D array of shape (n_samples, n_features) containing sequences to compare.
-    significanceLevel : float, optional
-        The threshold value to be used in filtering out fluctuations in the slope 
-        and the curvature (default=0.01).
-    sisterCount : int, optional
-        Number of long-versions that will be created for the short vector while 
-        comparing two data series with unequal feature vector lengths (default=50).
-    wSlopeError : float, optional
-        Weight of the error between the slope dimensions ([:, 0]) of the two feature vectors (default=1).
-    wCurvatureError : float, optional
-        Weight of the error between the curvature dimensions ([:, 1]) of the two feature vectors (default=1).
+        2D array of shape (n_samples, n_features) containing time series sequences to compare.
+        Each row represents one time series, and each column represents a time point.
+    significanceLevel : float, default=0.01
+        Threshold value (as a fraction) for filtering out insignificant fluctuations in 
+        slope and curvature calculations. Values below this threshold relative to the
+        data magnitude are considered noise and set to zero.
+    sisterCount : int, default=50
+        Number of extended versions created for shorter feature vectors when comparing
+        sequences with different behavioral segment counts. Higher values provide more
+        thorough comparison but increase computation time.
+    wSlopeError : float, default=1.0
+        Weight applied to slope dimension errors when calculating feature vector distances.
+    wCurvatureError : float, default=1.0
+        Weight applied to curvature dimension errors when calculating feature vector distances.
 
     Returns
     -------
     dRow : np.ndarray
         Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.
     runLogs : List[Tuple[Dict[str, str], np.ndarray]]
-        List of (metadata_dict, sequence) tuples for tracking original data and feature vectors.
+        List of (metadata_dict, sequence) tuples containing:
+
+        - metadata_dict: Dictionary with 'Index' and 'Feature vector' keys
+
+        - sequence: Original time series data
     """
     features = _construct_features(data, significanceLevel)
 

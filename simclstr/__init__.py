@@ -8,22 +8,25 @@ End users should use the main functions: read_time_series, perform_clustering, a
 from .clusterer import (
     read_time_series,
     simulate_from_vensim,
-    perform_clustering,
-    Cluster
+    perform_clustering
+)
+
+from .plotting import (
+    plot_clusters,
+    interactive_plot_clusters
 )
 
 from .experiment_controller import (
-    experiment_controller,
-    _compare_clusterings
+    experiment_controller
 )
 
 __all__ = [
     "read_time_series",
     "simulate_from_vensim", 
     "perform_clustering",
-    "Cluster",
-    "experiment_controller",
-    "_compare_clusterings"
+    "plot_clusters",
+    "interactive_plot_clusters",
+    "experiment_controller"
 ]
 
 __version__ = "0.1.0"

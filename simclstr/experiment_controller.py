@@ -8,10 +8,10 @@ comparing different clustering methods, and generating comprehensive reports.
 import os
 import time
 import numpy as np
-from typing import List, Tuple, Optional, Union
+from typing import List, Tuple, Optional, Union, Dict, Any
 import warnings
 import xlsxwriter
-from ._plotting import _plot_clusters
+from .plotting import plot_clusters
 from .clusterer import read_time_series, perform_clustering
 
 
@@ -126,61 +126,99 @@ def _compare_clusterings(clusters1: Union[List, np.ndarray], clusters2: Union[Li
 
 def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw', flatMethod: str = 'complete', 
                         transform: str = 'original', cMethod: str = 'maxclust', cValue: int = 9,  replicate: int = 1, 
-                        note: str = '', plot: bool = True, output_dir: Optional[str] = None) -> dict:
+                        note: str = '', save_plots: bool = True, output_dir: Optional[str] = None) -> Dict[str, Any]:
     """
     Run a controlled clustering experiment with comprehensive reporting.
 
     This function performs clustering experiments with different parameters and generates
-    detailed reports including performance metrics and visualizations.
+    detailed reports including performance metrics, visualizations, and Excel summaries.
 
     Parameters
     ----------
     inputFileName : str
-        Path to the input file containing time series data
-    distanceMethod : str, optional
-        Distance method to use. Options: pattern, pattern_dtw, dtw, 
-        euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation, 
-        hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis, 
-        yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1
-        Default is 'pattern_dtw'
-    flatMethod : str, optional
-        Hierarchical clustering linkage method. Options: 'complete', 'single', 
-        'average', 'weighted', 'centroid', 'median', 'ward'
-        Default is 'complete'
-    transform : str, optional
-        Data transformation method. Options: 'original', 'normalize', 'standardize'
-        Default is 'original'
-    cMethod : str, optional
-        Clustering method. Options: 'maxclust', 'distance', 'inconsistent', 'monocrit'
-        Default is 'maxclust'
-    cValue : int, optional
-        Number of clusters or distance threshold depending on cMethod
-        Default is 9
-    replicate : int, optional
-        Number of replications for pattern distance method (only applicable when distanceMethod='pattern')
-        Default is 1
-    note : str, optional
-        Additional note to append to output filename
-        Default is ''
-    plot : bool, optional
-        Whether to generate and save cluster plots
-        Default is True
-    output_dir : str, optional
-        Directory to save output files. If None, creates 'output' directory in package root
-        Default is None
+        Path to the input file containing time series data. Supports .xlsx and .csv formats.
+        For .xlsx files, expects 'data' sheet with time series and optional 'clusters' sheet
+        with ground truth cluster assignments.
+    distanceMethod : str, default='pattern_dtw'
+        Distance metric to use for clustering. Available options:
+        
+        **Pattern-based distances:**
+        
+        - ``'pattern'``: Pattern distance using behavioral features
+        - ``'pattern_dtw'``: Pattern distance with Dynamic Time Warping
+        - ``'dtw'``: Dynamic Time Warping distance
+        
+        **Scipy distance metrics:**
+        
+        - ``'euclidean'``, ``'minkowski'``, ``'cityblock'``, ``'seuclidean'``, ``'sqeuclidean'``
+        - ``'cosine'``, ``'correlation'``, ``'hamming'``, ``'jaccard'``, ``'jensenshannon'``
+        - ``'chebyshev'``, ``'canberra'``, ``'braycurtis'``, ``'mahalanobis'``
+        - ``'yule'``, ``'matching'``, ``'dice'``, ``'rogerstanimoto'``, ``'russellrao'``
+        - ``'sokalsneath'``, ``'kulczynski1'``
+        
+    flatMethod : str, default='complete'
+        Hierarchical clustering linkage method for agglomerative clustering:
+        
+        - ``'complete'``: Maximum distances between all observations of two sets
+        - ``'single'``: Minimum distances between all observations of two sets  
+        - ``'average'``: Average distances between all observations of two sets
+        - ``'weighted'``: Weighted average distances 
+        - ``'centroid'``: Distance between centroids of clusters
+        - ``'median'``: Distance between medians of clusters
+        - ``'ward'``: Minimizes within-cluster sum of squared differences
+        
+    transform : str, default='original'
+        Data transformation method applied before clustering:
+        
+        - ``'original'``: No transformation applied
+        - ``'normalize'``: Min-max normalization to [0,1] range
+        - ``'standardize'``: Z-score standardization (mean=0, std=1)
+        
+    cMethod : str, default='maxclust'
+        Clustering criterion for forming flat clusters from hierarchy:
+        
+        - ``'maxclust'``: Maximum number of clusters (requires cValue = number of clusters)
+        - ``'distance'``: Distance threshold (requires cValue = distance threshold)
+        - ``'inconsistent'``: Inconsistency criterion (requires cValue = inconsistency threshold)
+        - ``'monocrit'``: Monotonic criterion (requires cValue = threshold)
+        
+    cValue : int, default=9
+        Threshold value for clustering criterion. Interpretation depends on cMethod:
+        
+        - For ``'maxclust'``: Number of desired clusters
+        - For ``'distance'``: Distance threshold for cluster formation
+        - For ``'inconsistent'``: Inconsistency coefficient threshold
+        - For ``'monocrit'``: Threshold for monotonic criterion
+        
+    replicate : int, default=1
+        Number of replications for pattern distance method. Only applicable when
+        distanceMethod='pattern'. Higher values provide more robust results for
+        stochastic pattern distance but increase computation time.
+    note : str, default=''
+        Additional note to append to output filename for identification purposes.
+        Useful for experiment tracking and organization.
+    save_plots : bool, default=True
+        Whether to generate and save cluster visualization plots as PNG files.
+        Plots show all time series grouped by their assigned clusters.
+    output_dir : Optional[str], default=None
+        Directory path to save output files. If None, creates 'output' directory 
+        in the package root. Directory will be created if it doesn't exist.
         
     Returns
     -------
-    dict
-        Dictionary containing experiment results including:
-        - 'clusters': Final cluster assignments
-        - 'cluster_list': Detailed cluster information
-        - 'distance_matrix': Computed distance matrix
-        - 'rand_index': Rand index comparing with original clusters
-        - 'jaccard_index': Jaccard index comparing with original clusters
-        - 'run_time': Execution time in seconds
-        - 'output_file': Path to generated Excel report
-        - 'plot_file': Path to generated plot (if plot=True)
+    Dict[str, Any]
+        Dictionary containing comprehensive experiment results:
+        
+        - ``'clusters'``: Final cluster assignments as numpy array
+        - ``'cluster_list'``: List of Cluster objects with detailed information
+        - ``'distance_matrix'``: Computed condensed distance matrix  
+        - ``'rand_index'``: Rand index comparing with original clusters (if available)
+        - ``'jaccard_index'``: Jaccard index comparing with original clusters (if available)
+        - ``'run_time'``: Clustering execution time in seconds
+        - ``'total_time'``: Total experiment time including I/O in seconds
+        - ``'num_clusters'``: Number of clusters formed
+        - ``'output_file'``: Path to generated Excel report file
+        - ``'plot_file'``: Path to generated plot file (if save_plots=True)
     """
     very_begin_time = time.time()
     
@@ -192,9 +230,10 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
     valid_distance_methods = ['pattern', 'pattern_dtw', 'dtw', 'scipy', 'euclidean', 
                              'minkowski', 'cityblock', 'seuclidean', 'sqeuclidean', 
                              'cosine', 'correlation', 'hamming', 'jaccard', 'jensenshannon', 
-                             'chebyshev', 'canberra', 'braycurtis', 'mahalobis', 'yule', 
+                             'chebyshev', 'canberra', 'braycurtis', 'mahalanobis', 'yule', 
                              'matching', 'dice', 'rogerstanimoto', 'russellrao', 
                              'sokalsneath', 'kulczynski1']
+
     if distanceMethod not in valid_distance_methods:
         raise ValueError(f"Invalid distance method: {distanceMethod}. Valid options: {valid_distance_methods}")
     
@@ -364,11 +403,11 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
         output_file_path = None
     
     # Generate plots if requested
-    if plot:
+    if save_plots:
         try:
             plot_base_name = os.path.splitext(outputFileName)[0]
             plot_file_path = os.path.join(output_dir, plot_base_name)
-            _plot_clusters(cluster_list, distanceMethod, mode='save', fname=plot_file_path)
+            plot_clusters(cluster_list, distanceMethod, mode='save', fname=plot_file_path)
             print(f"Cluster plots saved to: {plot_file_path}.png")
         except Exception as e:
             warnings.warn(f"Failed to generate plots: {e}")

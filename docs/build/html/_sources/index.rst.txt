@@ -1,7 +1,7 @@
 Simclstr documentation
 ===========================
 
-Welcome to the documentation for ``simclstr``. This library provides simple utilities for time series clustering.
+Welcome to the documentation for ``simclstr``. This library provides utilities for time series clustering with support for multiple distance metrics, pattern-based analysis, and interactive visualizations.
 
 **Core Dependencies:**
 
@@ -14,10 +14,16 @@ Welcome to the documentation for ``simclstr``. This library provides simple util
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Library Contents:
 
    installation
-   Clusterer <api/clusterer>
+   Main Clustering Functions <api/clusterer>
+   Plotting Functions <api/plotting>
    Experiment Controller <api/experiment_controller>
-   PySD usage <pysd/pysd_notebook>
-   BasicA Instance Usage <basicA/basicA_notebook>
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples and Tutorials:
+
+   PySD Integration Example <pysd/pysd_notebook>
+   BasicA Instance Example <basicA/basicA_notebook>

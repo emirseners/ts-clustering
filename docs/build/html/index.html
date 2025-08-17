@@ -42,13 +42,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Library Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/clusterer.html">Clusterer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/clusterer.html">Main Clustering Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basicA/basicA_notebook.html">BasicA Instance Example</a></li>
 </ul>
 
         </div>
@@ -77,7 +81,7 @@
              
   <section id="simclstr-documentation">
 <h1>Simclstr documentation<a class="headerlink" href="#simclstr-documentation" title="Link to this heading"></a></h1>
-<p>Welcome to the documentation for <code class="docutils literal notranslate"><span class="pre">simclstr</span></code>. This library provides simple utilities for time series clustering.</p>
+<p>Welcome to the documentation for <code class="docutils literal notranslate"><span class="pre">simclstr</span></code>. This library provides utilities for time series clustering with support for multiple distance metrics, pattern-based analysis, and interactive visualizations.</p>
 <p><strong>Core Dependencies:</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">numpy&gt;=1.24.0</span></code></p></li>
@@ -88,7 +92,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">numba&gt;=0.57.0</span></code></p></li>
 </ul>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Library Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#installing-via-pip">Installing via pip</a></li>
@@ -97,16 +101,25 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html#optional-dependencies">Optional Dependencies</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api/clusterer.html">Clusterer</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api/clusterer.html">Main Clustering Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/clusterer.html#simclstr-clusterer">simclstr.clusterer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/plotting.html">Plotting Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/plotting.html#simclstr-plotting">simclstr.plotting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/experiment_controller.html">Experiment Controller</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/experiment_controller.html#simclstr-experiment-controller">simclstr.experiment_controller</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basicA/basicA_notebook.html">BasicA Instance Example</a></li>
 </ul>
 </div>
 </section>
@@ -121,7 +134,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Gonenc.</p>
+    <p>&#169; Copyright 2025, Sesdyn Geeks.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

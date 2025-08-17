@@ -6,19 +6,31 @@ def _distance_dtw(data: np.ndarray) -> Tuple[np.ndarray, List[Tuple[Dict[str, st
     """
     Calculate pairwise Dynamic Time Warping (DTW) distances between all data sequences.
 
-    DTW can handle sequences of different lengths by finding optimal alignment.
-
+    Dynamic Time Warping is a technique for measuring similarity between two temporal
+    sequences that may vary in speed or timing. Unlike Euclidean distance, DTW can
+    handle sequences of different lengths and finds the optimal alignment between them
+    by allowing stretching and compression of the time axis.
+    
     Parameters
     ----------
     data : np.ndarray
-        2D array of shape (n_samples, n_features) containing sequences to compare.
+        2D array of shape (n_samples, n_features) containing time series sequences to compare.
+        Sequences can have different lengths, making DTW particularly suitable for
+        comparing time series with temporal variations.
 
     Returns
     -------
     dRow : np.ndarray
         Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.
+        Each element represents the DTW distance between a pair of sequences.
     runLogs : List[Tuple[Dict[str, str], np.ndarray]]
-        List of (index_dict, sequence) tuples for tracking original data.
+        List of (metadata_dict, sequence) tuples for tracking original data:
+        
+        - metadata_dict: Dictionary containing sequence index information
+        - sequence: Original time series data
+
+    This implementation uses absolute difference as the local distance measure
+    between individual points: |x_i - y_j|.
     """
     dRow = np.zeros(shape=(np.sum(np.arange(len(data))), ))
 

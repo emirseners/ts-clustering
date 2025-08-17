@@ -43,13 +43,17 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Library Contents:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/clusterer.html">Clusterer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/clusterer.html">Main Clustering Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">BasicA Instance Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BasicA Instance Example</a></li>
 </ul>
 
         </div>
@@ -80,20 +84,23 @@
 <h1>Basic_A<a class="headerlink" href="#Basic_A" title="Link to this heading"></a></h1>
 <p>3,4,8,9. linelar kütüphane oluşturulmak istendiği zaman silinmeli</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;/Users/emirsener/Desktop/ts-clustering&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">simclstr.clusterer</span><span class="w"> </span><span class="kn">import</span> <span class="n">perform_clustering</span><span class="p">,</span> <span class="n">read_time_series</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">simclstr.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_clusters</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="n">model_path_vensim</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/Desktop/SESDYN_Basic_A/Basic_A_Vensim.xlsx&#39;</span><span class="p">)</span>
 
 <span class="n">read_data_vensim</span> <span class="o">=</span> <span class="n">read_time_series</span><span class="p">(</span><span class="n">model_path_vensim</span><span class="p">)</span>
 
-<span class="n">clustering_results_vensim</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">read_data_vensim</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">clustering_results_vensim</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">read_data_vensim</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plot_clusters</span><span class="p">(</span><span class="n">clustering_results_vensim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -112,14 +119,16 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_path_stellaff</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/Desktop/SESDYN_Basic_A/Basic_A_StellaFF.xlsx&#39;</span><span class="p">)</span>
 
 <span class="n">read_data_stellaff</span> <span class="o">=</span> <span class="n">read_time_series</span><span class="p">(</span><span class="n">model_path_stellaff</span><span class="p">)</span>
 
-<span class="n">clustering_results_stellaff</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">read_data_stellaff</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">clustering_results_stellaff</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">read_data_stellaff</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plot_clusters</span><span class="p">(</span><span class="n">clustering_results_stellaff</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -138,14 +147,16 @@
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_path_stella2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/Desktop/SESDYN_Basic_A/Basic_A_Stella2.xlsx&#39;</span><span class="p">)</span>
 
 <span class="n">read_data_stella2</span> <span class="o">=</span> <span class="n">read_time_series</span><span class="p">(</span><span class="n">model_path_stella2</span><span class="p">)</span>
 
-<span class="n">clustering_results_stella2</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">read_data_stella2</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plotClusters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">clustering_results_stella2</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">read_data_stella2</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plot_clusters</span><span class="p">(</span><span class="n">clustering_results_stella2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -175,7 +186,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, Gonenc.</p>
+    <p>&#169; Copyright 2025, Sesdyn Geeks.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

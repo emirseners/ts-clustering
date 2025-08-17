@@ -15,11 +15,10 @@ from ._distance_pattern import _distance_pattern
 from ._distance_pattern_dtw import _distance_pattern_dtw
 from ._distance_scipy import _distance_scipy
 from ._distance_dtw import _distance_dtw
-from ._plotting import _plot_dendrogram, _plot_clusters
+from .plotting import _plot_dendrogram
 import pysd
 import itertools
 
-# Internal distance functions dictionary - not exposed to end users
 _distance_functions: Dict[str, Callable] = {
     'pattern': _distance_pattern, 
     'pattern_dtw': _distance_pattern_dtw,
@@ -44,8 +43,8 @@ _distance_functions: Dict[str, Callable] = {
     'dice': lambda data, **kwargs: _distance_scipy(data, metric='dice', **kwargs),
     'rogerstanimoto': lambda data, **kwargs: _distance_scipy(data, metric='rogerstanimoto', **kwargs),
     'russellrao': lambda data, **kwargs: _distance_scipy(data, metric='russellrao', **kwargs),
-    'sokalsneath': lambda data, **kwargs: _distance_scipy(data, metric='sokalmichener', **kwargs),
-    'kulczynski1': lambda data, **kwargs: _distance_scipy(data, metric='sokalsneath', **kwargs)
+    'sokalsneath': lambda data, **kwargs: _distance_scipy(data, metric='sokalsneath', **kwargs),
+    'kulczynski1': lambda data, **kwargs: _distance_scipy(data, metric='kulczynski1', **kwargs)
 }
 
 def read_time_series(file_path: str, withClusters: bool = False) -> Union[List[Tuple[str, np.ndarray]], Tuple[List[Tuple[str, np.ndarray]], List[str]]]:
@@ -84,8 +83,8 @@ def read_time_series(file_path: str, withClusters: bool = False) -> Union[List[T
     ----------
     file_path : str
         Path to the .xlsx or .csv file (can be relative or absolute path).
-    withClusters : bool, optional
-        If True, also reads cluster information from 'clusters' sheet (default=False).
+    withClusters : bool, default=False
+        If True, also reads cluster information from 'clusters' sheet.
         Note: This parameter is ignored for CSV files as they don't support multiple sheets.
 
     Returns
@@ -186,8 +185,7 @@ def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, 
 
 
 def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: str = 'pattern_dtw', interClusterDistance: str = 'complete', 
-            cMethod: str = 'inconsistent', cValue: float = 1.5, plotDendrogram: bool = False, plotClusters: bool = False, 
-            plotClustersMode: str = 'show', **kwargs) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
+            cMethod: str = 'inconsistent', cValue: float = 1.5, plotDendrogram: bool = False, **kwargs) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
     """
     Cluster time series data using hierarchical clustering.
 
@@ -195,33 +193,32 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
     ----------
     data_w_labels : List[Tuple[str, np.ndarray]]
         List of (label, data_array) tuples.
-    distance : str, optional
-        Distance metric to use for clustering. Available options include:
+    distance : str, default='pattern_dtw'
+        Available distance metrics include:
 
-        **Pattern-based distances:**
+        Pattern-based distances:
+
         - `'pattern'`: Pattern distance using behavioral features
+
         - `'pattern_dtw'`: Pattern distance with Dynamic Time Warping
+
         - `'dtw'`: Dynamic Time Warping distance
 
-        Based on `scipy.spatial.distance.pdist <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html>`_, supported metrics include:
+        `Scipy distance metrics <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html>`_:
+        - ``'euclidean'``, ``'minkowski'``, ``'cityblock'``, ``'seuclidean'``, ``'sqeuclidean'``
+        ``'cosine'``, ``'correlation'``, ``'hamming'``, ``'jaccard'``, ``'jensenshannon'``
+        ``'chebyshev'``, ``'canberra'``, ``'braycurtis'``, ``'mahalanobis'``
+        ``'yule'``, ``'matching'``, ``'dice'``, ``'rogerstanimoto'``, ``'russellrao'``
+        ``'sokalsneath'``, ``'kulczynski1'``
 
-        euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation, 
-        hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis, 
-        yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1
-
-        Default is 'pattern_dtw'.
-    interClusterDistance : str, optional
-        Linkage method ('complete', 'single', 'average', 'ward') (default='complete').
-    cMethod : str, optional
-        Cutoff method ('inconsistent', 'distance', 'maxclust', 'monocrit') (default='inconsistent').
-    cValue : float, optional
-        Cutoff value for clustering criterion (default=1.5).
-    plotDendrogram : bool, optional
-        If True, displays dendrogram (default=False).
-    plotClusters : bool, optional
-        If True, displays clusters (default=False).
-    plotClustersMode : str, optional
-        Mode for plotting clusters ('show', 'save') (default='show').
+    interClusterDistance : str, default='complete'
+        Linkage method. Options: 'complete', 'single', 'average', 'ward'.
+    cMethod : str, default='inconsistent'
+        Cutoff method. Options: 'inconsistent', 'distance', 'maxclust', 'monocrit'.
+    cValue : float, default=1.5
+        Cutoff value for clustering criterion.
+    plotDendrogram : bool, default=False
+        If True, displays dendrogram.
     **kwargs : dict
         Additional distance function parameters.
 
@@ -239,7 +236,10 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
     # Construct a list with distances. This list is the upper triangle
     # of the distance matrix
     try:
-        dRow, data_w_desc = _distance_functions[distance](data_wo_labels_array, **kwargs)
+        # Filter out parameters that are not meant for distance functions
+        distance_kwargs = {k: v for k, v in kwargs.items() 
+                          if k not in ['plotClusters', 'plotDendrogram']}
+        dRow, data_w_desc = _distance_functions[distance](data_wo_labels_array, **distance_kwargs)
     except KeyError:
         print(f'Unknown distance "{distance}" is used.')
         raise ValueError(f'Unknown distance: {distance}')
@@ -248,13 +248,9 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
     # clustering. clusterSetup is a dictionary that customizes the clustering 
     # algorithm to be used.
     
-    clusters, data_w_desc = _flatcluster(dRow, data_w_desc, plotDendrogram=plotDendrogram, 
-                                        interClusterDistance=interClusterDistance, cMethod=cMethod, cValue=cValue)
+    clusters, data_w_desc = _flatcluster(dRow, data_w_desc, plotDendrogram=plotDendrogram, interClusterDistance=interClusterDistance, cMethod=cMethod, cValue=cValue)
 
     clusterList = _create_cluster_list(clusters, dRow, data_w_desc)
-
-    if plotClusters:
-        _plot_clusters(clusterList, distance, mode=plotClustersMode)
 
     return dRow, clusterList, clusters
 
@@ -283,13 +279,12 @@ def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, data_w_desc:
     total_size = clusters.shape[0]
     
     for i in range(1, nr_clusters+1):
-        # Determine the indices for cluster i
         indices = np.where(clusters==i)[0]
         cluster_size = indices.shape[0]
         
         if cluster_size == 1:
             originalIndex = indices[0]
-            cluster = Cluster(i,  indices, data_w_desc[originalIndex], [data_w_desc[originalIndex]])
+            cluster = Cluster(i,  indices, [data_w_desc[originalIndex]], data_w_desc[originalIndex])
             cluster_list.append(cluster)
             continue
         
@@ -312,13 +307,12 @@ def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, data_w_desc:
         #get the index of the result with the lowest sum of distances
         min_cIndex = row_sum.argmin()
     
-        # convert this cluster specific index back to the overall cluster list 
-        # of indices
+        # convert this cluster specific index back to the overall cluster list of indices
         originalIndex = indices[min_cIndex]
 
         indices_list = indices.astype(int).tolist()
         
-        cluster = Cluster(i, indices, data_w_desc[originalIndex], [data_w_desc[idx] for idx in indices_list])
+        cluster = Cluster(i, indices, [data_w_desc[idx] for idx in indices_list], data_w_desc[originalIndex])
         cluster_list.append(cluster)
         
     return cluster_list
@@ -335,14 +329,14 @@ def _flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]]
         Condensed distance matrix.
     data : List[Tuple[Dict[str, Any], np.ndarray]]
         List of (metadata_dict, data_array) tuples.
-    interClusterDistance : str, optional
-        Linkage method (default='complete').
-    plotDendrogram : bool, optional
-        If True, displays dendrogram (default=True).
-    cMethod : str, optional
-        Clustering criterion (default='inconsistent').
-    cValue : float, optional
-        Threshold value (default=2.5).
+    interClusterDistance : str, default='complete'
+        Linkage method.
+    plotDendrogram : bool, default=True
+        If True, displays dendrogram.
+    cMethod : str, default='inconsistent'
+        Clustering criterion.
+    cValue : float, default=2.5
+        Threshold value.
 
     Returns
     -------
@@ -369,34 +363,21 @@ class Cluster:
 
     Attributes
     ----------
-    no : int
+    cluster_id : int
         Cluster number/index.
-    indices : np.ndarray
+    indices_of_members : np.ndarray
         Original indices of cluster members.
-    sample : Tuple[str, np.ndarray]
-        Representative data series.
-    members : List[Tuple[str, np.ndarray]]
-        List of all cluster members.
-    size : int
+    number_of_members : int
         Number of members in cluster.
+    list_of_members : List[Tuple[str, np.ndarray]]
+        List of all cluster members.
+    best_representative_member : Tuple[str, np.ndarray]
+        Best representative time series for the cluster.
     """
 
-    def __init__(self, cluster_no: int, all_ds_indices: np.ndarray, sample_ds: Tuple[str, np.ndarray], member_dss: List[Tuple[str, np.ndarray]]):
-        self.no = cluster_no
-        self.indices = all_ds_indices
-        self.sample = sample_ds
-        self.size = self.indices.size
-        self.members = member_dss
-
-
-if __name__ == '__main__':
-    inputFileName = 'TestSet_wo_Osc'
-    data_set = read_time_series(inputFileName)
-
-    #results = perform_clustering(data_set, distance='manhattan')
-    #results = perform_clustering(data_set, cValue=10000, distance='manhattan', cMethod='distance')
-    results = perform_clustering(data_set, cValue=10, cMethod='maxclust', plotDendrogram=True, plotClusters=True)
-
-    print('Distances:', results[0])
-    print('Number of members in each cluster:', [results[1][i].size for i in range(len(results[1]))])
-    print('Clusters:', results[2])
+    def __init__(self, cluster_id: int, indices_of_members: np.ndarray, list_of_members: List[Tuple[str, np.ndarray]], best_representative_member: Tuple[str, np.ndarray]):
+        self.cluster_id = cluster_id
+        self.indices_of_members = indices_of_members
+        self.number_of_members = self.indices_of_members.size
+        self.list_of_members = list_of_members
+        self.best_representative_member = best_representative_member
