@@ -13,23 +13,3 @@ Cluster
     :members:
     :undoc-members:
     :show-inheritance:
-
-Attributes
-~~~~~~~~~~
-
-.. list-table::
-   :widths: 20 80
-   :header-rows: 1
-
-   * - Attribute
-     - Description
-   * - ``no``
-     - Cluster number/index (int)
-   * - ``indices``
-     - Original indices of cluster members (np.ndarray)
-   * - ``sample``
-     - Representative data series - the member closest to cluster centroid (Tuple[str, np.ndarray])
-   * - ``members``
-     - List of all cluster members (List[Tuple[str, np.ndarray]])
-   * - ``size``
-     - Number of members in cluster (int)
