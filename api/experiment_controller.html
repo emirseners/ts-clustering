@@ -188,64 +188,7 @@ in the package root. Directory will be created if it doesn’t exist.</p></li>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.13)"><strong>FileNotFoundError</strong></a> – If the input file doesn’t exist.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If invalid parameter values are provided for distance method, linkage method,
-    transformation method, or clustering criterion.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If clustering fails or data cannot be read properly.</p></li>
-</ul>
-</dd>
 </dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The function generates comprehensive Excel reports with:</p>
-<ul class="simple">
-<li><p>Experiment parameters and timestamps</p></li>
-<li><p>Performance metrics (Rand index, Jaccard index, execution time)</p></li>
-<li><p>Cluster size distributions</p></li>
-<li><p>Individual cluster assignments vs. ground truth</p></li>
-</ul>
-<p>For reproducible experiments, consider setting numpy random seed before calling
-this function, especially when using pattern distance with multiple replications.</p>
-</div>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">simclstr</span><span class="w"> </span><span class="kn">import</span> <span class="n">experiment_controller</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Basic clustering experiment</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">experiment_controller</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;data.xlsx&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">cValue</span><span class="o">=</span><span class="mi">5</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Formed </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;num_clusters&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> clusters&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rand index: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;rand_index&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Experiment with data transformation and custom output</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">experiment_controller</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;timeseries.csv&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;normalize&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">flatMethod</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">cValue</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">note</span><span class="o">=</span><span class="s1">&#39;normalized_ward&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;experiments/run1&#39;</span>
-<span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<dl class="simple">
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">perform_clustering</span></code></dt><dd><p>Core clustering function</p>
-</dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_time_series</span></code></dt><dd><p>Data reading function</p>
-</dd>
-<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">_compare_clusterings</span></code></dt><dd><p>Clustering comparison metrics</p>
-</dd>
-</dl>
-</div>
 </dd></dl>
 
 </section>

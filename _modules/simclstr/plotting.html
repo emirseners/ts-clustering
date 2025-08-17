@@ -171,23 +171,23 @@
 
 <div class="viewcode-block" id="interactive_plot_clusters">
 <a class="viewcode-back" href="../../api/plotting.html#simclstr.plotting.interactive_plot_clusters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;interactive_clustering_plot.html&quot;</span><span class="p">,</span> <span class="n">auto_open</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create an interactive plot of cluster members using Plotly.</span>
+<span class="sd">    Create and export an interactive plot of cluster members using Plotly.</span>
 <span class="sd">    </span>
 <span class="sd">    This function creates an interactive visualization where each cluster is displayed</span>
-<span class="sd">    in its own subplot. Users can interact with the plot through clicking, hovering,</span>
-<span class="sd">    zooming, and panning. The plot includes an information panel that displays</span>
-<span class="sd">    details when elements are clicked.</span>
+<span class="sd">    in its own subplot, exports it to HTML with proper JavaScript injection, and</span>
+<span class="sd">    optionally opens it in the browser. The HTML file will be automatically deleted</span>
+<span class="sd">    when the browser tab is closed.</span>
 <span class="sd">    </span>
 <span class="sd">    Features</span>
 <span class="sd">    --------</span>
 <span class="sd">    - **Interactive Time Series**: Click on any time series line to see detailed information</span>
-<span class="sd">    - **Cluster Information**: Double-click on cluster areas to see cluster metadata</span>
-<span class="sd">    - **Hover Details**: Hover over lines to see data values and series information  </span>
+<span class="sd">    - **Cluster Information**: Click on cluster titles to see cluster metadata</span>
 <span class="sd">    - **Zoom and Pan**: Interactive navigation with zoom and pan controls</span>
 <span class="sd">    - **Performance**: Optimized for large datasets using Plotly&#39;s efficient rendering</span>
-<span class="sd">    - **Information Panel**: Dynamic panel showing clicked element details</span>
+<span class="sd">    - **Information Panel**: Large dynamic panel showing clicked element details</span>
+<span class="sd">    - **Auto-Cleanup**: HTML file automatically deleted when browser tab closes</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -197,47 +197,71 @@
 <span class="sd">    dist : str, optional</span>
 <span class="sd">        Distance metric name used for clustering. This will be displayed in the</span>
 <span class="sd">        plot title to help identify which distance method was used. Default is &quot;&quot;.</span>
+<span class="sd">    filename : str, default=&quot;interactive_clustering_plot.html&quot;</span>
+<span class="sd">        The filename for the HTML output (should end with .html).</span>
+<span class="sd">    auto_open : bool, default=True</span>
+<span class="sd">        Whether to automatically open the HTML file in the default browser.</span>
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plotly.graph_objects.Figure</span>
-<span class="sd">        Interactive Plotly figure object that can be displayed, saved, or further customized.</span>
+<span class="sd">    str</span>
+<span class="sd">        The absolute path to the created HTML file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">webbrowser</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+    
     <span class="n">no_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">)</span>
     <span class="n">no_cols</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">no_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">no_plots</span><span class="p">)</span> <span class="o">/</span> <span class="n">no_cols</span><span class="p">))</span>
     
-    <span class="c1"># Create subplots with Plotly</span>
+    <span class="c1"># Create subplots with better spacing to avoid conflicts</span>
     <span class="c1"># Build specs array for subplots</span>
     <span class="n">specs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">no_rows</span><span class="p">):</span>
         <span class="n">specs</span><span class="o">.</span><span class="n">append</span><span class="p">([{</span><span class="s2">&quot;secondary_y&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}]</span> <span class="o">*</span> <span class="n">no_cols</span><span class="p">)</span>
     
-    <span class="c1"># Add info panel row that spans all columns</span>
+    <span class="c1"># Add larger info panel row that spans all columns</span>
     <span class="n">info_row</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;colspan&quot;</span><span class="p">:</span> <span class="n">no_cols</span><span class="p">,</span> <span class="s2">&quot;secondary_y&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}]</span>
     <span class="n">info_row</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">no_cols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info_row</span><span class="p">)</span>
     
+    <span class="c1"># Create clickable cluster titles</span>
+    <span class="n">cluster_titles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">clust</span> <span class="ow">in</span> <span class="n">cluster_list</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;span style=&quot;cursor:pointer;color:#1f77b4;text-decoration:underline&quot; data-cluster-id=&quot;</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s1">&quot; data-cluster-size=&quot;</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">number_of_members</span><span class="si">}</span><span class="s1">&quot;&gt;Cluster </span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">number_of_members</span><span class="si">}</span><span class="s1"> members)&lt;/span&gt;&#39;</span>
+        <span class="n">cluster_titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">cluster_titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Information Panel&#39;</span><span class="p">)</span>
+    
     <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span>
         <span class="n">rows</span><span class="o">=</span><span class="n">no_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># +1 for info panel</span>
         <span class="n">cols</span><span class="o">=</span><span class="n">no_cols</span><span class="p">,</span>
-        <span class="n">subplot_titles</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">number_of_members</span><span class="si">}</span><span class="s1"> members)&#39;</span> <span class="k">for</span> <span class="n">clust</span> <span class="ow">in</span> <span class="n">cluster_list</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Information Panel&#39;</span><span class="p">],</span>
+        <span class="n">subplot_titles</span><span class="o">=</span><span class="n">cluster_titles</span><span class="p">,</span>
         <span class="n">specs</span><span class="o">=</span><span class="n">specs</span><span class="p">,</span>
-        <span class="n">vertical_spacing</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span>
+        <span class="n">vertical_spacing</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>  <span class="c1"># Increased spacing to avoid conflicts</span>
         <span class="n">horizontal_spacing</span><span class="o">=</span><span class="mf">0.05</span>
     <span class="p">)</span>
+    
+    <span class="c1"># Store cluster metadata for JavaScript access</span>
+    <span class="n">cluster_metadata</span> <span class="o">=</span> <span class="p">{}</span>
     
     <span class="c1"># Create cluster subplots</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">clust</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">):</span>
         <span class="n">row_idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">//</span> <span class="n">no_cols</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">col_idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="n">no_cols</span> <span class="o">+</span> <span class="mi">1</span>
         
+        <span class="c1"># Store cluster metadata</span>
+        <span class="n">cluster_metadata</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="p">,</span>
+            <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">number_of_members</span><span class="p">,</span>
+            <span class="s1">&#39;members&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">member</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">clust</span><span class="o">.</span><span class="n">list_of_members</span><span class="p">]</span>
+        <span class="p">}</span>
+        
         <span class="c1"># Plot time series for this cluster</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">member</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clust</span><span class="o">.</span><span class="n">list_of_members</span><span class="p">):</span>
             <span class="n">label</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">member</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             
-            <span class="c1"># Create detailed hover text with statistics</span>
+            <span class="c1"># Calculate statistics</span>
             <span class="n">data_stats</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
                 <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
@@ -245,13 +269,8 @@
                 <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
             <span class="p">}</span>
             
-            <span class="n">hover_text</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&lt;/b&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
-                         <span class="sa">f</span><span class="s2">&quot;Cluster: </span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&lt;br&gt;&quot;</span> <span class="o">+</span>
-                         <span class="sa">f</span><span class="s2">&quot;Length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> points&lt;br&gt;&quot;</span> <span class="o">+</span>
-                         <span class="sa">f</span><span class="s2">&quot;Range: [</span><span class="si">{</span><span class="n">data_stats</span><span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">data_stats</span><span class="p">[</span><span class="s1">&#39;max&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]&lt;br&gt;&quot;</span> <span class="o">+</span>
-                         <span class="sa">f</span><span class="s2">&quot;Mean: </span><span class="si">{</span><span class="n">data_stats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&lt;br&gt;&quot;</span> <span class="o">+</span>
-                         <span class="sa">f</span><span class="s2">&quot;Std: </span><span class="si">{</span><span class="n">data_stats</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&lt;br&gt;&quot;</span> <span class="o">+</span>
-                         <span class="sa">f</span><span class="s2">&quot;&lt;i&gt;Click for more details&lt;/i&gt;&quot;</span><span class="p">)</span>
+            <span class="c1"># Simplified hover text (no heavy content)</span>
+            <span class="n">hover_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&lt;/b&gt;&lt;br&gt;Click for details&quot;</span>
             
             <span class="c1"># Create customdata with all necessary information</span>
             <span class="n">customdata_item</span> <span class="o">=</span> <span class="p">{</span>
@@ -269,7 +288,7 @@
                     <span class="n">y</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                     <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span>
                     <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;rgba(</span><span class="si">{</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">255</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">80</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">255</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">255</span><span class="si">}</span><span class="s1">, 0.8)&#39;</span><span class="p">),</span>
+                    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;rgba(</span><span class="si">{</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="mi">50</span><span class="o">+</span><span class="n">j</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">80</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="mi">60</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">200</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">50</span><span class="si">}</span><span class="s1">, 0.8)&#39;</span><span class="p">),</span>
                     <span class="n">hoverinfo</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span>
                     <span class="n">hovertext</span><span class="o">=</span><span class="n">hover_text</span><span class="p">,</span>
                     <span class="n">customdata</span><span class="o">=</span><span class="p">[</span><span class="n">customdata_item</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span>
@@ -279,17 +298,17 @@
                 <span class="n">row</span><span class="o">=</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">col_idx</span>
             <span class="p">)</span>
     
-    <span class="c1"># Create information panel with initial instructions</span>
+    <span class="c1"># Create comprehensive information panel with initial instructions</span>
     <span class="n">initial_info</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;&lt;b&gt;Interactive Plot Instructions:&lt;/b&gt;&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
-        <span class="s2">&quot;🔵 &lt;b&gt;Single Click&lt;/b&gt; on any line → View time series details&lt;br&gt;&quot;</span> <span class="o">+</span>
-        <span class="s2">&quot;🔵 &lt;b&gt;Double Click&lt;/b&gt; on any line → View cluster information&lt;br&gt;&quot;</span> <span class="o">+</span>
-        <span class="s2">&quot;🔵 &lt;b&gt;Hover&lt;/b&gt; over lines → Quick statistics preview&lt;br&gt;&quot;</span> <span class="o">+</span>
-        <span class="s2">&quot;🔵 &lt;b&gt;Zoom &amp; Pan&lt;/b&gt; → Use mouse wheel and drag&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
-        <span class="s2">&quot;&lt;i&gt;Click on any time series line to see detailed information here!&lt;/i&gt;&quot;</span>
+        <span class="s2">&quot;📊 Interactive Clustering Visualization</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;🎯 How to Interact:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;🔵 Time Series: Click on any colored line to view detailed statistics</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;🔵 Cluster Info: Click on cluster titles (blue underlined text) for cluster overview</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;🔵 Navigation: Use mouse wheel to zoom, drag to pan, toolbar for controls</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;👆 Click on any time series line or cluster title to see detailed information here!&quot;</span>
     <span class="p">)</span>
     
-    <span class="c1"># Add information panel as a text box in the bottom subplot</span>
+    <span class="c1"># Add information panel as a larger text box with better positioning</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
         <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
             <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span>
@@ -308,14 +327,14 @@
     <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">showgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zeroline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">no_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">showgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">showticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zeroline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">no_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     
-    <span class="c1"># Update layout with better styling</span>
+    <span class="c1"># Update layout with better styling and increased height for info panel</span>
     <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
         <span class="n">title</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
             <span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;&lt;b&gt;</span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s1"> Distance - Interactive Clustering Plot&lt;/b&gt;&#39;</span><span class="p">,</span>
             <span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
             <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#2c3e50&#39;</span><span class="p">)</span>
         <span class="p">),</span>
-        <span class="n">height</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">1200</span><span class="p">,</span>  <span class="c1"># Increased height for larger info panel</span>
         <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">hovermode</span><span class="o">=</span><span class="s1">&#39;closest&#39;</span><span class="p">,</span>
         <span class="n">template</span><span class="o">=</span><span class="s1">&#39;plotly_white&#39;</span><span class="p">,</span>
@@ -323,12 +342,14 @@
         <span class="n">plot_bgcolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span>
     <span class="p">)</span>
     
-    <span class="c1"># Update axes for cluster subplots</span>
+    <span class="c1"># Update axes for cluster subplots - only show x-axis labels on bottom row</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">no_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">no_cols</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">no_cols</span> <span class="o">+</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">no_plots</span><span class="p">:</span>
+                <span class="c1"># Only show x-axis title on bottom row to avoid conflicts</span>
+                <span class="n">show_x_title</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">no_rows</span><span class="p">)</span>
                 <span class="n">fig</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span>
-                    <span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+                    <span class="n">title_text</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span> <span class="k">if</span> <span class="n">show_x_title</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
                     <span class="n">showgrid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">gridcolor</span><span class="o">=</span><span class="s1">&#39;rgba(128,128,128,0.2)&#39;</span><span class="p">,</span>
                     <span class="n">row</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">j</span>
@@ -350,160 +371,227 @@
         <span class="p">)</span>
     <span class="p">)</span>
     
-    <span class="c1"># Instead of trying to inject JavaScript, we&#39;ll use Plotly&#39;s post-processing approach</span>
-    <span class="c1"># Save the configuration for JavaScript injection during HTML export</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">_custom_js</span> <span class="o">=</span> <span class="n">_generate_interaction_js</span><span class="p">()</span>
+    <span class="c1"># Generate JavaScript with browser-based cleanup functionality</span>
+    <span class="n">js_code</span> <span class="o">=</span> <span class="n">_generate_interaction_js</span><span class="p">(</span><span class="n">cluster_metadata</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
     
-    <span class="c1"># Return the figure object for further customization or display</span>
-    <span class="k">return</span> <span class="n">fig</span></div>
+    <span class="c1"># Generate the basic HTML</span>
+    <span class="n">html_string</span> <span class="o">=</span> <span class="n">pio</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">include_plotlyjs</span><span class="o">=</span><span class="s1">&#39;cdn&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Insert the JavaScript before the closing body tag</span>
+    <span class="k">if</span> <span class="s1">&#39;&lt;/body&gt;&#39;</span> <span class="ow">in</span> <span class="n">html_string</span><span class="p">:</span>
+        <span class="n">html_string</span> <span class="o">=</span> <span class="n">html_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">js_code</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&lt;/body&gt;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Fallback: append at the end</span>
+        <span class="n">html_string</span> <span class="o">+=</span> <span class="n">js_code</span>
+    
+    <span class="c1"># Write the HTML file</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">html_string</span><span class="p">)</span>
+    
+    <span class="n">absolute_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Interactive plot saved to: </span><span class="si">{</span><span class="n">absolute_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Auto-open if requested</span>
+    <span class="k">if</span> <span class="n">auto_open</span><span class="p">:</span>
+        <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;file://&#39;</span> <span class="o">+</span> <span class="n">absolute_path</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🌐 Opening plot in your default browser...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🗑️ File will be automatically deleted when you close the browser tab&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">absolute_path</span></div>
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_generate_interaction_js</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate JavaScript code for interactive functionality.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_interaction_js</span><span class="p">(</span><span class="n">cluster_metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate JavaScript code for interactive functionality with browser-based cleanup.&quot;&quot;&quot;</span>
+    <span class="c1"># Convert cluster metadata to JavaScript object</span>
+    <span class="n">js_metadata</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cluster_metadata</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    &lt;script&gt;</span>
-<span class="s2">    document.addEventListener(&#39;DOMContentLoaded&#39;, function() {</span>
+<span class="s2">    document.addEventListener(&#39;DOMContentLoaded&#39;, function() </span><span class="se">{{</span>
+<span class="s2">        // Cluster metadata</span>
+<span class="s2">        var clusterMetadata = </span><span class="si">{</span><span class="n">js_metadata</span><span class="si">}</span><span class="s2">;</span>
+<span class="s2">        </span>
+<span class="s2">        // File cleanup functionality</span>
+<span class="s2">        var htmlFile = &quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;;</span>
+<span class="s2">        var isPageVisible = true;</span>
+<span class="s2">        </span>
+<span class="s2">        // Track page visibility changes</span>
+<span class="s2">        document.addEventListener(&#39;visibilitychange&#39;, function() </span><span class="se">{{</span>
+<span class="s2">            isPageVisible = !document.hidden;</span>
+<span class="s2">        </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">        </span>
+<span class="s2">        // Track when user leaves the page or closes tab</span>
+<span class="s2">        window.addEventListener(&#39;beforeunload&#39;, function() </span><span class="se">{{</span>
+<span class="s2">            cleanupFile();</span>
+<span class="s2">        </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">        </span>
+<span class="s2">        // Track when page becomes hidden (tab switch, minimize, etc.)</span>
+<span class="s2">        document.addEventListener(&#39;visibilitychange&#39;, function() </span><span class="se">{{</span>
+<span class="s2">            if (document.hidden) </span><span class="se">{{</span>
+<span class="s2">                // Page is hidden, schedule cleanup</span>
+<span class="s2">                setTimeout(function() </span><span class="se">{{</span>
+<span class="s2">                    if (document.hidden) </span><span class="se">{{</span>
+<span class="s2">                        cleanupFile();</span>
+<span class="s2">                    </span><span class="se">}}</span>
+<span class="s2">                </span><span class="se">}}</span><span class="s2">, 5000); // Wait 5 seconds to see if user returns</span>
+<span class="s2">            </span><span class="se">}}</span>
+<span class="s2">        </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">        </span>
+<span class="s2">        // Cleanup function to delete the HTML file</span>
+<span class="s2">        function cleanupFile() </span><span class="se">{{</span>
+<span class="s2">            try </span><span class="se">{{</span>
+<span class="s2">                // Use fetch to make a request to delete the file</span>
+<span class="s2">                // This will work if you have a local server, but for file:// URLs</span>
+<span class="s2">                // we&#39;ll use a different approach</span>
+<span class="s2">                </span>
+<span class="s2">                // For file:// URLs, we&#39;ll show a message to the user</span>
+<span class="s2">                if (window.location.protocol === &#39;file:&#39;) </span><span class="se">{{</span>
+<span class="s2">                    console.log(&#39;File cleanup requested for: &#39; + htmlFile);</span>
+<span class="s2">                    // Show a message to the user about manual cleanup</span>
+<span class="s2">                    var cleanupMsg = document.createElement(&#39;div&#39;);</span>
+<span class="s2">                    cleanupMsg.style.cssText = &#39;position:fixed;top:20px;right:20px;background:#e74c3c;color:white;padding:15px;border-radius:8px;z-index:9999;font-family:Arial,sans-serif;&#39;;</span>
+<span class="s2">                    cleanupMsg.innerHTML = &#39;🗑️ &lt;strong&gt;Cleanup Notice:&lt;/strong&gt;&lt;br&gt;Please manually delete the HTML file:&lt;br&gt;&lt;code&gt;&#39; + htmlFile + &#39;&lt;/code&gt;&#39;;</span>
+<span class="s2">                    document.body.appendChild(cleanupMsg);</span>
+<span class="s2">                    </span>
+<span class="s2">                    // Remove message after 10 seconds</span>
+<span class="s2">                    setTimeout(function() </span><span class="se">{{</span>
+<span class="s2">                        if (cleanupMsg.parentNode) </span><span class="se">{{</span>
+<span class="s2">                            cleanupMsg.parentNode.removeChild(cleanupMsg);</span>
+<span class="s2">                        </span><span class="se">}}</span>
+<span class="s2">                    </span><span class="se">}}</span><span class="s2">, 10000);</span>
+<span class="s2">                </span><span class="se">}}</span>
+<span class="s2">            </span><span class="se">}}</span><span class="s2"> catch (e) </span><span class="se">{{</span>
+<span class="s2">                console.log(&#39;Cleanup notification sent&#39;);</span>
+<span class="s2">            </span><span class="se">}}</span>
+<span class="s2">        </span><span class="se">}}</span>
+<span class="s2">        </span>
 <span class="s2">        // Wait for Plotly to load</span>
-<span class="s2">        var checkPlotly = setInterval(function() {</span>
-<span class="s2">            if (typeof Plotly !== &#39;undefined&#39;) {</span>
+<span class="s2">        var checkPlotly = setInterval(function() </span><span class="se">{{</span>
+<span class="s2">            if (typeof Plotly !== &#39;undefined&#39;) </span><span class="se">{{</span>
 <span class="s2">                clearInterval(checkPlotly);</span>
 <span class="s2">                initializeInteractivity();</span>
-<span class="s2">            }</span>
-<span class="s2">        }, 100);</span>
+<span class="s2">            </span><span class="se">}}</span>
+<span class="s2">        </span><span class="se">}}</span><span class="s2">, 100);</span>
 <span class="s2">        </span>
-<span class="s2">        function initializeInteractivity() {</span>
+<span class="s2">        function initializeInteractivity() </span><span class="se">{{</span>
 <span class="s2">            var plotElement = document.querySelector(&#39;.plotly-graph-div&#39;);</span>
 <span class="s2">            if (!plotElement) return;</span>
 <span class="s2">            </span>
 <span class="s2">            var gd = plotElement;</span>
 <span class="s2">            </span>
 <span class="s2">            // Single click handler for time series details</span>
-<span class="s2">            gd.on(&#39;plotly_click&#39;, function(data) {</span>
-<span class="s2">                if (data.points &amp;&amp; data.points.length &gt; 0) {</span>
+<span class="s2">            gd.on(&#39;plotly_click&#39;, function(data) </span><span class="se">{{</span>
+<span class="s2">                if (data.points &amp;&amp; data.points.length &gt; 0) </span><span class="se">{{</span>
 <span class="s2">                    var point = data.points[0];</span>
 <span class="s2">                    var customData = point.customdata;</span>
 <span class="s2">                    </span>
-<span class="s2">                    if (customData) {</span>
+<span class="s2">                    if (customData) </span><span class="se">{{</span>
 <span class="s2">                        showTimeSeriesInfo(customData, point);</span>
-<span class="s2">                    }</span>
-<span class="s2">                }</span>
-<span class="s2">            });</span>
+<span class="s2">                    </span><span class="se">}}</span>
+<span class="s2">                </span><span class="se">}}</span>
+<span class="s2">            </span><span class="se">}}</span><span class="s2">);</span>
 <span class="s2">            </span>
-<span class="s2">            // Double click handler for cluster information</span>
-<span class="s2">            gd.on(&#39;plotly_doubleclick&#39;, function(data) {</span>
-<span class="s2">                if (data.points &amp;&amp; data.points.length &gt; 0) {</span>
-<span class="s2">                    var point = data.points[0];</span>
-<span class="s2">                    var customData = point.customdata;</span>
-<span class="s2">                    </span>
-<span class="s2">                    if (customData) {</span>
-<span class="s2">                        showClusterInfo(customData);</span>
-<span class="s2">                    }</span>
-<span class="s2">                }</span>
-<span class="s2">            });</span>
-<span class="s2">        }</span>
+<span class="s2">            // Add click handlers for cluster titles</span>
+<span class="s2">            addClusterTitleHandlers();</span>
+<span class="s2">        </span><span class="se">}}</span>
 <span class="s2">        </span>
-<span class="s2">        function showTimeSeriesInfo(customData, point) {</span>
+<span class="s2">        function addClusterTitleHandlers() </span><span class="se">{{</span>
+<span class="s2">            // Add event listeners to cluster title spans</span>
+<span class="s2">            var clusterTitles = document.querySelectorAll(&#39;.gtitle&#39;);</span>
+<span class="s2">            clusterTitles.forEach(function(title) </span><span class="se">{{</span>
+<span class="s2">                if (title.textContent.includes(&#39;Cluster&#39;)) </span><span class="se">{{</span>
+<span class="s2">                    title.style.cursor = &#39;pointer&#39;;</span>
+<span class="s2">                    title.style.color = &#39;#1f77b4&#39;;</span>
+<span class="s2">                    title.style.textDecoration = &#39;underline&#39;;</span>
+<span class="s2">                    </span>
+<span class="s2">                    title.addEventListener(&#39;click&#39;, function() </span><span class="se">{{</span>
+<span class="s2">                        var clusterMatch = title.textContent.match(/Cluster (</span><span class="se">\\</span><span class="s2">d+) </span><span class="se">\\</span><span class="s2">((</span><span class="se">\\</span><span class="s2">d+) members</span><span class="se">\\</span><span class="s2">)/);</span>
+<span class="s2">                        if (clusterMatch) </span><span class="se">{{</span>
+<span class="s2">                            var clusterId = clusterMatch[1];</span>
+<span class="s2">                            var clusterSize = clusterMatch[2];</span>
+<span class="s2">                            showClusterInfo(</span><span class="se">{{</span>
+<span class="s2">                                cluster_id: parseInt(clusterId),</span>
+<span class="s2">                                cluster_size: parseInt(clusterSize)</span>
+<span class="s2">                            </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">                        </span><span class="se">}}</span>
+<span class="s2">                    </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">                </span><span class="se">}}</span>
+<span class="s2">            </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">        </span><span class="se">}}</span>
+<span class="s2">        </span>
+<span class="s2">        function showTimeSeriesInfo(customData, point) </span><span class="se">{{</span>
 <span class="s2">            var label = customData.label;</span>
 <span class="s2">            var stats = customData.stats;</span>
 <span class="s2">            var clusterId = customData.cluster_id;</span>
 <span class="s2">            var dataArray = customData.data;</span>
 <span class="s2">            </span>
-<span class="s2">            var infoHtml = </span>
-<span class="s2">                &#39;&lt;b&gt;📈 TIME SERIES DETAILS&lt;/b&gt;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Label:&lt;/b&gt; &#39; + label + &#39;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Cluster:&lt;/b&gt; &#39; + clusterId + &#39;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Data Points:&lt;/b&gt; &#39; + dataArray.length + &#39;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Value Range:&lt;/b&gt; [&#39; + stats.min.toFixed(3) + &#39;, &#39; + stats.max.toFixed(3) + &#39;]&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Mean:&lt;/b&gt; &#39; + stats.mean.toFixed(3) + &#39;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Std Dev:&lt;/b&gt; &#39; + stats.std.toFixed(3) + &#39;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;First 5:&lt;/b&gt; [&#39; + dataArray.slice(0, 5).map(x =&gt; x.toFixed(2)).join(&#39;, &#39;) + &#39;]&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Last 5:&lt;/b&gt; [&#39; + dataArray.slice(-5).map(x =&gt; x.toFixed(2)).join(&#39;, &#39;) + &#39;]&lt;br&gt;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;i&gt;Double-click for cluster information&lt;/i&gt;&#39;;</span>
+<span class="s2">            var infoText = </span>
+<span class="s2">                &quot;📈 TIME SERIES ANALYSIS</span><span class="se">\n\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;🏷️ Identification</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Label: &quot; + label + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Belongs to: Cluster &quot; + clusterId + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Data Length: &quot; + dataArray.length + &quot; points</span><span class="se">\n\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;📊 Statistical Summary</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Minimum: &quot; + stats.min.toFixed(4) + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Maximum: &quot; + stats.max.toFixed(4) + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Mean: &quot; + stats.mean.toFixed(4) + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Std Dev: &quot; + stats.std.toFixed(4) + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Range: [&quot; + stats.min.toFixed(3) + &quot;, &quot; + stats.max.toFixed(3) + &quot;]</span><span class="se">\n\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;🔍 Data Preview</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;First 5 values: [&quot; + dataArray.slice(0, 5).map(x =&gt; x.toFixed(3)).join(&#39;, &#39;) + &quot;]</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Last 5 values: [&quot; + dataArray.slice(-5).map(x =&gt; x.toFixed(3)).join(&#39;, &#39;) + &quot;]</span><span class="se">\n\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;💡 Click on cluster titles (blue underlined text) to view cluster information&quot;;</span>
 <span class="s2">            </span>
-<span class="s2">            updateInfoPanel(infoHtml);</span>
-<span class="s2">        }</span>
+<span class="s2">            updateInfoPanel(infoText);</span>
+<span class="s2">        </span><span class="se">}}</span>
 <span class="s2">        </span>
-<span class="s2">        function showClusterInfo(customData) {</span>
+<span class="s2">        function showClusterInfo(customData) </span><span class="se">{{</span>
 <span class="s2">            var clusterId = customData.cluster_id;</span>
 <span class="s2">            var clusterSize = customData.cluster_size;</span>
+<span class="s2">            var clusterInfo = clusterMetadata[clusterId.toString()];</span>
 <span class="s2">            </span>
-<span class="s2">            var infoHtml = </span>
-<span class="s2">                &#39;&lt;b&gt;🔵 CLUSTER INFORMATION&lt;/b&gt;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Cluster ID:&lt;/b&gt; &#39; + clusterId + &#39;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Total Members:&lt;/b&gt; &#39; + clusterSize + &#39; time series&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;b&gt;Cluster Type:&lt;/b&gt; Hierarchical clustering result&lt;br&gt;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;📊 &lt;b&gt;Interaction Options:&lt;/b&gt;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;• Single click any line → View series details&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;• Double click any line → View this cluster info&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;• Hover over lines → Quick statistics&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;• Use zoom and pan for detailed exploration&lt;br&gt;&lt;br&gt;&#39; +</span>
-<span class="s2">                &#39;&lt;i&gt;Single-click on any line for detailed time series information&lt;/i&gt;&#39;;</span>
+<span class="s2">            var membersText = &#39;&#39;;</span>
+<span class="s2">            if (clusterInfo &amp;&amp; clusterInfo.members) </span><span class="se">{{</span>
+<span class="s2">                membersText = &quot;Members: &quot; + clusterInfo.members.join(&#39;, &#39;) + &quot;</span><span class="se">\n</span><span class="s2">&quot;;</span>
+<span class="s2">            </span><span class="se">}}</span>
 <span class="s2">            </span>
-<span class="s2">            updateInfoPanel(infoHtml);</span>
-<span class="s2">        }</span>
+<span class="s2">            var infoText = </span>
+<span class="s2">                &quot;🔵 CLUSTER OVERVIEW</span><span class="se">\n\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;📋 Cluster Details</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Cluster ID: &quot; + clusterId + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Total Members: &quot; + clusterSize + &quot; time series</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;Clustering Method: Hierarchical clustering result</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                membersText + &quot;</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;🎯 Interaction Guide</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;🔘 Time Series Details: Click on any colored line</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;🔘 Cluster Information: Click on cluster titles (like this one)</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;🔘 Navigation: Use zoom, pan, and toolbar controls</span><span class="se">\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;🔘 Reset View: Double-click on empty space or use reset button</span><span class="se">\n\n</span><span class="s2">&quot; +</span>
+<span class="s2">                &quot;📊 This cluster contains &quot; + clusterSize + &quot; similar time series patterns&quot;;</span>
+<span class="s2">            </span>
+<span class="s2">            updateInfoPanel(infoText);</span>
+<span class="s2">        </span><span class="se">}}</span>
 <span class="s2">        </span>
-<span class="s2">        function updateInfoPanel(htmlContent) {</span>
+<span class="s2">        function updateInfoPanel(htmlContent) </span><span class="se">{{</span>
 <span class="s2">            // Find the information panel trace and update it</span>
 <span class="s2">            var plotElement = document.querySelector(&#39;.plotly-graph-div&#39;);</span>
-<span class="s2">            if (plotElement &amp;&amp; plotElement.data) {</span>
+<span class="s2">            if (plotElement &amp;&amp; plotElement.data) </span><span class="se">{{</span>
 <span class="s2">                // Look for the info panel trace (last trace)</span>
 <span class="s2">                var traces = plotElement.data;</span>
 <span class="s2">                var infoTraceIndex = traces.length - 1;</span>
 <span class="s2">                </span>
 <span class="s2">                // Update the text content</span>
-<span class="s2">                Plotly.restyle(plotElement, {</span>
+<span class="s2">                Plotly.restyle(plotElement, </span><span class="se">{{</span>
 <span class="s2">                    &#39;text&#39;: [[htmlContent]]</span>
-<span class="s2">                }, [infoTraceIndex]);</span>
-<span class="s2">            }</span>
-<span class="s2">        }</span>
-<span class="s2">    });</span>
+<span class="s2">                </span><span class="se">}}</span><span class="s2">, [infoTraceIndex]);</span>
+<span class="s2">            </span><span class="se">}}</span>
+<span class="s2">        </span><span class="se">}}</span>
+<span class="s2">    </span><span class="se">}}</span><span class="s2">);</span>
 <span class="s2">    &lt;/script&gt;</span>
 <span class="s2">    &quot;&quot;&quot;</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">export_interactive_plot</span><span class="p">(</span><span class="n">fig</span><span class="p">:</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">auto_open</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Export an interactive clustering plot to HTML with proper JavaScript injection.</span>
-<span class="sd">    </span>
-<span class="sd">    This function exports the Plotly figure to an HTML file and properly injects</span>
-<span class="sd">    the JavaScript code needed for the interactive functionality to work correctly.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    fig : plotly.graph_objects.Figure</span>
-<span class="sd">        The Plotly figure object created by interactive_plot_clusters().</span>
-<span class="sd">    filename : str</span>
-<span class="sd">        The filename for the HTML output (should end with .html).</span>
-<span class="sd">    auto_open : bool, default=True</span>
-<span class="sd">        Whether to automatically open the HTML file in the default browser.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Generate the basic HTML</span>
-    <span class="n">html_string</span> <span class="o">=</span> <span class="n">pio</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">include_plotlyjs</span><span class="o">=</span><span class="s1">&#39;cdn&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># Check if the figure has custom JavaScript</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s1">&#39;_custom_js&#39;</span><span class="p">):</span>
-        <span class="c1"># Find the closing body tag and inject the JavaScript before it</span>
-        <span class="n">js_code</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">_custom_js</span>
-        
-        <span class="c1"># Insert the JavaScript just before the closing body tag</span>
-        <span class="k">if</span> <span class="s1">&#39;&lt;/body&gt;&#39;</span> <span class="ow">in</span> <span class="n">html_string</span><span class="p">:</span>
-            <span class="n">html_string</span> <span class="o">=</span> <span class="n">html_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">js_code</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&lt;/body&gt;&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Fallback: append at the end</span>
-            <span class="n">html_string</span> <span class="o">+=</span> <span class="n">js_code</span>
-    
-    <span class="c1"># Write the HTML file</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">html_string</span><span class="p">)</span>
-    
-    <span class="c1"># Auto-open if requested</span>
-    <span class="k">if</span> <span class="n">auto_open</span><span class="p">:</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">webbrowser</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-        <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;file://&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 </pre></div>
 
            </div>

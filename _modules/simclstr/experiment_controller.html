@@ -305,59 +305,6 @@
 <span class="sd">        - ``&#39;num_clusters&#39;``: Number of clusters formed</span>
 <span class="sd">        - ``&#39;output_file&#39;``: Path to generated Excel report file</span>
 <span class="sd">        - ``&#39;plot_file&#39;``: Path to generated plot file (if save_plots=True)</span>
-<span class="sd">        </span>
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    FileNotFoundError</span>
-<span class="sd">        If the input file doesn&#39;t exist.</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        If invalid parameter values are provided for distance method, linkage method,</span>
-<span class="sd">        transformation method, or clustering criterion.</span>
-<span class="sd">    RuntimeError</span>
-<span class="sd">        If clustering fails or data cannot be read properly.</span>
-<span class="sd">        </span>
-<span class="sd">    Note</span>
-<span class="sd">    ----</span>
-<span class="sd">    The function generates comprehensive Excel reports with:</span>
-<span class="sd">    </span>
-<span class="sd">    - Experiment parameters and timestamps</span>
-<span class="sd">    - Performance metrics (Rand index, Jaccard index, execution time)</span>
-<span class="sd">    - Cluster size distributions</span>
-<span class="sd">    - Individual cluster assignments vs. ground truth</span>
-<span class="sd">    </span>
-<span class="sd">    For reproducible experiments, consider setting numpy random seed before calling</span>
-<span class="sd">    this function, especially when using pattern distance with multiple replications.</span>
-<span class="sd">    </span>
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; from simclstr import experiment_controller</span>
-<span class="sd">    &gt;&gt;&gt; </span>
-<span class="sd">    &gt;&gt;&gt; # Basic clustering experiment</span>
-<span class="sd">    &gt;&gt;&gt; results = experiment_controller(</span>
-<span class="sd">    ...     inputFileName=&#39;data.xlsx&#39;,</span>
-<span class="sd">    ...     distanceMethod=&#39;pattern_dtw&#39;,</span>
-<span class="sd">    ...     cValue=5</span>
-<span class="sd">    ... )</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;Formed {results[&#39;num_clusters&#39;]} clusters&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; print(f&quot;Rand index: {results[&#39;rand_index&#39;]:.3f}&quot;)</span>
-<span class="sd">    </span>
-<span class="sd">    &gt;&gt;&gt; # Experiment with data transformation and custom output</span>
-<span class="sd">    &gt;&gt;&gt; results = experiment_controller(</span>
-<span class="sd">    ...     inputFileName=&#39;timeseries.csv&#39;,</span>
-<span class="sd">    ...     distanceMethod=&#39;euclidean&#39;,</span>
-<span class="sd">    ...     transform=&#39;normalize&#39;,</span>
-<span class="sd">    ...     flatMethod=&#39;ward&#39;,</span>
-<span class="sd">    ...     cMethod=&#39;maxclust&#39;,</span>
-<span class="sd">    ...     cValue=3,</span>
-<span class="sd">    ...     note=&#39;normalized_ward&#39;,</span>
-<span class="sd">    ...     output_dir=&#39;experiments/run1&#39;</span>
-<span class="sd">    ... )</span>
-<span class="sd">    </span>
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    perform_clustering : Core clustering function</span>
-<span class="sd">    read_time_series : Data reading function</span>
-<span class="sd">    _compare_clusterings : Clustering comparison metrics</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">very_begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     
