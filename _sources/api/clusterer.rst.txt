@@ -24,4 +24,3 @@ perform_clustering
 ^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: simclstr.clusterer.perform_clustering
-

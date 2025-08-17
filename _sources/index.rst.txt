@@ -18,6 +18,7 @@ Welcome to the documentation for ``simclstr``. This library provides utilities f
 
    installation
    Main Clustering Functions <api/clusterer>
+   Cluster Class <api/cluster>
    Plotting Functions <api/plotting>
    Experiment Controller <api/experiment_controller>
 
