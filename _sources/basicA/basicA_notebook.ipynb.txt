@@ -11,7 +11,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 74,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [
     {
@@ -40,18 +40,21 @@
     "sys.path.insert(0, \"/Users/emirsener/Desktop/ts-clustering\")\n",
     "\n",
     "from simclstr.clusterer import perform_clustering, read_time_series\n",
+    "from simclstr.plotting import plot_clusters\n",
     "\n",
     "import os\n",
     "model_path_vensim = os.path.expanduser('~/Desktop/SESDYN_Basic_A/Basic_A_Vensim.xlsx')\n",
     "\n",
     "read_data_vensim = read_time_series(model_path_vensim)\n",
     "\n",
-    "clustering_results_vensim = perform_clustering(read_data_vensim, cMethod='maxclust', cValue = 6, plotDendrogram=True, plotClusters=True)"
+    "clustering_results_vensim = perform_clustering(read_data_vensim, cMethod='maxclust', cValue = 6, plotDendrogram=True)\n",
+    "\n",
+    "plot_clusters(clustering_results_vensim[1], 'pattern_dtw')"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 75,
+   "execution_count": 5,
    "metadata": {},
    "outputs": [
     {
@@ -80,12 +83,14 @@
     "\n",
     "read_data_stellaff = read_time_series(model_path_stellaff)\n",
     "\n",
-    "clustering_results_stellaff = perform_clustering(read_data_stellaff, cMethod='maxclust', cValue = 5, plotDendrogram=True, plotClusters=True)"
+    "clustering_results_stellaff = perform_clustering(read_data_stellaff, cMethod='maxclust', cValue = 5, plotDendrogram=True)\n",
+    "\n",
+    "plot_clusters(clustering_results_stellaff[1], 'pattern_dtw')"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 76,
+   "execution_count": 6,
    "metadata": {},
    "outputs": [
     {
@@ -114,7 +119,9 @@
     "\n",
     "read_data_stella2 = read_time_series(model_path_stella2)\n",
     "\n",
-    "clustering_results_stella2 = perform_clustering(read_data_stella2, cMethod='maxclust', cValue = 5, plotDendrogram=True, plotClusters=True)"
+    "clustering_results_stella2 = perform_clustering(read_data_stella2, cMethod='maxclust', cValue = 5, plotDendrogram=True)\n",
+    "\n",
+    "plot_clusters(clustering_results_stella2[1], 'pattern_dtw')"
    ]
   }
  ],

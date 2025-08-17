@@ -115,18 +115,22 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="simclstr.plotting.interactive_plot_clusters">
 <span class="sig-prename descclassname"><span class="pre">simclstr.plotting.</span></span><span class="sig-name descname"><span class="pre">interactive_plot_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/plotting.html#interactive_plot_clusters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.plotting.interactive_plot_clusters" title="Link to this definition"></a></dt>
-<dd><p>Plot cluster members on separate subplots with interactive click callbacks.</p>
+<dd><p>Plot cluster members on separate subplots with interactive features using Plotly.</p>
+<p>Features:
+- Click on time series to see label and data points
+- Click on cluster subplot to see cluster information
+- Interactive zoom, pan, and hover
+- Better performance with large datasets
+- Information panel for displaying clicked element details</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="cluster.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>) – List of Cluster objects. Each Cluster should have attributes:
-- no : cluster ID
-- size : number of members
-- indices : list/array of member indices
-- sample : tuple (label, 1D numpy array) of the representative series
-- members : list of (label, 1D numpy array) tuples</p></li>
-<li><p><strong>dist</strong> (<em>str</em><em>, </em><em>optional</em>) – Distance metric name for the overall title.</p></li>
+<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="cluster.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>) – List of Cluster objects</p></li>
+<li><p><strong>dist</strong> (<em>str</em><em>, </em><em>optional</em>) – Distance metric name for title</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>

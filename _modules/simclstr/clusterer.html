@@ -92,7 +92,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_pattern_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_pattern_dtw</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_scipy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">._distance_dtw</span><span class="w"> </span><span class="kn">import</span> <span class="n">_distance_dtw</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">_plot_dendrogram</span><span class="p">,</span> <span class="n">interactive_plot_clusters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">_plot_dendrogram</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pysd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
@@ -469,19 +469,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">members</span> <span class="o">=</span> <span class="n">member_dss</span></div>
 
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">inputFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/Desktop/SESDYN_Basic_A/Basic_A_Stella2.xlsx&#39;</span><span class="p">)</span>
-    <span class="n">data_set</span> <span class="o">=</span> <span class="n">read_time_series</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">)</span>
-
-    <span class="c1">#results = perform_clustering(data_set, distance=&#39;manhattan&#39;)</span>
-    <span class="c1">#results = perform_clustering(data_set, cValue=10000, distance=&#39;manhattan&#39;, cMethod=&#39;distance&#39;)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data_set</span><span class="p">,</span> <span class="n">cValue</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">plotDendrogram</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">interactive_plot_clusters</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Distances:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of members in each cluster:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">]))])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Clusters:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 
            </div>
