@@ -47,10 +47,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/experiment_controller.html">Experiment Controller</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Hidden Pages:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/cluster.html">Cluster Class</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../pysd/pysd_notebook.html">PySD Integration Example</a></li>
@@ -179,16 +175,7 @@
 <span class="sd">    in its own subplot, exports it to HTML with proper JavaScript injection, and</span>
 <span class="sd">    optionally opens it in the browser. The HTML file will be automatically deleted</span>
 <span class="sd">    when the browser tab is closed.</span>
-<span class="sd">    </span>
-<span class="sd">    Features</span>
-<span class="sd">    --------</span>
-<span class="sd">    - **Interactive Time Series**: Click on any time series line to see detailed information</span>
-<span class="sd">    - **Cluster Information**: Click on cluster titles to see cluster metadata</span>
-<span class="sd">    - **Zoom and Pan**: Interactive navigation with zoom and pan controls</span>
-<span class="sd">    - **Performance**: Optimized for large datasets using Plotly&#39;s efficient rendering</span>
-<span class="sd">    - **Information Panel**: Large dynamic panel showing clicked element details</span>
-<span class="sd">    - **Auto-Cleanup**: HTML file automatically deleted when browser tab closes</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    cluster_list : List[Cluster]</span>
@@ -214,18 +201,14 @@
     <span class="n">no_cols</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">no_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">no_plots</span><span class="p">)</span> <span class="o">/</span> <span class="n">no_cols</span><span class="p">))</span>
     
-    <span class="c1"># Create subplots with better spacing to avoid conflicts</span>
-    <span class="c1"># Build specs array for subplots</span>
     <span class="n">specs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">no_rows</span><span class="p">):</span>
         <span class="n">specs</span><span class="o">.</span><span class="n">append</span><span class="p">([{</span><span class="s2">&quot;secondary_y&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}]</span> <span class="o">*</span> <span class="n">no_cols</span><span class="p">)</span>
     
-    <span class="c1"># Add larger info panel row that spans all columns</span>
     <span class="n">info_row</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;colspan&quot;</span><span class="p">:</span> <span class="n">no_cols</span><span class="p">,</span> <span class="s2">&quot;secondary_y&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}]</span>
     <span class="n">info_row</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">no_cols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info_row</span><span class="p">)</span>
     
-    <span class="c1"># Create clickable cluster titles</span>
     <span class="n">cluster_titles</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">clust</span> <span class="ow">in</span> <span class="n">cluster_list</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;span style=&quot;cursor:pointer;color:#1f77b4;text-decoration:underline&quot; data-cluster-id=&quot;</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s1">&quot; data-cluster-size=&quot;</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">number_of_members</span><span class="si">}</span><span class="s1">&quot;&gt;Cluster </span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">number_of_members</span><span class="si">}</span><span class="s1"> members)&lt;/span&gt;&#39;</span>
@@ -233,11 +216,11 @@
     <span class="n">cluster_titles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Information Panel&#39;</span><span class="p">)</span>
     
     <span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span>
-        <span class="n">rows</span><span class="o">=</span><span class="n">no_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># +1 for info panel</span>
+        <span class="n">rows</span><span class="o">=</span><span class="n">no_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">cols</span><span class="o">=</span><span class="n">no_cols</span><span class="p">,</span>
         <span class="n">subplot_titles</span><span class="o">=</span><span class="n">cluster_titles</span><span class="p">,</span>
         <span class="n">specs</span><span class="o">=</span><span class="n">specs</span><span class="p">,</span>
-        <span class="n">vertical_spacing</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>  <span class="c1"># Increased spacing to avoid conflicts</span>
+        <span class="n">vertical_spacing</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
         <span class="n">horizontal_spacing</span><span class="o">=</span><span class="mf">0.05</span>
     <span class="p">)</span>
     
@@ -300,12 +283,12 @@
     
     <span class="c1"># Create comprehensive information panel with initial instructions</span>
     <span class="n">initial_info</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;📊 Interactive Clustering Visualization</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;🎯 How to Interact:</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;🔵 Time Series: Click on any colored line to view detailed statistics</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;🔵 Cluster Info: Click on cluster titles (blue underlined text) for cluster overview</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;🔵 Navigation: Use mouse wheel to zoom, drag to pan, toolbar for controls</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;👆 Click on any time series line or cluster title to see detailed information here!&quot;</span>
+        <span class="s2">&quot;Interactive Clustering Visualization</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;How to Interact:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;Time Series: Click on any colored line to view detailed statistics</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;Cluster Info: Click on cluster titles (blue underlined text) for cluster overview</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;Navigation: Use mouse wheel to zoom, drag to pan, toolbar for controls</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;Click on any time series line or cluster title to see detailed information here!&quot;</span>
     <span class="p">)</span>
     
     <span class="c1"># Add information panel as a larger text box with better positioning</span>
@@ -389,7 +372,7 @@
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">html_string</span><span class="p">)</span>
     
     <span class="n">absolute_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 Interactive plot saved to: </span><span class="si">{</span><span class="n">absolute_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Interactive plot saved to: </span><span class="si">{</span><span class="n">absolute_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     
     <span class="c1"># Auto-open if requested</span>
     <span class="k">if</span> <span class="n">auto_open</span><span class="p">:</span>
@@ -403,7 +386,6 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_generate_interaction_js</span><span class="p">(</span><span class="n">cluster_metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate JavaScript code for interactive functionality with browser-based cleanup.&quot;&quot;&quot;</span>
-    <span class="c1"># Convert cluster metadata to JavaScript object</span>
     <span class="n">js_metadata</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">cluster_metadata</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
@@ -590,8 +572,6 @@
 <span class="s2">    </span><span class="se">}}</span><span class="s2">);</span>
 <span class="s2">    &lt;/script&gt;</span>
 <span class="s2">    &quot;&quot;&quot;</span>
-
-
 </pre></div>
 
            </div>

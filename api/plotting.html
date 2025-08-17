@@ -57,10 +57,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="experiment_controller.html">Experiment Controller</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Hidden Pages:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="cluster.html">Cluster Class</a></li>
-</ul>
 <p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD Integration Example</a></li>
@@ -137,74 +133,22 @@ mode=’save’. The file will be saved as ‘{fname}.png’.</p></li>
 in its own subplot, exports it to HTML with proper JavaScript injection, and
 optionally opens it in the browser. The HTML file will be automatically deleted
 when the browser tab is closed.</p>
-<section id="features">
-<h4>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h4>
-<ul class="simple">
-<li><p><strong>Interactive Time Series</strong>: Click on any time series line to see detailed information</p></li>
-<li><p><strong>Cluster Information</strong>: Click on cluster titles to see cluster metadata</p></li>
-<li><p><strong>Zoom and Pan</strong>: Interactive navigation with zoom and pan controls</p></li>
-<li><p><strong>Performance</strong>: Optimized for large datasets using Plotly’s efficient rendering</p></li>
-<li><p><strong>Information Panel</strong>: Large dynamic panel showing clicked element details</p></li>
-<li><p><strong>Auto-Cleanup</strong>: HTML file automatically deleted when browser tab closes</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">type cluster_list<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code>]</span></p>
-</dd>
-<dt class="field-even">param cluster_list<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of Cluster objects containing the clustered time series data.
-Each cluster should have members with (label, data_array) tuples.</p>
-</dd>
-<dt class="field-odd">type cluster_list<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Cluster]</p>
-</dd>
-<dt class="field-even">type dist<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>, default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt class="field-odd">param dist<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Distance metric name used for clustering. This will be displayed in the
-plot title to help identify which distance method was used. Default is “”.</p>
-</dd>
-<dt class="field-even">type dist<span class="colon">:</span></dt>
-<dd class="field-even"><p>str, optional</p>
-</dd>
-<dt class="field-odd">type filename<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>, default: <code class="docutils literal notranslate"><span class="pre">'interactive_clustering_plot.html'</span></code></p>
-</dd>
-<dt class="field-even">param filename<span class="colon">:</span></dt>
-<dd class="field-even"><p>The filename for the HTML output (should end with .html).</p>
-</dd>
-<dt class="field-odd">type filename<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str, default=”interactive_clustering_plot.html”</p>
-</dd>
-<dt class="field-even">type auto_open<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>, default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
-</dd>
-<dt class="field-odd">param auto_open<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Whether to automatically open the HTML file in the default browser.</p>
-</dd>
-<dt class="field-even">type auto_open<span class="colon">:</span></dt>
-<dd class="field-even"><p>bool, default=True</p>
-</dd>
-<dt class="field-odd">returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The absolute path to the created HTML file.</p>
-</dd>
-<dt class="field-even">rtype<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
-</dd>
-</dl>
-</section>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a><em>[</em><em>Cluster</em><em>]</em>)</p></li>
-<li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
-<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
-<li><p><strong>auto_open</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>)</p></li>
+<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><em>Cluster</em><em>]</em>) – List of Cluster objects containing the clustered time series data.
+Each cluster should have members with (label, data_array) tuples.</p></li>
+<li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Distance metric name used for clustering. This will be displayed in the
+plot title to help identify which distance method was used. Default is “”.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default=&quot;interactive_clustering_plot.html&quot;</em>) – The filename for the HTML output (should end with .html).</p></li>
+<li><p><strong>auto_open</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=True</em>) – Whether to automatically open the HTML file in the default browser.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The absolute path to the created HTML file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
