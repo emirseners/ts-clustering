@@ -11,11 +11,15 @@ from typing import List, TYPE_CHECKING
 from scipy.cluster.hierarchy import dendrogram
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import plotly.io as pio
+import plotly.express as px
+import dash
+from dash import dcc, html, Input, Output
+import webbrowser
+import threading
+import time
 
 if TYPE_CHECKING:
     from .clusterer import Cluster
-
 
 def _plot_dendrogram(z: np.ndarray) -> None:
     """
@@ -82,407 +86,307 @@ def plot_clusters(cluster_list: List["Cluster"], dist: str, mode: str = 'show', 
         plt.savefig('{0}.png'.format(fname))
 
 
-def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str = "", filename: str = "interactive_clustering_plot.html", auto_open: bool = True) -> str:
+def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, port: int = 8050) -> None:
     """
-    Create and export an interactive plot of cluster members using Plotly.
-    
-    This function creates an interactive visualization where each cluster is displayed
-    in its own subplot, exports it to HTML with proper JavaScript injection, and
-    optionally opens it in the browser. The HTML file will be automatically deleted
-    when the browser tab is closed.
+    Create an enhanced interactive plot of cluster members with optimized layout and auto-browser opening.
+
+    When you click on a time series, information about that time series and its cluster will appear in the information panel.
 
     Parameters
     ----------
     cluster_list : List[Cluster]
-        List of Cluster objects containing the clustered time series data.
-        Each cluster should have members with (label, data_array) tuples.
-    dist : str, optional
-        Distance metric name used for clustering. This will be displayed in the
-        plot title to help identify which distance method was used. Default is "".
-    filename : str, default="interactive_clustering_plot.html"
-        The filename for the HTML output (should end with .html).
-    auto_open : bool, default=True
-        Whether to automatically open the HTML file in the default browser.
-        
-    Returns
-    -------
-    str
-        The absolute path to the created HTML file.
+        List of Cluster objects containing clustered time series data.
+    dist : str
+        Distance metric name used for clustering.
+    port : int, default=8050
+        Port number for the Dash server.
     """
-    import webbrowser
-    import os
+    
+    app = dash.Dash(__name__)
+    app.title = f"Interactive Clustering - {dist}"
     
     no_plots = len(cluster_list)
     no_cols = 3
-    no_rows = int(math.ceil(float(no_plots) / no_cols))
+    cluster_rows = int(math.ceil(float(no_plots) / no_cols))
     
-    specs = []
-    for _ in range(no_rows):
-        specs.append([{"secondary_y": False}] * no_cols)
+    colors = px.colors.qualitative.Set1 + px.colors.qualitative.Set2 + px.colors.qualitative.Set3
     
-    info_row = [{"colspan": no_cols, "secondary_y": False}]
-    info_row.extend([None] * (no_cols - 1))
-    specs.append(info_row)
-    
-    cluster_titles = []
-    for clust in cluster_list:
-        title = f'<span style="cursor:pointer;color:#1f77b4;text-decoration:underline" data-cluster-id="{clust.cluster_id}" data-cluster-size="{clust.number_of_members}">Cluster {clust.cluster_id} ({clust.number_of_members} members)</span>'
-        cluster_titles.append(title)
-    cluster_titles.append('Information Panel')
-    
-    fig = make_subplots(
-        rows=no_rows + 1,
+    cluster_fig = make_subplots(
+        rows=cluster_rows, 
         cols=no_cols,
-        subplot_titles=cluster_titles,
-        specs=specs,
-        vertical_spacing=0.15,
-        horizontal_spacing=0.05
+        subplot_titles=[f"Cluster {clust.cluster_id}" for clust in cluster_list],
+        vertical_spacing=0.12,
+        horizontal_spacing=0.04
     )
     
-    # Store cluster metadata for JavaScript access
-    cluster_metadata = {}
+    cluster_data = {}
+    time_series_data = {}
     
-    # Create cluster subplots
-    for i, clust in enumerate(cluster_list):
-        row_idx = i // no_cols + 1
-        col_idx = i % no_cols + 1
-        
-        # Store cluster metadata
-        cluster_metadata[str(clust.cluster_id)] = {
-            'id': clust.cluster_id,
-            'size': clust.number_of_members,
+    for idx, clust in enumerate(cluster_list):
+        row = (idx // no_cols) + 1
+        col = (idx % no_cols) + 1
+
+        cluster_data[clust.cluster_id] = {
+            'cluster_id': clust.cluster_id,
+            'number_of_members': clust.number_of_members,
+            'indices_of_members': clust.indices_of_members.tolist(),
+            'best_representative_member': clust.best_representative_member[0],
             'members': [member[0] for member in clust.list_of_members]
         }
         
-        # Plot time series for this cluster
-        for j, member in enumerate(clust.list_of_members):
-            label, data = member
-            t = np.arange(data.shape[0])
+        for j_idx, (name, ts_data) in enumerate(clust.list_of_members):
+            t = np.arange(ts_data.shape[0])
+            ts_id = f"cluster_{clust.cluster_id}_ts_{j_idx}"
             
-            # Calculate statistics
-            data_stats = {
-                'min': float(np.min(data)),
-                'max': float(np.max(data)),
-                'mean': float(np.mean(data)),
-                'std': float(np.std(data))
-            }
-            
-            # Simplified hover text (no heavy content)
-            hover_text = f"<b>{label}</b><br>Click for details"
-            
-            # Create customdata with all necessary information
-            customdata_item = {
-                'label': label,
-                'data': data.tolist(),
+            time_series_data[ts_id] = {
+                'name': name,
                 'cluster_id': clust.cluster_id,
-                'cluster_size': clust.number_of_members,
-                'stats': data_stats,
-                'member_index': j
+                'length': len(ts_data),
+                'mean': float(np.mean(ts_data)),
+                'std': float(np.std(ts_data)),
+                'min': float(np.min(ts_data)),
+                'max': float(np.max(ts_data)),
+                'is_representative': name == clust.best_representative_member[0],
+                'data': ts_data.tolist()
             }
             
-            fig.add_trace(
+            is_repr = name == clust.best_representative_member[0]
+            line_color = '#e74c3c' if is_repr else colors[j_idx % len(colors)]
+            line_width = 3.5 if is_repr else 2.5
+            opacity = 1.0 if is_repr else 0.8
+            
+            cluster_fig.add_trace(
                 go.Scatter(
                     x=t,
-                    y=data,
+                    y=ts_data,
                     mode='lines',
-                    name=f'{label}',
-                    line=dict(width=2.5, color=f'rgba({(i*50+j*30) % 200 + 50}, {(j*80+i*40) % 200 + 50}, {(i+j)*60 % 200 + 50}, 0.8)'),
-                    hoverinfo='text',
-                    hovertext=hover_text,
-                    customdata=[customdata_item] * len(t),
-                    hovertemplate='%{hovertext}<extra></extra>',
+                    name=name,
+                    line=dict(width=line_width, color=line_color),
+                    opacity=opacity,
+                    customdata=[ts_id] * len(t),
+                    hovertemplate=f"<b>{name}</b><br>" +
+                                "Time: %{x}<br>" +
+                                "Value: %{y:.3f}<br>" +
+                                f"Cluster: {clust.cluster_id}<br>" +
+                                f"{'Representative' if is_repr else ''}<br>" +
+                                "<extra></extra>",
                     showlegend=False
                 ),
-                row=row_idx, col=col_idx
+                row=row, col=col
             )
     
-    # Create comprehensive information panel with initial instructions
-    initial_info = (
-        "Interactive Clustering Visualization\n\n"
-        "How to Interact:\n"
-        "Time Series: Click on any colored line to view detailed statistics\n"
-        "Cluster Info: Click on cluster titles (blue underlined text) for cluster overview\n"
-        "Navigation: Use mouse wheel to zoom, drag to pan, toolbar for controls\n\n"
-        "Click on any time series line or cluster title to see detailed information here!"
-    )
-    
-    # Add information panel as a larger text box with better positioning
-    fig.add_trace(
-        go.Scatter(
-            x=[0.5],
-            y=[0.5],
-            mode='text',
-            text=[initial_info],
-            textposition='middle center',
-            textfont=dict(size=14, color='#2c3e50'),
-            showlegend=False,
-            hoverinfo='skip'
-        ),
-        row=no_rows + 1, col=1
-    )
-    
-    # Update the information panel subplot to remove axes and background
-    fig.update_xaxes(showgrid=False, showticklabels=False, zeroline=False, row=no_rows + 1, col=1)
-    fig.update_yaxes(showgrid=False, showticklabels=False, zeroline=False, row=no_rows + 1, col=1)
-    
-    # Update layout with better styling and increased height for info panel
-    fig.update_layout(
-        title=dict(
-            text=f'<b>{dist} Distance - Interactive Clustering Plot</b>',
-            x=0.5,
-            font=dict(size=18, color='#2c3e50')
-        ),
-        height=1200,  # Increased height for larger info panel
+    cluster_fig.update_layout(
+        height=280 * cluster_rows,
         showlegend=False,
-        hovermode='closest',
-        template='plotly_white',
-        paper_bgcolor='#f8f9fa',
-        plot_bgcolor='white'
-    )
-    
-    # Update axes for cluster subplots - only show x-axis labels on bottom row
-    for i in range(1, no_rows + 1):
-        for j in range(1, no_cols + 1):
-            if (i-1) * no_cols + j <= no_plots:
-                # Only show x-axis title on bottom row to avoid conflicts
-                show_x_title = (i == no_rows)
-                fig.update_xaxes(
-                    title_text="Time" if show_x_title else "",
-                    showgrid=True,
-                    gridcolor='rgba(128,128,128,0.2)',
-                    row=i, col=j
-                )
-                fig.update_yaxes(
-                    title_text="Value",
-                    showgrid=True,
-                    gridcolor='rgba(128,128,128,0.2)',
-                    row=i, col=j
-                )
-    
-    # Configure the plot for better interactivity
-    fig.update_layout(
         clickmode='event+select',
-        dragmode='pan',
-        modebar=dict(
-            remove=['lasso2d', 'select2d'],
-            add=['pan', 'zoom', 'reset', 'autoScale2d']
-        )
+        plot_bgcolor='#f8f9fa',
+        paper_bgcolor='#f8f9fa',
+        font={'family': 'Arial, sans-serif'}
     )
     
-    # Generate JavaScript with browser-based cleanup functionality
-    js_code = _generate_interaction_js(cluster_metadata, filename)
+    cluster_fig.update_annotations(font_size=18, font_color='#1a202c', font=dict(weight='bold'))
     
-    # Generate the basic HTML
-    html_string = pio.to_html(fig, include_plotlyjs='cdn')
+    info_panel_height = 350
     
-    # Insert the JavaScript before the closing body tag
-    if '</body>' in html_string:
-        html_string = html_string.replace('</body>', js_code + '\n</body>')
-    else:
-        # Fallback: append at the end
-        html_string += js_code
-    
-    # Write the HTML file
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(html_string)
-    
-    absolute_path = os.path.abspath(filename)
-    print(f"Interactive plot saved to: {absolute_path}")
-    
-    # Auto-open if requested
-    if auto_open:
-        webbrowser.open('file://' + absolute_path)
-        print(f"🌐 Opening plot in your default browser...")
-        print(f"🗑️ File will be automatically deleted when you close the browser tab")
-    
-    return absolute_path
-
-
-def _generate_interaction_js(cluster_metadata: dict, filename: str) -> str:
-    """Generate JavaScript code for interactive functionality with browser-based cleanup."""
-    js_metadata = str(cluster_metadata).replace("'", '"')
-    
-    return f"""
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {{
-        // Cluster metadata
-        var clusterMetadata = {js_metadata};
+    app.layout = html.Div([
+        html.Div([
+            html.H1([
+                f"Interactive Clustering - {dist} Distance"
+            ], style={
+                'textAlign': 'center', 
+                'marginBottom': '4px',
+                'color': '#1a202c',
+                'fontFamily': 'Arial, sans-serif'
+            })
+        ]),
         
-        // File cleanup functionality
-        var htmlFile = "{filename}";
-        var isPageVisible = true;
+        html.Div([
+            dcc.Graph(
+                id='cluster-plot',
+                figure=cluster_fig,
+                style={'marginBottom': '2px'}
+            )
+        ], style={'marginTop': '0px'}),
         
-        // Track page visibility changes
-        document.addEventListener('visibilitychange', function() {{
-            isPageVisible = !document.hidden;
-        }});
+        html.Div([
+            html.Div([
+                html.Div(id='info-panel', children=[])
+            ], style={
+                'backgroundColor': '#ffffff',
+                'border': '1px solid #e2e8f0',
+                'borderRadius': '16px',
+                'padding': '18px',
+                'margin': '4px auto',
+                'width': 'calc(100% - 160px)',
+                'boxShadow': '0 10px 25px rgba(0, 0, 0, 0.08)',
+                'minHeight': f'{info_panel_height}px',
+                'maxHeight': 'none',
+                'overflow': 'visible',
+                'boxSizing': 'border-box',
+                'resize': 'both',
+                'overflowY': 'visible'
+            })
+        ])
+    ], style={
+        'backgroundColor': '#f8f9fa',
+        'minHeight': '100vh',
+        'padding': '15px',
+        'fontFamily': 'Arial, sans-serif'
+    })
+    
+    @app.callback(
+        Output('info-panel', 'children'),
+        [Input('cluster-plot', 'clickData')]
+    )
+    def update_info_panel(clickData):
+        if clickData is None:
+            return [
+                html.H2([
+                    "Information Panel"
+                ], style={'textAlign': 'center', 'marginBottom': '20px', 'color': '#1a202c'}),
+                html.Div([
+                    html.Div([
+                        html.P([
+                            html.B("Representative members"), " are highlighted in ", 
+                            html.Span("red", style={'color': '#e74c3c', 'fontWeight': 'bold'})
+                        ], style={'textAlign': 'center', 'fontSize': '16px'}),
+                        html.P("Click on any time series line to see detailed statistics", 
+                               style={'textAlign': 'center', 'color': '#7f8c8d'})
+                    ], style={
+                        'padding': '36px',
+                        'backgroundColor': '#ffffff',
+                        'borderRadius': '12px',
+                        'textAlign': 'center',
+                        'border': '1px solid #e2e8f0'
+                    })
+                ], style={'display': 'flex', 'justifyContent': 'center', 'alignItems': 'center', 'height': '100%'})
+            ]
         
-        // Track when user leaves the page or closes tab
-        window.addEventListener('beforeunload', function() {{
-            cleanupFile();
-        }});
-        
-        // Track when page becomes hidden (tab switch, minimize, etc.)
-        document.addEventListener('visibilitychange', function() {{
-            if (document.hidden) {{
-                // Page is hidden, schedule cleanup
-                setTimeout(function() {{
-                    if (document.hidden) {{
-                        cleanupFile();
-                    }}
-                }}, 5000); // Wait 5 seconds to see if user returns
-            }}
-        }});
-        
-        // Cleanup function to delete the HTML file
-        function cleanupFile() {{
-            try {{
-                // Use fetch to make a request to delete the file
-                // This will work if you have a local server, but for file:// URLs
-                // we'll use a different approach
+        try:
+            point = clickData['points'][0]
+            customdata = point.get('customdata')
+            
+            if customdata and customdata in time_series_data:
+                ts_info = time_series_data[customdata]
+                cluster_info = cluster_data[ts_info['cluster_id']]
                 
-                // For file:// URLs, we'll show a message to the user
-                if (window.location.protocol === 'file:') {{
-                    console.log('File cleanup requested for: ' + htmlFile);
-                    // Show a message to the user about manual cleanup
-                    var cleanupMsg = document.createElement('div');
-                    cleanupMsg.style.cssText = 'position:fixed;top:20px;right:20px;background:#e74c3c;color:white;padding:15px;border-radius:8px;z-index:9999;font-family:Arial,sans-serif;';
-                    cleanupMsg.innerHTML = '🗑️ <strong>Cleanup Notice:</strong><br>Please manually delete the HTML file:<br><code>' + htmlFile + '</code>';
-                    document.body.appendChild(cleanupMsg);
+                return [html.Div([
+                    html.Div([
+                        # Left column
+                        html.Div([
+                            html.Div([
+                                html.Span("Time Series Information", style={'fontWeight': 'bold', 'color': '#34495e', 'fontSize': '16px'})
+                            ], style={'marginBottom': '15px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Label:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '60px', 'display': 'inline-block'}),
+                                html.Span(f" {ts_info['name']}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Length:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '60px', 'display': 'inline-block'}),
+                                html.Span(f" {ts_info['length']}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Mean:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '60px', 'display': 'inline-block'}),
+                                html.Span(f" {ts_info['mean']:.4f}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'})
+                        ], style={'width': '30%', 'display': 'inline-block', 'verticalAlign': 'top', 'overflow': 'hidden'}),
+                        
+                        # Middle column
+                        html.Div([
+                            html.Div([
+                                html.Span("Std Dev:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '80px', 'display': 'inline-block'}),
+                                html.Span(f" {ts_info['std']:.4f}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Max Value:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '80px', 'display': 'inline-block'}),
+                                html.Span(f" {ts_info['max']:.4f}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Min Value:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '80px', 'display': 'inline-block'}),
+                                html.Span(f" {ts_info['min']:.4f}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Representative:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '80px', 'display': 'inline-block'}),
+                                html.Span(" Yes" if ts_info["is_representative"] else " No", 
+                                         style={'marginLeft': '10px', 'color': '#34495e' if ts_info["is_representative"] else '#34495e', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'})
+                        ], style={'width': '30%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%', 'overflow': 'hidden'}),
+                        
+                        # Gray vertical line
+                        html.Div(style={'width': '1px', 'backgroundColor': '#cccccc', 'height': '120px', 'display': 'inline-block', 'marginLeft': '2%', 'marginRight': '2%', 'verticalAlign': 'top'}),
+                        
+                        # Right column
+                        html.Div([
+                            html.Div([
+                                html.Span("Cluster Information", style={'fontWeight': 'bold', 'color': '#34495e', 'fontSize': '16px'})
+                            ], style={'marginBottom': '15px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Cluster ID:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '100px', 'display': 'inline-block'}),
+                                html.Span(f" {ts_info['cluster_id']}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Cluster Size:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '100px', 'display': 'inline-block'}),
+                                html.Span(f" {cluster_info['number_of_members']}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'}),
+                            html.Div([
+                                html.Span("Representative Member:", style={'fontWeight': 'bold', 'color': '#34495e', 'minWidth': '100px', 'display': 'inline-block'}),
+                                html.Span(f" {cluster_info['best_representative_member']}", style={'marginLeft': '10px', 'overflow': 'hidden', 'textOverflow': 'ellipsis', 'whiteSpace': 'nowrap'})
+                            ], style={'marginBottom': '10px', 'overflow': 'hidden'})
+                        ], style={'width': '30%', 'display': 'inline-block', 'verticalAlign': 'top', 'overflow': 'hidden'})
+                    ], style={'wordWrap': 'break-word', 'borderBottom': '2px solid #ecf0f1', 'paddingBottom': '12px', 'marginBottom': '16px'}),
                     
-                    // Remove message after 10 seconds
-                    setTimeout(function() {{
-                        if (cleanupMsg.parentNode) {{
-                            cleanupMsg.parentNode.removeChild(cleanupMsg);
-                        }}
-                    }}, 10000);
-                }}
-            }} catch (e) {{
-                console.log('Cleanup notification sent');
-            }}
-        }}
-        
-        // Wait for Plotly to load
-        var checkPlotly = setInterval(function() {{
-            if (typeof Plotly !== 'undefined') {{
-                clearInterval(checkPlotly);
-                initializeInteractivity();
-            }}
-        }}, 100);
-        
-        function initializeInteractivity() {{
-            var plotElement = document.querySelector('.plotly-graph-div');
-            if (!plotElement) return;
-            
-            var gd = plotElement;
-            
-            // Single click handler for time series details
-            gd.on('plotly_click', function(data) {{
-                if (data.points && data.points.length > 0) {{
-                    var point = data.points[0];
-                    var customData = point.customdata;
-                    
-                    if (customData) {{
-                        showTimeSeriesInfo(customData, point);
-                    }}
-                }}
-            }});
-            
-            // Add click handlers for cluster titles
-            addClusterTitleHandlers();
-        }}
-        
-        function addClusterTitleHandlers() {{
-            // Add event listeners to cluster title spans
-            var clusterTitles = document.querySelectorAll('.gtitle');
-            clusterTitles.forEach(function(title) {{
-                if (title.textContent.includes('Cluster')) {{
-                    title.style.cursor = 'pointer';
-                    title.style.color = '#1f77b4';
-                    title.style.textDecoration = 'underline';
-                    
-                    title.addEventListener('click', function() {{
-                        var clusterMatch = title.textContent.match(/Cluster (\\d+) \\((\\d+) members\\)/);
-                        if (clusterMatch) {{
-                            var clusterId = clusterMatch[1];
-                            var clusterSize = clusterMatch[2];
-                            showClusterInfo({{
-                                cluster_id: parseInt(clusterId),
-                                cluster_size: parseInt(clusterSize)
-                            }});
-                        }}
-                    }});
-                }}
-            }});
-        }}
-        
-        function showTimeSeriesInfo(customData, point) {{
-            var label = customData.label;
-            var stats = customData.stats;
-            var clusterId = customData.cluster_id;
-            var dataArray = customData.data;
-            
-            var infoText = 
-                "📈 TIME SERIES ANALYSIS\n\n" +
-                "🏷️ Identification\n" +
-                "Label: " + label + "\n" +
-                "Belongs to: Cluster " + clusterId + "\n" +
-                "Data Length: " + dataArray.length + " points\n\n" +
-                "📊 Statistical Summary\n" +
-                "Minimum: " + stats.min.toFixed(4) + "\n" +
-                "Maximum: " + stats.max.toFixed(4) + "\n" +
-                "Mean: " + stats.mean.toFixed(4) + "\n" +
-                "Std Dev: " + stats.std.toFixed(4) + "\n" +
-                "Range: [" + stats.min.toFixed(3) + ", " + stats.max.toFixed(3) + "]\n\n" +
-                "🔍 Data Preview\n" +
-                "First 5 values: [" + dataArray.slice(0, 5).map(x => x.toFixed(3)).join(', ') + "]\n" +
-                "Last 5 values: [" + dataArray.slice(-5).map(x => x.toFixed(3)).join(', ') + "]\n\n" +
-                "💡 Click on cluster titles (blue underlined text) to view cluster information";
-            
-            updateInfoPanel(infoText);
-        }}
-        
-        function showClusterInfo(customData) {{
-            var clusterId = customData.cluster_id;
-            var clusterSize = customData.cluster_size;
-            var clusterInfo = clusterMetadata[clusterId.toString()];
-            
-            var membersText = '';
-            if (clusterInfo && clusterInfo.members) {{
-                membersText = "Members: " + clusterInfo.members.join(', ') + "\n";
-            }}
-            
-            var infoText = 
-                "🔵 CLUSTER OVERVIEW\n\n" +
-                "📋 Cluster Details\n" +
-                "Cluster ID: " + clusterId + "\n" +
-                "Total Members: " + clusterSize + " time series\n" +
-                "Clustering Method: Hierarchical clustering result\n" +
-                membersText + "\n" +
-                "🎯 Interaction Guide\n" +
-                "🔘 Time Series Details: Click on any colored line\n" +
-                "🔘 Cluster Information: Click on cluster titles (like this one)\n" +
-                "🔘 Navigation: Use zoom, pan, and toolbar controls\n" +
-                "🔘 Reset View: Double-click on empty space or use reset button\n\n" +
-                "📊 This cluster contains " + clusterSize + " similar time series patterns";
-            
-            updateInfoPanel(infoText);
-        }}
-        
-        function updateInfoPanel(htmlContent) {{
-            // Find the information panel trace and update it
-            var plotElement = document.querySelector('.plotly-graph-div');
-            if (plotElement && plotElement.data) {{
-                // Look for the info panel trace (last trace)
-                var traces = plotElement.data;
-                var infoTraceIndex = traces.length - 1;
-                
-                // Update the text content
-                Plotly.restyle(plotElement, {{
-                    'text': [[htmlContent]]
-                }}, [infoTraceIndex]);
-            }}
-        }}
-    }});
-    </script>
-    """
+                    # Cluster members section
+                    html.Div([
+                        html.H4("Cluster Members:", style={'color': '#34495e', 'marginTop': '16px', 'marginBottom': '8px'}),
+                        html.Div([
+                            html.Span(
+                                member + ("" if member == cluster_info['best_representative_member'] else ""), 
+                                style={
+                                    'display': 'inline-block',
+                                    'margin': '2px 6px',
+                                    'padding': '4px 8px',
+                                    'backgroundColor': '#e74c3c' if member == cluster_info['best_representative_member'] else '#3498db',
+                                    'color': 'white',
+                                    'borderRadius': '12px',
+                                    'fontSize': '12px',
+                                    'maxWidth': '200px',
+                                    'overflow': 'hidden',
+                                    'textOverflow': 'ellipsis',
+                                    'whiteSpace': 'nowrap'
+                                }
+                            ) for member in cluster_info['members']
+                        ], style={
+                            'wordWrap': 'break-word',
+                            'overflowWrap': 'break-word',
+                            'maxWidth': '100%'
+                        })
+                    ])
+                ], style={
+                    'width': '100%',
+                    'maxWidth': '100%',
+                    'wordWrap': 'break-word',
+                    'boxSizing': 'border-box'
+                })]
+        except (KeyError, IndexError, TypeError):
+            return [
+                html.Div([
+                    html.P("Error: Unable to display information for the selected time series.", 
+                           style={'textAlign': 'center', 'color': '#e74c3c', 'fontSize': '16px'})
+                ], style={'padding': '20px'})
+            ]
+
+    app.cluster_data = cluster_data
+    app.time_series_data = time_series_data
+    
+    def open_browser():
+        time.sleep(1.5)  # Wait for server to start
+        webbrowser.open(f'http://127.0.0.1:{port}')
+
+    threading.Thread(target=open_browser, daemon=True).start()
+
+    try:
+        app.run(debug=False, port=port, host='127.0.0.1', 
+                dev_tools_silence_routes_logging=True, 
+                use_reloader=False)
+    except Exception as e:
+        print(f"Error starting server: {e}")

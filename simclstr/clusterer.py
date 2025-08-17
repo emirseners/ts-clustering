@@ -196,20 +196,21 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
     distance : str, default='pattern_dtw'
         Available distance metrics include:
 
-        Pattern-based distances:
+        **Pattern-based distances:**
+        
+        ``pattern``: Pattern distance using behavioral features
+        
+        ``pattern_dtw``: Pattern distance with Dynamic Time Warping
 
-        - `'pattern'`: Pattern distance using behavioral features
-
-        - `'pattern_dtw'`: Pattern distance with Dynamic Time Warping
-
-        - `'dtw'`: Dynamic Time Warping distance
+        ``dtw``: Dynamic Time Warping distance
 
         `Scipy distance metrics <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html>`_:
-        - ``'euclidean'``, ``'minkowski'``, ``'cityblock'``, ``'seuclidean'``, ``'sqeuclidean'``
-        ``'cosine'``, ``'correlation'``, ``'hamming'``, ``'jaccard'``, ``'jensenshannon'``
-        ``'chebyshev'``, ``'canberra'``, ``'braycurtis'``, ``'mahalanobis'``
-        ``'yule'``, ``'matching'``, ``'dice'``, ``'rogerstanimoto'``, ``'russellrao'``
-        ``'sokalsneath'``, ``'kulczynski1'``
+
+        ``euclidean``, ``minkowski``, ``cityblock``, ``seuclidean``, ``sqeuclidean``,
+        ``cosine``, ``correlation``, ``hamming``, ``jaccard``, ``jensenshannon``,
+        ``chebyshev``, ``canberra``, ``braycurtis``, ``mahalanobis``,
+        ``yule``, ``matching``, ``dice``, ``rogerstanimoto``, ``russellrao``,
+        ``sokalsneath``, ``kulczynski1``
 
     interClusterDistance : str, default='complete'
         Linkage method. Options: 'complete', 'single', 'average', 'ward'.

@@ -1,12 +1,18 @@
 # Package dependencies
-numpy>=1.24.0
+numpy>=1.24.0,<2.0
 scipy>=1.16.0
-matplotlib>=3.7.0
 pandas>=2.0.0
 pysd>=3.0.0
 numba>=0.57.0
 xlsxwriter>=3.0.0
+matplotlib>=3.7.0
 plotly>=6.3.0
+xarray>=2023.1.0,<2024.0.0
+dash>=2.14.0
+dash-bootstrap-components>=1.5.0
+dash-extensions>=1.0.0
+dash-mantine-components>=0.12.0
+dash-iconify>=0.1.2
 
 # Documentation dependencies
 sphinx>=7.0

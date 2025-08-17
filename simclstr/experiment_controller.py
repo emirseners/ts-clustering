@@ -144,51 +144,53 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
         
         **Pattern-based distances:**
         
-        - ``'pattern'``: Pattern distance using behavioral features
-        - ``'pattern_dtw'``: Pattern distance with Dynamic Time Warping
-        - ``'dtw'``: Dynamic Time Warping distance
+        ``pattern``: Pattern distance using behavioral features
         
-        **Scipy distance metrics:**
+        ``pattern_dtw``: Pattern distance with Dynamic Time Warping
+
+        ``dtw``: Dynamic Time Warping distance
         
-        - ``'euclidean'``, ``'minkowski'``, ``'cityblock'``, ``'seuclidean'``, ``'sqeuclidean'``
-        - ``'cosine'``, ``'correlation'``, ``'hamming'``, ``'jaccard'``, ``'jensenshannon'``
-        - ``'chebyshev'``, ``'canberra'``, ``'braycurtis'``, ``'mahalanobis'``
-        - ``'yule'``, ``'matching'``, ``'dice'``, ``'rogerstanimoto'``, ``'russellrao'``
-        - ``'sokalsneath'``, ``'kulczynski1'``
+        `Scipy distance metrics <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html>`_:
+
+        ``euclidean``, ``minkowski``, ``cityblock``, ``seuclidean``, ``sqeuclidean``,
+        ``cosine``, ``correlation``, ``hamming``, ``jaccard``, ``jensenshannon``,
+        ``chebyshev``, ``canberra``, ``braycurtis``, ``mahalanobis``,
+        ``yule``, ``matching``, ``dice``, ``rogerstanimoto``, ``russellrao``,
+        ``sokalsneath``, ``kulczynski1``
         
     flatMethod : str, default='complete'
         Hierarchical clustering linkage method for agglomerative clustering:
         
-        - ``'complete'``: Maximum distances between all observations of two sets
-        - ``'single'``: Minimum distances between all observations of two sets  
-        - ``'average'``: Average distances between all observations of two sets
-        - ``'weighted'``: Weighted average distances 
-        - ``'centroid'``: Distance between centroids of clusters
-        - ``'median'``: Distance between medians of clusters
-        - ``'ward'``: Minimizes within-cluster sum of squared differences
+        - ``complete``: Maximum distances between all observations of two sets
+        - ``single``: Minimum distances between all observations of two sets  
+        - ``average``: Average distances between all observations of two sets
+        - ``weighted``: Weighted average distances 
+        - ``centroid``: Distance between centroids of clusters
+        - ``median``: Distance between medians of clusters
+        - ``ward``: Minimizes within-cluster sum of squared differences
         
     transform : str, default='original'
         Data transformation method applied before clustering:
         
-        - ``'original'``: No transformation applied
-        - ``'normalize'``: Min-max normalization to [0,1] range
-        - ``'standardize'``: Z-score standardization (mean=0, std=1)
+        - ``original``: No transformation applied
+        - ``normalize``: Min-max normalization to [0,1] range
+        - ``standardize``: Z-score standardization (mean=0, std=1)
         
     cMethod : str, default='maxclust'
         Clustering criterion for forming flat clusters from hierarchy:
         
-        - ``'maxclust'``: Maximum number of clusters (requires cValue = number of clusters)
-        - ``'distance'``: Distance threshold (requires cValue = distance threshold)
-        - ``'inconsistent'``: Inconsistency criterion (requires cValue = inconsistency threshold)
-        - ``'monocrit'``: Monotonic criterion (requires cValue = threshold)
+        - ``maxclust``: Maximum number of clusters (requires cValue = number of clusters)
+        - ``distance``: Distance threshold (requires cValue = distance threshold)
+        - ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)
+        - ``monocrit``: Monotonic criterion (requires cValue = threshold)
         
     cValue : int, default=9
         Threshold value for clustering criterion. Interpretation depends on cMethod:
         
-        - For ``'maxclust'``: Number of desired clusters
-        - For ``'distance'``: Distance threshold for cluster formation
-        - For ``'inconsistent'``: Inconsistency coefficient threshold
-        - For ``'monocrit'``: Threshold for monotonic criterion
+        - For ``maxclust``: Number of desired clusters
+        - For ``distance``: Distance threshold for cluster formation
+        - For ``inconsistent``: Inconsistency coefficient threshold
+        - For ``monocrit``: Threshold for monotonic criterion
         
     replicate : int, default=1
         Number of replications for pattern distance method. Only applicable when
@@ -209,16 +211,16 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
     Dict[str, Any]
         Dictionary containing comprehensive experiment results:
         
-        - ``'clusters'``: Final cluster assignments as numpy array
-        - ``'cluster_list'``: List of Cluster objects with detailed information
-        - ``'distance_matrix'``: Computed condensed distance matrix  
-        - ``'rand_index'``: Rand index comparing with original clusters (if available)
-        - ``'jaccard_index'``: Jaccard index comparing with original clusters (if available)
-        - ``'run_time'``: Clustering execution time in seconds
-        - ``'total_time'``: Total experiment time including I/O in seconds
-        - ``'num_clusters'``: Number of clusters formed
-        - ``'output_file'``: Path to generated Excel report file
-        - ``'plot_file'``: Path to generated plot file (if save_plots=True)
+        - ``clusters``: Final cluster assignments as numpy array
+        - ``cluster_list``: List of Cluster objects with detailed information
+        - ``distance_matrix``: Computed condensed distance matrix  
+        - ``rand_index``: Rand index comparing with original clusters (if available)
+        - ``jaccard_index``: Jaccard index comparing with original clusters (if available)
+        - ``run_time``: Clustering execution time in seconds
+        - ``total_time``: Total experiment time including I/O in seconds
+        - ``num_clusters``: Number of clusters formed
+        - ``output_file``: Path to generated Excel report file
+        - ``plot_file``: Path to generated plot file (if save_plots=True)
     """
     very_begin_time = time.time()
     
