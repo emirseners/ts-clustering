@@ -22,6 +22,12 @@ Welcome to the documentation for ``simclstr``. This library provides utilities f
    Experiment Controller <api/experiment_controller>
 
 .. toctree::
+   :hidden:
+   :caption: Hidden Pages:
+
+   api/cluster
+
+.. toctree::
    :maxdepth: 2
    :caption: Examples and Tutorials:
 

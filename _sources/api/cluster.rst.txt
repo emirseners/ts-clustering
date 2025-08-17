@@ -1,0 +1,10 @@
+Cluster Class
+=============
+
+.. _Cluster:
+
+.. autoclass:: simclstr.clusterer.Cluster
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :no-index:

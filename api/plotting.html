@@ -57,6 +57,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="experiment_controller.html">Experiment Controller</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Hidden Pages:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cluster.html">Cluster Class</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD Integration Example</a></li>
@@ -103,7 +107,7 @@ with all member time series overlaid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="clusterer.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>) – List of Cluster objects containing clustered time series data.</p></li>
+<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><em>Cluster</em><em>]</em>) – List of Cluster objects containing clustered time series data.</p></li>
 <li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Distance metric name used for clustering. This will be displayed in the
 window title and can help identify which distance method was used.</p></li>
 <li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='show'</em>) – <p>Display mode for the plot:</p>
@@ -145,7 +149,7 @@ details when elements are clicked.</p>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">type cluster_list<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="clusterer.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a>]</span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code>]</span></p>
 </dd>
 <dt class="field-even">param cluster_list<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of Cluster objects containing the clustered time series data.
@@ -175,7 +179,7 @@ plot title to help identify which distance method was used. Default is “”.</
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a><em>[</em><a class="reference internal" href="clusterer.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>)</p></li>
+<li><p><strong>cluster_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a><em>[</em><em>Cluster</em><em>]</em>)</p></li>
 <li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
 </ul>
 </dd>
