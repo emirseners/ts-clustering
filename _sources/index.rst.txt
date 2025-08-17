@@ -20,7 +20,6 @@ Welcome to the documentation for ``simclstr``. This library provides utilities f
    Main Clustering Functions <api/clusterer>
    Plotting Functions <api/plotting>
    Experiment Controller <api/experiment_controller>
-   api/cluster
 
 .. toctree::
    :maxdepth: 2

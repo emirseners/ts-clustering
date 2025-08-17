@@ -19,9 +19,7 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="PySD usage" href="../pysd/pysd_notebook.html" />
-    <link rel="prev" title="API Reference" href="experiment_controller.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,12 +42,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Library Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clusterer.html">Main Clustering Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Cluster Class</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
 <ul>
@@ -83,9 +80,9 @@
              
   <section id="cluster-class">
 <h1>Cluster Class<a class="headerlink" href="#cluster-class" title="Link to this heading"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="simclstr.clusterer.Cluster">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">simclstr.clusterer.</span></span><span class="sig-name descname"><span class="pre">Cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices_of_members</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_of_members</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_representative_member</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/clusterer.html#Cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.clusterer.Cluster" title="Link to this definition"></a></dt>
+<dl class="py class" id="cluster">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">simclstr.clusterer.</span></span><span class="sig-name descname"><span class="pre">Cluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices_of_members</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_of_members</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_representative_member</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/clusterer.html#Cluster"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Container for clustering results.</p>
 <dl class="field-list simple">
@@ -99,8 +96,8 @@
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.cluster_id">
-<span class="sig-name descname"><span class="pre">cluster_id</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.cluster_id" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cluster_id</span></span></dt>
 <dd><p>Cluster number/index.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -110,8 +107,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.indices_of_members">
-<span class="sig-name descname"><span class="pre">indices_of_members</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.indices_of_members" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">indices_of_members</span></span></dt>
 <dd><p>Original indices of cluster members.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -121,8 +118,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.number_of_members">
-<span class="sig-name descname"><span class="pre">number_of_members</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.number_of_members" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">number_of_members</span></span></dt>
 <dd><p>Number of members in cluster.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -132,8 +129,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.list_of_members">
-<span class="sig-name descname"><span class="pre">list_of_members</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.list_of_members" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">list_of_members</span></span></dt>
 <dd><p>List of all cluster members.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -143,8 +140,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="simclstr.clusterer.Cluster.best_representative_member">
-<span class="sig-name descname"><span class="pre">best_representative_member</span></span><a class="headerlink" href="#simclstr.clusterer.Cluster.best_representative_member" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">best_representative_member</span></span></dt>
 <dd><p>Best representative time series for the cluster.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -160,10 +157,7 @@
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="experiment_controller.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../pysd/pysd_notebook.html" class="btn btn-neutral float-right" title="PySD usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
