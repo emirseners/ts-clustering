@@ -24,3 +24,13 @@ perform_clustering
 ^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: simclstr.clusterer.perform_clustering
+
+.. _Cluster:
+
+Cluster Class
+^^^^^^^^^^^^^
+
+.. autoclass:: simclstr.clusterer.Cluster
+    :members:
+    :undoc-members:
+    :show-inheritance:
