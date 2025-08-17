@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="API Reference" href="experiment_controller.html" />
-    <link rel="prev" title="API Reference" href="clusterer.html" /> 
+    <link rel="prev" title="API Reference" href="cluster.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,8 +46,9 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clusterer.html">Clusterer</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="clusterer.html">Main Clustering Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster.html">Cluster Objects</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plotting Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#simclstr-plotting">simclstr.plotting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#plot-clusters">plot_clusters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#interactive-plot-clusters">interactive_plot_clusters</a></li>
@@ -56,8 +57,11 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basicA/basicA_notebook.html">BasicA Instance Example</a></li>
 </ul>
 
         </div>
@@ -93,18 +97,28 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="simclstr.plotting.plot_clusters">
 <span class="sig-prename descclassname"><span class="pre">simclstr.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'show'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'results'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/plotting.html#plot_clusters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.plotting.plot_clusters" title="Link to this definition"></a></dt>
-<dd><p>Plot cluster members on separate subplots.</p>
+<dd><p>Plot cluster members on separate subplots using matplotlib.</p>
+<p>This function creates a grid of subplots where each subplot shows all time series
+belonging to a specific cluster. Each cluster is displayed in its own subplot
+with all member time series overlaid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="cluster.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>) – List of Cluster objects</p></li>
-<li><p><strong>dist</strong> (<em>str</em>) – Distance metric name for title</p></li>
-<li><p><strong>mode</strong> (<em>str</em>) – ‘show’ or ‘save’</p></li>
-<li><p><strong>fname</strong> (<em>str</em>) – Filename for saving (without extension)</p></li>
+<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="cluster.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>) – List of Cluster objects containing clustered time series data.</p></li>
+<li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Distance metric name used for clustering. This will be displayed in the
+window title and can help identify which distance method was used.</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='show'</em>) – <p>Display mode for the plot:</p>
+<ul>
+<li><p>’show’: Display the plot interactively using matplotlib.pyplot.show()</p></li>
+<li><p>’save’: Save the plot to a PNG file without displaying it</p></li>
+</ul>
+</p></li>
+<li><p><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='results'</em>) – Base filename for saving the plot (without extension). Only used when
+mode=’save’. The file will be saved as ‘{fname}.png’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -115,22 +129,59 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="simclstr.plotting.interactive_plot_clusters">
 <span class="sig-prename descclassname"><span class="pre">simclstr.plotting.</span></span><span class="sig-name descname"><span class="pre">interactive_plot_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/plotting.html#interactive_plot_clusters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.plotting.interactive_plot_clusters" title="Link to this definition"></a></dt>
-<dd><p>Plot cluster members on separate subplots with interactive features using Plotly.</p>
-<p>Features:
-- Click on time series to see label and data points
-- Click on cluster subplot to see cluster information
-- Interactive zoom, pan, and hover
-- Better performance with large datasets
-- Information panel for displaying clicked element details</p>
+<dd><p>Create an interactive plot of cluster members using Plotly.</p>
+<p>This function creates an interactive visualization where each cluster is displayed
+in its own subplot. Users can interact with the plot through clicking, hovering,
+zooming, and panning. The plot includes an information panel that displays
+details when elements are clicked.</p>
+<section id="features">
+<h4>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Interactive Time Series</strong>: Click on any time series line to see detailed information</p></li>
+<li><p><strong>Cluster Information</strong>: Double-click on cluster areas to see cluster metadata</p></li>
+<li><p><strong>Hover Details</strong>: Hover over lines to see data values and series information</p></li>
+<li><p><strong>Zoom and Pan</strong>: Interactive navigation with zoom and pan controls</p></li>
+<li><p><strong>Performance</strong>: Optimized for large datasets using Plotly’s efficient rendering</p></li>
+<li><p><strong>Information Panel</strong>: Dynamic panel showing clicked element details</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">type cluster_list<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference internal" href="cluster.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cluster</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">param cluster_list<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Cluster objects containing the clustered time series data.
+Each cluster should have members with (label, data_array) tuples.</p>
+</dd>
+<dt class="field-odd">type cluster_list<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[Cluster]</p>
+</dd>
+<dt class="field-even">type dist<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>, default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt class="field-odd">param dist<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Distance metric name used for clustering. This will be displayed in the
+plot title to help identify which distance method was used. Default is “”.</p>
+</dd>
+<dt class="field-even">type dist<span class="colon">:</span></dt>
+<dd class="field-even"><p>str, optional</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Interactive Plotly figure object that can be displayed, saved, or further customized.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>plotly.graph_objects.Figure</p>
+</dd>
+</dl>
+</section>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="cluster.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>) – List of Cluster objects</p></li>
-<li><p><strong>dist</strong> (<em>str</em><em>, </em><em>optional</em>) – Distance metric name for title</p></li>
+<li><p><strong>cluster_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a><em>[</em><a class="reference internal" href="cluster.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>)</p></li>
+<li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+<dd class="field-even"><p><em>Figure</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -143,7 +194,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="clusterer.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cluster.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="experiment_controller.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -46,8 +46,9 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clusterer.html">Clusterer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clusterer.html">Main Clustering Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster.html">Cluster Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Experiment Controller</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#simclstr-experiment-controller">simclstr.experiment_controller</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#experiment-controller">experiment_controller</a></li>
@@ -55,8 +56,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basicA/basicA_notebook.html">BasicA Instance Example</a></li>
 </ul>
 
         </div>
@@ -94,41 +98,151 @@
 <span class="sig-prename descclassname"><span class="pre">simclstr.experiment_controller.</span></span><span class="sig-name descname"><span class="pre">experiment_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputFileName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distanceMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pattern_dtw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flatMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complete'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'original'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cMethod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'maxclust'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cValue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/experiment_controller.html#experiment_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.experiment_controller.experiment_controller" title="Link to this definition"></a></dt>
 <dd><p>Run a controlled clustering experiment with comprehensive reporting.</p>
 <p>This function performs clustering experiments with different parameters and generates
-detailed reports including performance metrics and visualizations.</p>
+detailed reports including performance metrics, visualizations, and Excel summaries.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputFileName</strong> (<em>str</em>) – Path to the input file containing time series data</p></li>
-<li><p><strong>distanceMethod</strong> (<em>str</em><em>, </em><em>default='pattern_dtw'</em>) – pattern, pattern_dtw, dtw,
-euclidean, minkowski, cityblock, seuclidean, sqeuclidean, cosine, correlation,
-hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis,
-yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</p></li>
-<li><p><strong>flatMethod</strong> (<em>str</em><em>, </em><em>default='complete'</em>) – Hierarchical clustering linkage method. Options: ‘complete’, ‘single’,
-‘average’, ‘weighted’, ‘centroid’, ‘median’, ‘ward’</p></li>
-<li><p><strong>transform</strong> (<em>str</em><em>, </em><em>default='original'</em>) – Data transformation method. Options: ‘original’, ‘normalize’, ‘standardize’</p></li>
-<li><p><strong>cMethod</strong> (<em>str</em><em>, </em><em>default='maxclust'</em>) – Clustering method. Options: ‘maxclust’, ‘distance’, ‘inconsistent’, ‘monocrit’</p></li>
-<li><p><strong>cValue</strong> (<em>int</em><em>, </em><em>default=9</em>) – Number of clusters or distance threshold depending on cMethod</p></li>
-<li><p><strong>replicate</strong> (<em>int</em><em>, </em><em>default=1</em>) – Number of replications for pattern distance method (only applicable when distanceMethod=’pattern’)</p></li>
-<li><p><strong>note</strong> (<em>str</em><em>, </em><em>default=''</em>) – Additional note to append to output filename</p></li>
-<li><p><strong>save_plots</strong> (<em>bool</em><em>, </em><em>default=True</em>) – Whether to generate and save cluster plots</p></li>
-<li><p><strong>output_dir</strong> (<em>str</em><em>, </em><em>default=None</em>) – Directory to save output files. If None, creates ‘output’ directory in package root</p></li>
+<li><p><strong>inputFileName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Path to the input file containing time series data. Supports .xlsx and .csv formats.
+For .xlsx files, expects ‘data’ sheet with time series and optional ‘clusters’ sheet
+with ground truth cluster assignments.</p></li>
+<li><p><strong>distanceMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='pattern_dtw'</em>) – <p>Distance metric to use for clustering. Available options:</p>
+<p><strong>Pattern-based distances:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'pattern'</span></code>: Pattern distance using behavioral features</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'pattern_dtw'</span></code>: Pattern distance with Dynamic Time Warping</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'dtw'</span></code>: Dynamic Time Warping distance</p></li>
+</ul>
+<p><strong>Scipy distance metrics:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'euclidean'</span></code>, <code class="docutils literal notranslate"><span class="pre">'minkowski'</span></code>, <code class="docutils literal notranslate"><span class="pre">'cityblock'</span></code>, <code class="docutils literal notranslate"><span class="pre">'seuclidean'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sqeuclidean'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'cosine'</span></code>, <code class="docutils literal notranslate"><span class="pre">'correlation'</span></code>, <code class="docutils literal notranslate"><span class="pre">'hamming'</span></code>, <code class="docutils literal notranslate"><span class="pre">'jaccard'</span></code>, <code class="docutils literal notranslate"><span class="pre">'jensenshannon'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'chebyshev'</span></code>, <code class="docutils literal notranslate"><span class="pre">'canberra'</span></code>, <code class="docutils literal notranslate"><span class="pre">'braycurtis'</span></code>, <code class="docutils literal notranslate"><span class="pre">'mahalanobis'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'yule'</span></code>, <code class="docutils literal notranslate"><span class="pre">'matching'</span></code>, <code class="docutils literal notranslate"><span class="pre">'dice'</span></code>, <code class="docutils literal notranslate"><span class="pre">'rogerstanimoto'</span></code>, <code class="docutils literal notranslate"><span class="pre">'russellrao'</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'sokalsneath'</span></code>, <code class="docutils literal notranslate"><span class="pre">'kulczynski1'</span></code></p></li>
+</ul>
+</p></li>
+<li><p><strong>flatMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='complete'</em>) – <p>Hierarchical clustering linkage method for agglomerative clustering:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'complete'</span></code>: Maximum distances between all observations of two sets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'single'</span></code>: Minimum distances between all observations of two sets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'average'</span></code>: Average distances between all observations of two sets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'weighted'</span></code>: Weighted average distances</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'centroid'</span></code>: Distance between centroids of clusters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'median'</span></code>: Distance between medians of clusters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'ward'</span></code>: Minimizes within-cluster sum of squared differences</p></li>
+</ul>
+</p></li>
+<li><p><strong>transform</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='original'</em>) – <p>Data transformation method applied before clustering:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'original'</span></code>: No transformation applied</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'normalize'</span></code>: Min-max normalization to [0,1] range</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'standardize'</span></code>: Z-score standardization (mean=0, std=1)</p></li>
+</ul>
+</p></li>
+<li><p><strong>cMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='maxclust'</em>) – <p>Clustering criterion for forming flat clusters from hierarchy:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">'maxclust'</span></code>: Maximum number of clusters (requires cValue = number of clusters)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'distance'</span></code>: Distance threshold (requires cValue = distance threshold)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'inconsistent'</span></code>: Inconsistency criterion (requires cValue = inconsistency threshold)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'monocrit'</span></code>: Monotonic criterion (requires cValue = threshold)</p></li>
+</ul>
+</p></li>
+<li><p><strong>cValue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=9</em>) – <p>Threshold value for clustering criterion. Interpretation depends on cMethod:</p>
+<ul>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">'maxclust'</span></code>: Number of desired clusters</p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">'distance'</span></code>: Distance threshold for cluster formation</p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">'inconsistent'</span></code>: Inconsistency coefficient threshold</p></li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">'monocrit'</span></code>: Threshold for monotonic criterion</p></li>
+</ul>
+</p></li>
+<li><p><strong>replicate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=1</em>) – Number of replications for pattern distance method. Only applicable when
+distanceMethod=’pattern’. Higher values provide more robust results for
+stochastic pattern distance but increase computation time.</p></li>
+<li><p><strong>note</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default=''</em>) – Additional note to append to output filename for identification purposes.
+Useful for experiment tracking and organization.</p></li>
+<li><p><strong>save_plots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=True</em>) – Whether to generate and save cluster visualization plots as PNG files.
+Plots show all time series grouped by their assigned clusters.</p></li>
+<li><p><strong>output_dir</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>, </em><em>default=None</em>) – Directory path to save output files. If None, creates ‘output’ directory
+in the package root. Directory will be created if it doesn’t exist.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dictionary containing experiment results including:
-- ‘clusters’: Final cluster assignments
-- ‘cluster_list’: Detailed cluster information
-- ‘distance_matrix’: Computed distance matrix
-- ‘rand_index’: Rand index comparing with original clusters
-- ‘jaccard_index’: Jaccard index comparing with original clusters
-- ‘run_time’: Execution time in seconds
-- ‘output_file’: Path to generated Excel report
-- ‘plot_file’: Path to generated plot (if plot=True)</p>
+<dd class="field-even"><p><p>Dictionary containing comprehensive experiment results:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'clusters'</span></code>: Final cluster assignments as numpy array</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'cluster_list'</span></code>: List of Cluster objects with detailed information</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'distance_matrix'</span></code>: Computed condensed distance matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'rand_index'</span></code>: Rand index comparing with original clusters (if available)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'jaccard_index'</span></code>: Jaccard index comparing with original clusters (if available)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'run_time'</span></code>: Clustering execution time in seconds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'total_time'</span></code>: Total experiment time including I/O in seconds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'num_clusters'</span></code>: Number of clusters formed</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'output_file'</span></code>: Path to generated Excel report file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'plot_file'</span></code>: Path to generated plot file (if save_plots=True)</p></li>
+</ul>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.13)"><strong>FileNotFoundError</strong></a> – If the input file doesn’t exist.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If invalid parameter values are provided for distance method, linkage method,
+    transformation method, or clustering criterion.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If clustering fails or data cannot be read properly.</p></li>
+</ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function generates comprehensive Excel reports with:</p>
+<ul class="simple">
+<li><p>Experiment parameters and timestamps</p></li>
+<li><p>Performance metrics (Rand index, Jaccard index, execution time)</p></li>
+<li><p>Cluster size distributions</p></li>
+<li><p>Individual cluster assignments vs. ground truth</p></li>
+</ul>
+<p>For reproducible experiments, consider setting numpy random seed before calling
+this function, especially when using pattern distance with multiple replications.</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">simclstr</span><span class="w"> </span><span class="kn">import</span> <span class="n">experiment_controller</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Basic clustering experiment</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">experiment_controller</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;data.xlsx&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cValue</span><span class="o">=</span><span class="mi">5</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Formed </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;num_clusters&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> clusters&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rand index: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;rand_index&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Experiment with data transformation and custom output</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">experiment_controller</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">inputFileName</span><span class="o">=</span><span class="s1">&#39;timeseries.csv&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">distanceMethod</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">transform</span><span class="o">=</span><span class="s1">&#39;normalize&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">flatMethod</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cMethod</span><span class="o">=</span><span class="s1">&#39;maxclust&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">cValue</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">note</span><span class="o">=</span><span class="s1">&#39;normalized_ward&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;experiments/run1&#39;</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">perform_clustering</span></code></dt><dd><p>Core clustering function</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_time_series</span></code></dt><dd><p>Data reading function</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">_compare_clusterings</span></code></dt><dd><p>Clustering comparison metrics</p>
+</dd>
+</dl>
+</div>
 </dd></dl>
 
 </section>

@@ -43,11 +43,15 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/clusterer.html">Clusterer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/plotting.html">Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/clusterer.html">Main Clustering Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/cluster.html">Cluster Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basicA/basicA_notebook.html">BasicA Instance Example</a></li>
 </ul>
 
         </div>
@@ -95,12 +99,15 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_plot_dendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plot hierarchical clustering dendrogram.</span>
+<span class="sd">    Plot hierarchical clustering dendrogram using matplotlib.</span>
+<span class="sd">    </span>
+<span class="sd">    This function visualizes the hierarchical clustering structure as a dendrogram,</span>
+<span class="sd">    showing how clusters are formed at different distances.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">        z : np.ndarray</span>
-<span class="sd">            Linkage matrix</span>
+<span class="sd">    z : np.ndarray</span>
+<span class="sd">        Linkage matrix returned by scipy.cluster.hierarchy.linkage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dendrogram</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">truncate_mode</span><span class="o">=</span><span class="s1">&#39;lastp&#39;</span><span class="p">,</span> <span class="n">show_leaf_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_contracted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -110,18 +117,28 @@
 <a class="viewcode-back" href="../../api/plotting.html#simclstr.plotting.plot_clusters">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;results&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plot cluster members on separate subplots.</span>
+<span class="sd">    Plot cluster members on separate subplots using matplotlib.</span>
+
+<span class="sd">    This function creates a grid of subplots where each subplot shows all time series</span>
+<span class="sd">    belonging to a specific cluster. Each cluster is displayed in its own subplot</span>
+<span class="sd">    with all member time series overlaid.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">        cluster_list : List[Cluster]</span>
-<span class="sd">            List of Cluster objects</span>
-<span class="sd">        dist : str</span>
-<span class="sd">                Distance metric name for title</span>
-<span class="sd">        mode : str</span>
-<span class="sd">            &#39;show&#39; or &#39;save&#39;</span>
-<span class="sd">        fname : str</span>
-<span class="sd">            Filename for saving (without extension)</span>
+<span class="sd">    cluster_list : List[Cluster]</span>
+<span class="sd">        List of Cluster objects containing clustered time series data.</span>
+<span class="sd">    dist : str</span>
+<span class="sd">        Distance metric name used for clustering. This will be displayed in the</span>
+<span class="sd">        window title and can help identify which distance method was used.</span>
+<span class="sd">    mode : str, default=&#39;show&#39;</span>
+<span class="sd">        Display mode for the plot:</span>
+<span class="sd">        </span>
+<span class="sd">        - &#39;show&#39;: Display the plot interactively using matplotlib.pyplot.show()</span>
+<span class="sd">        - &#39;save&#39;: Save the plot to a PNG file without displaying it</span>
+<span class="sd">        </span>
+<span class="sd">    fname : str, default=&#39;results&#39;</span>
+<span class="sd">        Base filename for saving the plot (without extension). Only used when</span>
+<span class="sd">        mode=&#39;save&#39;. The file will be saved as &#39;{fname}.png&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">main_fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
     <span class="n">main_fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">set_window_title</span><span class="p">(</span><span class="n">dist</span> <span class="o">+</span> <span class="s1">&#39; distance&#39;</span><span class="p">)</span>
@@ -150,23 +167,37 @@
 
 <div class="viewcode-block" id="interactive_plot_clusters">
 <a class="viewcode-back" href="../../api/plotting.html#simclstr.plotting.interactive_plot_clusters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plot cluster members on separate subplots with interactive features using Plotly.</span>
+<span class="sd">    Create an interactive plot of cluster members using Plotly.</span>
 <span class="sd">    </span>
-<span class="sd">    Features:</span>
-<span class="sd">    - Click on time series to see label and data points</span>
-<span class="sd">    - Click on cluster subplot to see cluster information</span>
-<span class="sd">    - Interactive zoom, pan, and hover</span>
-<span class="sd">    - Better performance with large datasets</span>
-<span class="sd">    - Information panel for displaying clicked element details</span>
+<span class="sd">    This function creates an interactive visualization where each cluster is displayed</span>
+<span class="sd">    in its own subplot. Users can interact with the plot through clicking, hovering,</span>
+<span class="sd">    zooming, and panning. The plot includes an information panel that displays</span>
+<span class="sd">    details when elements are clicked.</span>
+<span class="sd">    </span>
+<span class="sd">    Features</span>
+<span class="sd">    --------</span>
+<span class="sd">    - **Interactive Time Series**: Click on any time series line to see detailed information</span>
+<span class="sd">    - **Cluster Information**: Double-click on cluster areas to see cluster metadata</span>
+<span class="sd">    - **Hover Details**: Hover over lines to see data values and series information  </span>
+<span class="sd">    - **Zoom and Pan**: Interactive navigation with zoom and pan controls</span>
+<span class="sd">    - **Performance**: Optimized for large datasets using Plotly&#39;s efficient rendering</span>
+<span class="sd">    - **Information Panel**: Dynamic panel showing clicked element details</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    cluster_list : List[Cluster]</span>
-<span class="sd">        List of Cluster objects</span>
+<span class="sd">        List of Cluster objects containing the clustered time series data.</span>
+<span class="sd">        Each cluster should have members with (label, data_array) tuples.</span>
 <span class="sd">    dist : str, optional</span>
-<span class="sd">        Distance metric name for title</span>
+<span class="sd">        Distance metric name used for clustering. This will be displayed in the</span>
+<span class="sd">        plot title to help identify which distance method was used. Default is &quot;&quot;.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plotly.graph_objects.Figure</span>
+<span class="sd">        Interactive Plotly figure object that can be displayed, saved, or further customized.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">no_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">)</span>
     <span class="n">no_cols</span> <span class="o">=</span> <span class="mi">3</span>
@@ -394,7 +425,7 @@
         <span class="n">bordercolor</span><span class="o">=</span><span class="s1">&#39;rgba(0,0,0,0)&#39;</span>
     <span class="p">)</span>
     
-    <span class="c1"># Return the figure object instead of showing it</span>
+    <span class="c1"># Return the figure object for further customization or display</span>
     <span class="k">return</span> <span class="n">fig</span></div>
 
 </pre></div>

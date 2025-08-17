@@ -20,7 +20,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Plotting Functions" href="plotting.html" />
+    <link rel="next" title="API Reference" href="cluster.html" />
     <link rel="prev" title="Installation" href="../installation.html" /> 
 </head>
 
@@ -46,7 +46,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Clusterer</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Main Clustering Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#simclstr-clusterer">simclstr.clusterer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#read-time-series">read_time_series</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#simulate-from-vensim">simulate_from_vensim</a></li>
@@ -55,10 +55,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cluster.html">Cluster Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="experiment_controller.html">Experiment Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../basicA/basicA_notebook.html">BasicA Instance Usage</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples and Tutorials:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pysd/pysd_notebook.html">PySD Integration Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basicA/basicA_notebook.html">BasicA Instance Example</a></li>
 </ul>
 
         </div>
@@ -141,8 +145,8 @@ when reading from CSV files (withClusters parameter will be ignored).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>file_path</strong> (<em>str</em>) – Path to the .xlsx or .csv file (can be relative or absolute path).</p></li>
-<li><p><strong>withClusters</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, also reads cluster information from ‘clusters’ sheet.
+<li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Path to the .xlsx or .csv file (can be relative or absolute path).</p></li>
+<li><p><strong>withClusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, also reads cluster information from ‘clusters’ sheet.
 Note: This parameter is ignored for CSV files as they don’t support multiple sheets.</p></li>
 </ul>
 </dd>
@@ -150,7 +154,7 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <dd class="field-even"><p>List of (label, data_array) tuples, or (data_list, clusters_list) if withClusters=True and reading from Excel.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Union[List[Tuple[str, np.ndarray]], Tuple[List[Tuple[str, np.ndarray]], List[str]]]</p>
+<dd class="field-odd"><p>Union[List[Tuple[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, np.ndarray]], Tuple[List[Tuple[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, np.ndarray]], List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -165,16 +169,16 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model_path</strong> (<em>str</em>) – Path to the .mdl file (can be relative or absolute path).</p></li>
-<li><p><strong>parameter_set</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Union</em><em>[</em><em>float</em><em>, </em><em>List</em><em>[</em><em>float</em><em>]</em><em>]</em><em>]</em>) – Dict of parameters and values to test.</p></li>
-<li><p><strong>output_variable</strong> (<em>str</em>) – Output variable to extract.</p></li>
+<li><p><strong>model_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Path to the .mdl file (can be relative or absolute path).</p></li>
+<li><p><strong>parameter_set</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>]</em><em>]</em>) – Dict of parameters and values to test.</p></li>
+<li><p><strong>output_variable</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Output variable to extract.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of (description, time_series_data) tuples.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Tuple[str, np.ndarray]]</p>
+<dd class="field-odd"><p>List[Tuple[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, np.ndarray]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -189,8 +193,8 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples.</p></li>
-<li><p><strong>distance</strong> (<em>str</em><em>, </em><em>default='pattern_dtw'</em>) – <p>Available distance metrics include:</p>
+<li><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples.</p></li>
+<li><p><strong>distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='pattern_dtw'</em>) – <p>Available distance metrics include:</p>
 <p>Pattern-based distances:</p>
 <ul>
 <li><p><cite>’pattern’</cite>: Pattern distance using behavioral features</p></li>
@@ -202,11 +206,11 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 hamming, jaccard, jensenshannon, chebyshev, canberra, braycurtis, mahalanobis,
 yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</p>
 </p></li>
-<li><p><strong>interClusterDistance</strong> (<em>str</em><em>, </em><em>default='complete'</em>) – Linkage method. Options: ‘complete’, ‘single’, ‘average’, ‘ward’.</p></li>
-<li><p><strong>cMethod</strong> (<em>str</em><em>, </em><em>default='inconsistent'</em>) – Cutoff method. Options: ‘inconsistent’, ‘distance’, ‘maxclust’, ‘monocrit’.</p></li>
-<li><p><strong>cValue</strong> (<em>float</em><em>, </em><em>default=1.5</em>) – Cutoff value for clustering criterion.</p></li>
-<li><p><strong>plotDendrogram</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, displays dendrogram.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – Additional distance function parameters.</p></li>
+<li><p><strong>interClusterDistance</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='complete'</em>) – Linkage method. Options: ‘complete’, ‘single’, ‘average’, ‘ward’.</p></li>
+<li><p><strong>cMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='inconsistent'</em>) – Cutoff method. Options: ‘inconsistent’, ‘distance’, ‘maxclust’, ‘monocrit’.</p></li>
+<li><p><strong>cValue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>default=1.5</em>) – Cutoff value for clustering criterion.</p></li>
+<li><p><strong>plotDendrogram</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, displays dendrogram.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Additional distance function parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -227,7 +231,7 @@ yule, matching, dice, rogerstanimoto, russellrao, sokalsneath, kulczynski1</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="plotting.html" class="btn btn-neutral float-right" title="Plotting Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="cluster.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
