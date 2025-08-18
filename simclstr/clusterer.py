@@ -54,15 +54,22 @@ def read_time_series(file_path: str, withClusters: bool = False) -> Union[List[T
     The data file must have the following structure:
     
     **For Excel files (.xlsx):**
-    - Sheet 'data': Column A contains labels/names for each time series, Column B onwards contains time series data values
-    - Sheet 'clusters' (optional, only if withClusters=True): Column A contains cluster labels
+
+    Sheet 'data': Column A contains labels/names for each time series, Column B onwards contains time series data values
+
+    Sheet 'clusters' (optional, only if withClusters=True): Column A contains cluster labels
     
     **For CSV files (.csv):**
-    - Column A: Labels/names for each time series (e.g., "Run 1", "Scenario A", "Parameter Set 1")
-    - Column B onwards: Time series data values
-    - Row 1: First time series (label in A1, data values in B1, C1, D1, ...)
-    - Row 2: Second time series (label in A2, data values in B2, C2, D2, ...)
-    - And so on...
+
+    Column A: Labels/names for each time series (e.g., "Run 1", "Scenario A", "Parameter Set 1")
+
+    Column B onwards: Time series data values
+
+    Row 1: First time series (label in A1, data values in B1, C1, D1, ...)
+
+    Row 2: Second time series (label in A2, data values in B2, C2, D2, ...)
+
+    And so on...
     
     Note: CSV files do not support multiple sheets, so cluster information cannot be imported
     when reading from CSV files (withClusters parameter will be ignored).
@@ -81,9 +88,9 @@ def read_time_series(file_path: str, withClusters: bool = False) -> Union[List[T
 
     Parameters
     ----------
-    file_path : str
+    ``file_path`` : str
         Path to the .xlsx or .csv file (can be relative or absolute path).
-    withClusters : bool, default=False
+    ``withClusters`` : bool, default=False
         If True, also reads cluster information from 'clusters' sheet.
         Note: This parameter is ignored for CSV files as they don't support multiple sheets.
 
@@ -140,11 +147,11 @@ def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, 
 
     Parameters
     ----------
-    model_path : str
+    ``model_path`` : str
         Path to the .mdl file (can be relative or absolute path).
-    parameter_set : Dict[str, Union[float, List[float]]]
+    ``parameter_set`` : Dict[str, Union[float, List[float]]]
         Dict of parameters and values to test.
-    output_variable : str
+    ``output_variable`` : str
         Output variable to extract.
 
     Returns
@@ -191,9 +198,9 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
 
     Parameters
     ----------
-    data_w_labels : List[Tuple[str, np.ndarray]]
+    ``data_w_labels`` : List[Tuple[str, np.ndarray]]
         List of (label, data_array) tuples.
-    distance : str, default='pattern_dtw'
+    ``distance`` : str, default='pattern_dtw'
         Available distance metrics include:
 
         **Pattern-based distances:**
@@ -212,15 +219,15 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
         ``yule``, ``matching``, ``dice``, ``rogerstanimoto``, ``russellrao``,
         ``sokalsneath``, ``kulczynski1``
 
-    interClusterDistance : str, default='complete'
+    ``interClusterDistance`` : str, default='complete'
         Linkage method. Options: 'complete', 'single', 'average', 'ward'.
-    cMethod : str, default='inconsistent'
+    ``cMethod`` : str, default='inconsistent'
         Cutoff method. Options: 'inconsistent', 'distance', 'maxclust', 'monocrit'.
-    cValue : float, default=1.5
+    ``cValue`` : float, default=1.5
         Cutoff value for clustering criterion.
-    plotDendrogram : bool, default=False
+    ``plotDendrogram`` : bool, default=False
         If True, displays dendrogram.
-    **kwargs : dict
+    ``kwargs`` : dict
         Additional distance function parameters.
 
     Returns

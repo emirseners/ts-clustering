@@ -124,8 +124,8 @@ def _compare_clusterings(clusters1: Union[List, np.ndarray], clusters2: Union[Li
     return rand_index, jaccard_index
 
 
-def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw', flatMethod: str = 'complete', 
-                        transform: str = 'original', cMethod: str = 'maxclust', cValue: int = 9,  replicate: int = 1, 
+def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw', interClusterDistance: str = 'complete', 
+                        transform: str = 'original', cMethod: str = 'inconsistent', cValue: float = 1.5,  replicate: int = 1, 
                         note: str = '', save_plots: bool = True, output_dir: Optional[str] = None) -> Dict[str, Any]:
     """
     Run a controlled clustering experiment with comprehensive reporting.
@@ -158,33 +158,44 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
         ``yule``, ``matching``, ``dice``, ``rogerstanimoto``, ``russellrao``,
         ``sokalsneath``, ``kulczynski1``
         
-    flatMethod : str, default='complete'
-        Hierarchical clustering linkage method for agglomerative clustering:
+    interClusterDistance : str, default='complete'
+        `Hierarchical clustering linkage method <https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage>`_:
         
-        - ``complete``: Maximum distances between all observations of two sets
-        - ``single``: Minimum distances between all observations of two sets  
-        - ``average``: Average distances between all observations of two sets
-        - ``weighted``: Weighted average distances 
-        - ``centroid``: Distance between centroids of clusters
-        - ``median``: Distance between medians of clusters
-        - ``ward``: Minimizes within-cluster sum of squared differences
+        ``single``: Minimum distances between all observations of two sets
+
+        ``complete``: Maximum distances between all observations of two sets
+
+        ``average``: Average distances between all observations of two sets
+
+        ``weighted``: Weighted average distances
+
+        ``centroid``: Distance between centroids of clusters
+
+        ``median``: Distance between medians of clusters
+
+        ``ward``: Minimizes within-cluster sum of squared differences
         
     transform : str, default='original'
         Data transformation method applied before clustering:
         
-        - ``original``: No transformation applied
-        - ``normalize``: Min-max normalization to [0,1] range
-        - ``standardize``: Z-score standardization (mean=0, std=1)
+        ``original``: No transformation applied
+
+        ``normalize``: Min-max normalization to [0,1] range
+
+        ``standardize``: Z-score standardization (mean=0, std=1)
         
     cMethod : str, default='maxclust'
-        Clustering criterion for forming flat clusters from hierarchy:
+        `Clustering criterion for forming flat clusters from hierarchy <https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster>`_:
         
-        - ``maxclust``: Maximum number of clusters (requires cValue = number of clusters)
-        - ``distance``: Distance threshold (requires cValue = distance threshold)
-        - ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)
-        - ``monocrit``: Monotonic criterion (requires cValue = threshold)
+        ``maxclust``: Maximum number of clusters (requires cValue = number of clusters)
+
+        ``distance``: Distance threshold (requires cValue = distance threshold)
+
+        ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)
+
+        ``monocrit``: Monotonic criterion (requires cValue = threshold)
         
-    cValue : int, default=9
+    cValue : float, default=1.5
         Threshold value for clustering criterion. Interpretation depends on cMethod:
         
         - For ``maxclust``: Number of desired clusters
@@ -208,9 +219,7 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
         
     Returns
     -------
-    Dict[str, Any]
-        Dictionary containing comprehensive experiment results:
-        
+    Dict[str, Any]        
         - ``clusters``: Final cluster assignments as numpy array
         - ``cluster_list``: List of Cluster objects with detailed information
         - ``distance_matrix``: Computed condensed distance matrix  
@@ -241,8 +250,8 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
     
     # Validate flat method
     valid_flat_methods = ['complete', 'single', 'average', 'weighted', 'centroid', 'median', 'ward']
-    if flatMethod not in valid_flat_methods:
-        raise ValueError(f"Invalid flat method: {flatMethod}. Valid options: {valid_flat_methods}")
+    if interClusterDistance not in valid_flat_methods:
+        raise ValueError(f"Invalid flat method: {interClusterDistance}. Valid options: {valid_flat_methods}")
     
     # Validate transform
     valid_transforms = ['original', 'normalize', 'standardize']
@@ -281,7 +290,7 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
         for i in range(replicate):
             begin_time = time.time()
             try:
-                dist_row, cluster_list, clusters = perform_clustering(data, distanceMethod, flatMethod, cMethod, cValue)
+                dist_row, cluster_list, clusters = perform_clustering(data, distanceMethod, interClusterDistance, cMethod, cValue)
             except Exception as e:
                 raise RuntimeError(f"Clustering failed on replication {i+1}: {e}")
                 
@@ -303,7 +312,7 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
         # For other distance methods, no replication
         begin_time = time.time()
         try:
-            dist_row, cluster_list, clusters = perform_clustering(data, distanceMethod, flatMethod, cMethod, cValue)
+            dist_row, cluster_list, clusters = perform_clustering(data, distanceMethod, interClusterDistance, cMethod, cValue)
         except Exception as e:
             raise RuntimeError(f"Clustering failed: {e}")
             
@@ -317,7 +326,7 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
     noClusters = max(clusters) if clusters else 0
     
     # Generate output filename
-    outputFileName = f'{distanceMethod}-{flatMethod}-{transform}-{note}.xlsx'
+    outputFileName = f'{distanceMethod}-{interClusterDistance}-{transform}-{note}.xlsx'
     
     # Determine output directory
     if output_dir is None:
@@ -342,7 +351,7 @@ def experiment_controller(inputFileName: str, distanceMethod: str = 'pattern_dtw
         ws.write(0, 0, 'File Name:')
         ws.write(0, 1, inputFileName)
         ws.write(1, 0, 'Inter-Cluster Similarity')
-        ws.write(1, 1, flatMethod)
+        ws.write(1, 1, interClusterDistance)
         ws.write(2, 0, 'cMethod')
         ws.write(2, 1, cMethod)
         ws.write(3, 0, 'cValue')

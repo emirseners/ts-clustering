@@ -100,15 +100,15 @@
 <span class="sig-prename descclassname"><span class="pre">simclstr.clusterer.</span></span><span class="sig-name descname"><span class="pre">read_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">withClusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/clusterer.html#read_time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.clusterer.read_time_series" title="Link to this definition"></a></dt>
 <dd><p>Import time series data from .xlsx or .csv files.</p>
 <p>The data file must have the following structure:</p>
-<p><strong>For Excel files (.xlsx):</strong>
-- Sheet ‘data’: Column A contains labels/names for each time series, Column B onwards contains time series data values
-- Sheet ‘clusters’ (optional, only if withClusters=True): Column A contains cluster labels</p>
-<p><strong>For CSV files (.csv):</strong>
-- Column A: Labels/names for each time series (e.g., “Run 1”, “Scenario A”, “Parameter Set 1”)
-- Column B onwards: Time series data values
-- Row 1: First time series (label in A1, data values in B1, C1, D1, …)
-- Row 2: Second time series (label in A2, data values in B2, C2, D2, …)
-- And so on…</p>
+<p><strong>For Excel files (.xlsx):</strong></p>
+<p>Sheet ‘data’: Column A contains labels/names for each time series, Column B onwards contains time series data values</p>
+<p>Sheet ‘clusters’ (optional, only if withClusters=True): Column A contains cluster labels</p>
+<p><strong>For CSV files (.csv):</strong></p>
+<p>Column A: Labels/names for each time series (e.g., “Run 1”, “Scenario A”, “Parameter Set 1”)</p>
+<p>Column B onwards: Time series data values</p>
+<p>Row 1: First time series (label in A1, data values in B1, C1, D1, …)</p>
+<p>Row 2: Second time series (label in A2, data values in B2, C2, D2, …)</p>
+<p>And so on…</p>
 <p>Note: CSV files do not support multiple sheets, so cluster information cannot be imported
 when reading from CSV files (withClusters parameter will be ignored).</p>
 <p>Example data structure:</p>
@@ -195,12 +195,10 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_w_labels</strong> (<em>List</em><em>[</em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>np.ndarray</em><em>]</em><em>]</em>) – List of (label, data_array) tuples.</p></li>
 <li><p><strong>distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='pattern_dtw'</em>) – <p>Available distance metrics include:</p>
-<p>Pattern-based distances:</p>
-<ul>
-<li><p><cite>’pattern’</cite>: Pattern distance using behavioral features</p></li>
-<li><p><cite>’pattern_dtw’</cite>: Pattern distance with Dynamic Time Warping</p></li>
-<li><p><cite>’dtw’</cite>: Dynamic Time Warping distance</p></li>
-</ul>
+<p><strong>Pattern-based distances:</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">pattern</span></code>: Pattern distance using behavioral features</p>
+<p><code class="docutils literal notranslate"><span class="pre">pattern_dtw</span></code>: Pattern distance with Dynamic Time Warping</p>
+<p><code class="docutils literal notranslate"><span class="pre">dtw</span></code>: Dynamic Time Warping distance</p>
 <p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html">Scipy distance metrics</a>:</p>
 <p><code class="docutils literal notranslate"><span class="pre">euclidean</span></code>, <code class="docutils literal notranslate"><span class="pre">minkowski</span></code>, <code class="docutils literal notranslate"><span class="pre">cityblock</span></code>, <code class="docutils literal notranslate"><span class="pre">seuclidean</span></code>, <code class="docutils literal notranslate"><span class="pre">sqeuclidean</span></code>,
 <code class="docutils literal notranslate"><span class="pre">cosine</span></code>, <code class="docutils literal notranslate"><span class="pre">correlation</span></code>, <code class="docutils literal notranslate"><span class="pre">hamming</span></code>, <code class="docutils literal notranslate"><span class="pre">jaccard</span></code>, <code class="docutils literal notranslate"><span class="pre">jensenshannon</span></code>,
@@ -212,7 +210,7 @@ Note: This parameter is ignored for CSV files as they don’t support multiple s
 <li><p><strong>cMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='inconsistent'</em>) – Cutoff method. Options: ‘inconsistent’, ‘distance’, ‘maxclust’, ‘monocrit’.</p></li>
 <li><p><strong>cValue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>default=1.5</em>) – Cutoff value for clustering criterion.</p></li>
 <li><p><strong>plotDendrogram</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>default=False</em>) – If True, displays dendrogram.</p></li>
-<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Additional distance function parameters.</p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Additional distance function parameters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

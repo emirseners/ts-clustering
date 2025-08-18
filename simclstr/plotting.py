@@ -106,7 +106,7 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, port: in
     app.title = f"Interactive Clustering - {dist}"
     
     no_plots = len(cluster_list)
-    no_cols = 3
+    no_cols = 2
     cluster_rows = int(math.ceil(float(no_plots) / no_cols))
     
     colors = px.colors.qualitative.Set1 + px.colors.qualitative.Set2 + px.colors.qualitative.Set3
@@ -121,6 +121,16 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, port: in
     
     cluster_data = {}
     time_series_data = {}
+
+    # Ensure labels are strings for Plotly trace names
+    def _to_label(label_like) -> str:
+        if isinstance(label_like, dict):
+            idx = label_like.get('Index')
+            cl = label_like.get('Cluster')
+            if idx is not None:
+                return f"Index {idx}" if cl is None else f"Index {idx} (C{cl})"
+            return str(label_like)
+        return str(label_like)
     
     for idx, clust in enumerate(cluster_list):
         row = (idx // no_cols) + 1
@@ -130,16 +140,17 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, port: in
             'cluster_id': clust.cluster_id,
             'number_of_members': clust.number_of_members,
             'indices_of_members': clust.indices_of_members.tolist(),
-            'best_representative_member': clust.best_representative_member[0],
-            'members': [member[0] for member in clust.list_of_members]
+            'best_representative_member': _to_label(clust.best_representative_member[0]),
+            'members': [_to_label(member[0]) for member in clust.list_of_members]
         }
         
         for j_idx, (name, ts_data) in enumerate(clust.list_of_members):
             t = np.arange(ts_data.shape[0])
             ts_id = f"cluster_{clust.cluster_id}_ts_{j_idx}"
+            label = _to_label(name)
             
             time_series_data[ts_id] = {
-                'name': name,
+                'name': label,
                 'cluster_id': clust.cluster_id,
                 'length': len(ts_data),
                 'mean': float(np.mean(ts_data)),
@@ -160,11 +171,11 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, port: in
                     x=t,
                     y=ts_data,
                     mode='lines',
-                    name=name,
+                    name=label,
                     line=dict(width=line_width, color=line_color),
                     opacity=opacity,
                     customdata=[ts_id] * len(t),
-                    hovertemplate=f"<b>{name}</b><br>" +
+                    hovertemplate=f"<b>{label}</b><br>" +
                                 "Time: %{x}<br>" +
                                 "Value: %{y:.3f}<br>" +
                                 f"Cluster: {clust.cluster_id}<br>" +
