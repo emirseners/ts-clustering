@@ -136,15 +136,22 @@
 <span class="sd">    The data file must have the following structure:</span>
 <span class="sd">    </span>
 <span class="sd">    **For Excel files (.xlsx):**</span>
-<span class="sd">    - Sheet &#39;data&#39;: Column A contains labels/names for each time series, Column B onwards contains time series data values</span>
-<span class="sd">    - Sheet &#39;clusters&#39; (optional, only if withClusters=True): Column A contains cluster labels</span>
+
+<span class="sd">    Sheet &#39;data&#39;: Column A contains labels/names for each time series, Column B onwards contains time series data values</span>
+
+<span class="sd">    Sheet &#39;clusters&#39; (optional, only if withClusters=True): Column A contains cluster labels</span>
 <span class="sd">    </span>
 <span class="sd">    **For CSV files (.csv):**</span>
-<span class="sd">    - Column A: Labels/names for each time series (e.g., &quot;Run 1&quot;, &quot;Scenario A&quot;, &quot;Parameter Set 1&quot;)</span>
-<span class="sd">    - Column B onwards: Time series data values</span>
-<span class="sd">    - Row 1: First time series (label in A1, data values in B1, C1, D1, ...)</span>
-<span class="sd">    - Row 2: Second time series (label in A2, data values in B2, C2, D2, ...)</span>
-<span class="sd">    - And so on...</span>
+
+<span class="sd">    Column A: Labels/names for each time series (e.g., &quot;Run 1&quot;, &quot;Scenario A&quot;, &quot;Parameter Set 1&quot;)</span>
+
+<span class="sd">    Column B onwards: Time series data values</span>
+
+<span class="sd">    Row 1: First time series (label in A1, data values in B1, C1, D1, ...)</span>
+
+<span class="sd">    Row 2: Second time series (label in A2, data values in B2, C2, D2, ...)</span>
+
+<span class="sd">    And so on...</span>
 <span class="sd">    </span>
 <span class="sd">    Note: CSV files do not support multiple sheets, so cluster information cannot be imported</span>
 <span class="sd">    when reading from CSV files (withClusters parameter will be ignored).</span>
@@ -163,9 +170,9 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    file_path : str</span>
+<span class="sd">    ``file_path`` : str</span>
 <span class="sd">        Path to the .xlsx or .csv file (can be relative or absolute path).</span>
-<span class="sd">    withClusters : bool, default=False</span>
+<span class="sd">    ``withClusters`` : bool, default=False</span>
 <span class="sd">        If True, also reads cluster information from &#39;clusters&#39; sheet.</span>
 <span class="sd">        Note: This parameter is ignored for CSV files as they don&#39;t support multiple sheets.</span>
 
@@ -225,11 +232,11 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    model_path : str</span>
+<span class="sd">    ``model_path`` : str</span>
 <span class="sd">        Path to the .mdl file (can be relative or absolute path).</span>
-<span class="sd">    parameter_set : Dict[str, Union[float, List[float]]]</span>
+<span class="sd">    ``parameter_set`` : Dict[str, Union[float, List[float]]]</span>
 <span class="sd">        Dict of parameters and values to test.</span>
-<span class="sd">    output_variable : str</span>
+<span class="sd">    ``output_variable`` : str</span>
 <span class="sd">        Output variable to extract.</span>
 
 <span class="sd">    Returns</span>
@@ -279,18 +286,18 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    data_w_labels : List[Tuple[str, np.ndarray]]</span>
+<span class="sd">    ``data_w_labels`` : List[Tuple[str, np.ndarray]]</span>
 <span class="sd">        List of (label, data_array) tuples.</span>
-<span class="sd">    distance : str, default=&#39;pattern_dtw&#39;</span>
+<span class="sd">    ``distance`` : str, default=&#39;pattern_dtw&#39;</span>
 <span class="sd">        Available distance metrics include:</span>
 
-<span class="sd">        Pattern-based distances:</span>
+<span class="sd">        **Pattern-based distances:**</span>
+<span class="sd">        </span>
+<span class="sd">        ``pattern``: Pattern distance using behavioral features</span>
+<span class="sd">        </span>
+<span class="sd">        ``pattern_dtw``: Pattern distance with Dynamic Time Warping</span>
 
-<span class="sd">        - `&#39;pattern&#39;`: Pattern distance using behavioral features</span>
-
-<span class="sd">        - `&#39;pattern_dtw&#39;`: Pattern distance with Dynamic Time Warping</span>
-
-<span class="sd">        - `&#39;dtw&#39;`: Dynamic Time Warping distance</span>
+<span class="sd">        ``dtw``: Dynamic Time Warping distance</span>
 
 <span class="sd">        `Scipy distance metrics &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html&gt;`_:</span>
 
@@ -300,15 +307,15 @@
 <span class="sd">        ``yule``, ``matching``, ``dice``, ``rogerstanimoto``, ``russellrao``,</span>
 <span class="sd">        ``sokalsneath``, ``kulczynski1``</span>
 
-<span class="sd">    interClusterDistance : str, default=&#39;complete&#39;</span>
+<span class="sd">    ``interClusterDistance`` : str, default=&#39;complete&#39;</span>
 <span class="sd">        Linkage method. Options: &#39;complete&#39;, &#39;single&#39;, &#39;average&#39;, &#39;ward&#39;.</span>
-<span class="sd">    cMethod : str, default=&#39;inconsistent&#39;</span>
+<span class="sd">    ``cMethod`` : str, default=&#39;inconsistent&#39;</span>
 <span class="sd">        Cutoff method. Options: &#39;inconsistent&#39;, &#39;distance&#39;, &#39;maxclust&#39;, &#39;monocrit&#39;.</span>
-<span class="sd">    cValue : float, default=1.5</span>
+<span class="sd">    ``cValue`` : float, default=1.5</span>
 <span class="sd">        Cutoff value for clustering criterion.</span>
-<span class="sd">    plotDendrogram : bool, default=False</span>
+<span class="sd">    ``plotDendrogram`` : bool, default=False</span>
 <span class="sd">        If True, displays dendrogram.</span>
-<span class="sd">    **kwargs : dict</span>
+<span class="sd">    ``kwargs`` : dict</span>
 <span class="sd">        Additional distance function parameters.</span>
 
 <span class="sd">    Returns</span>
@@ -455,15 +462,15 @@
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    cluster_id : int</span>
+<span class="sd">    ``cluster_id`` : int</span>
 <span class="sd">        Cluster number/index.</span>
-<span class="sd">    indices_of_members : np.ndarray</span>
+<span class="sd">    ``indices_of_members`` : np.ndarray</span>
 <span class="sd">        Original indices of cluster members.</span>
-<span class="sd">    number_of_members : int</span>
+<span class="sd">    ``number_of_members`` : int</span>
 <span class="sd">        Number of members in cluster.</span>
-<span class="sd">    list_of_members : List[Tuple[str, np.ndarray]]</span>
+<span class="sd">    ``list_of_members`` : List[Tuple[str, np.ndarray]]</span>
 <span class="sd">        List of all cluster members.</span>
-<span class="sd">    best_representative_member : Tuple[str, np.ndarray]</span>
+<span class="sd">    ``best_representative_member`` : Tuple[str, np.ndarray]</span>
 <span class="sd">        Best representative time series for the cluster.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

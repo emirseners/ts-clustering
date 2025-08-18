@@ -226,12 +226,14 @@
 <span class="sd">        </span>
 <span class="sd">        **Pattern-based distances:**</span>
 <span class="sd">        </span>
-<span class="sd">        - ``&#39;pattern&#39;``: Pattern distance using behavioral features</span>
-<span class="sd">        - ``&#39;pattern_dtw&#39;``: Pattern distance with Dynamic Time Warping</span>
-<span class="sd">        - ``&#39;dtw&#39;``: Dynamic Time Warping distance</span>
+<span class="sd">        ``pattern``: Pattern distance using behavioral features</span>
 <span class="sd">        </span>
-<span class="sd">        **Scipy distance metrics:**</span>
+<span class="sd">        ``pattern_dtw``: Pattern distance with Dynamic Time Warping</span>
+
+<span class="sd">        ``dtw``: Dynamic Time Warping distance</span>
 <span class="sd">        </span>
+<span class="sd">        `Scipy distance metrics &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.pdist.html&gt;`_:</span>
+
 <span class="sd">        ``euclidean``, ``minkowski``, ``cityblock``, ``seuclidean``, ``sqeuclidean``,</span>
 <span class="sd">        ``cosine``, ``correlation``, ``hamming``, ``jaccard``, ``jensenshannon``,</span>
 <span class="sd">        ``chebyshev``, ``canberra``, ``braycurtis``, ``mahalanobis``,</span>
@@ -241,36 +243,36 @@
 <span class="sd">    flatMethod : str, default=&#39;complete&#39;</span>
 <span class="sd">        Hierarchical clustering linkage method for agglomerative clustering:</span>
 <span class="sd">        </span>
-<span class="sd">        - ``&#39;complete&#39;``: Maximum distances between all observations of two sets</span>
-<span class="sd">        - ``&#39;single&#39;``: Minimum distances between all observations of two sets  </span>
-<span class="sd">        - ``&#39;average&#39;``: Average distances between all observations of two sets</span>
-<span class="sd">        - ``&#39;weighted&#39;``: Weighted average distances </span>
-<span class="sd">        - ``&#39;centroid&#39;``: Distance between centroids of clusters</span>
-<span class="sd">        - ``&#39;median&#39;``: Distance between medians of clusters</span>
-<span class="sd">        - ``&#39;ward&#39;``: Minimizes within-cluster sum of squared differences</span>
+<span class="sd">        - ``complete``: Maximum distances between all observations of two sets</span>
+<span class="sd">        - ``single``: Minimum distances between all observations of two sets  </span>
+<span class="sd">        - ``average``: Average distances between all observations of two sets</span>
+<span class="sd">        - ``weighted``: Weighted average distances </span>
+<span class="sd">        - ``centroid``: Distance between centroids of clusters</span>
+<span class="sd">        - ``median``: Distance between medians of clusters</span>
+<span class="sd">        - ``ward``: Minimizes within-cluster sum of squared differences</span>
 <span class="sd">        </span>
 <span class="sd">    transform : str, default=&#39;original&#39;</span>
 <span class="sd">        Data transformation method applied before clustering:</span>
 <span class="sd">        </span>
-<span class="sd">        - ``&#39;original&#39;``: No transformation applied</span>
-<span class="sd">        - ``&#39;normalize&#39;``: Min-max normalization to [0,1] range</span>
-<span class="sd">        - ``&#39;standardize&#39;``: Z-score standardization (mean=0, std=1)</span>
+<span class="sd">        - ``original``: No transformation applied</span>
+<span class="sd">        - ``normalize``: Min-max normalization to [0,1] range</span>
+<span class="sd">        - ``standardize``: Z-score standardization (mean=0, std=1)</span>
 <span class="sd">        </span>
 <span class="sd">    cMethod : str, default=&#39;maxclust&#39;</span>
 <span class="sd">        Clustering criterion for forming flat clusters from hierarchy:</span>
 <span class="sd">        </span>
-<span class="sd">        - ``&#39;maxclust&#39;``: Maximum number of clusters (requires cValue = number of clusters)</span>
-<span class="sd">        - ``&#39;distance&#39;``: Distance threshold (requires cValue = distance threshold)</span>
-<span class="sd">        - ``&#39;inconsistent&#39;``: Inconsistency criterion (requires cValue = inconsistency threshold)</span>
-<span class="sd">        - ``&#39;monocrit&#39;``: Monotonic criterion (requires cValue = threshold)</span>
+<span class="sd">        - ``maxclust``: Maximum number of clusters (requires cValue = number of clusters)</span>
+<span class="sd">        - ``distance``: Distance threshold (requires cValue = distance threshold)</span>
+<span class="sd">        - ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)</span>
+<span class="sd">        - ``monocrit``: Monotonic criterion (requires cValue = threshold)</span>
 <span class="sd">        </span>
 <span class="sd">    cValue : int, default=9</span>
 <span class="sd">        Threshold value for clustering criterion. Interpretation depends on cMethod:</span>
 <span class="sd">        </span>
-<span class="sd">        - For ``&#39;maxclust&#39;``: Number of desired clusters</span>
-<span class="sd">        - For ``&#39;distance&#39;``: Distance threshold for cluster formation</span>
-<span class="sd">        - For ``&#39;inconsistent&#39;``: Inconsistency coefficient threshold</span>
-<span class="sd">        - For ``&#39;monocrit&#39;``: Threshold for monotonic criterion</span>
+<span class="sd">        - For ``maxclust``: Number of desired clusters</span>
+<span class="sd">        - For ``distance``: Distance threshold for cluster formation</span>
+<span class="sd">        - For ``inconsistent``: Inconsistency coefficient threshold</span>
+<span class="sd">        - For ``monocrit``: Threshold for monotonic criterion</span>
 <span class="sd">        </span>
 <span class="sd">    replicate : int, default=1</span>
 <span class="sd">        Number of replications for pattern distance method. Only applicable when</span>
@@ -288,19 +290,17 @@
 <span class="sd">        </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Dict[str, Any]</span>
-<span class="sd">        Dictionary containing comprehensive experiment results:</span>
-<span class="sd">        </span>
-<span class="sd">        - ``&#39;clusters&#39;``: Final cluster assignments as numpy array</span>
-<span class="sd">        - ``&#39;cluster_list&#39;``: List of Cluster objects with detailed information</span>
-<span class="sd">        - ``&#39;distance_matrix&#39;``: Computed condensed distance matrix  </span>
-<span class="sd">        - ``&#39;rand_index&#39;``: Rand index comparing with original clusters (if available)</span>
-<span class="sd">        - ``&#39;jaccard_index&#39;``: Jaccard index comparing with original clusters (if available)</span>
-<span class="sd">        - ``&#39;run_time&#39;``: Clustering execution time in seconds</span>
-<span class="sd">        - ``&#39;total_time&#39;``: Total experiment time including I/O in seconds</span>
-<span class="sd">        - ``&#39;num_clusters&#39;``: Number of clusters formed</span>
-<span class="sd">        - ``&#39;output_file&#39;``: Path to generated Excel report file</span>
-<span class="sd">        - ``&#39;plot_file&#39;``: Path to generated plot file (if save_plots=True)</span>
+<span class="sd">    Dict[str, Any]        </span>
+<span class="sd">        - ``clusters``: Final cluster assignments as numpy array</span>
+<span class="sd">        - ``cluster_list``: List of Cluster objects with detailed information</span>
+<span class="sd">        - ``distance_matrix``: Computed condensed distance matrix  </span>
+<span class="sd">        - ``rand_index``: Rand index comparing with original clusters (if available)</span>
+<span class="sd">        - ``jaccard_index``: Jaccard index comparing with original clusters (if available)</span>
+<span class="sd">        - ``run_time``: Clustering execution time in seconds</span>
+<span class="sd">        - ``total_time``: Total experiment time including I/O in seconds</span>
+<span class="sd">        - ``num_clusters``: Number of clusters formed</span>
+<span class="sd">        - ``output_file``: Path to generated Excel report file</span>
+<span class="sd">        - ``plot_file``: Path to generated plot file (if save_plots=True)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">very_begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     

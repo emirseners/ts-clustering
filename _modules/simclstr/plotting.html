@@ -206,6 +206,16 @@
     
     <span class="n">cluster_data</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">time_series_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Ensure labels are strings for Plotly trace names</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_label</span><span class="p">(</span><span class="n">label_like</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label_like</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">label_like</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Index&#39;</span><span class="p">)</span>
+            <span class="n">cl</span> <span class="o">=</span> <span class="n">label_like</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Cluster&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">cl</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2"> (C</span><span class="si">{</span><span class="n">cl</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">label_like</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">label_like</span><span class="p">)</span>
     
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">clust</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">):</span>
         <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span> <span class="o">//</span> <span class="n">no_cols</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
@@ -215,16 +225,17 @@
             <span class="s1">&#39;cluster_id&#39;</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="p">,</span>
             <span class="s1">&#39;number_of_members&#39;</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">number_of_members</span><span class="p">,</span>
             <span class="s1">&#39;indices_of_members&#39;</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">indices_of_members</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-            <span class="s1">&#39;best_representative_member&#39;</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">best_representative_member</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="s1">&#39;members&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">member</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">clust</span><span class="o">.</span><span class="n">list_of_members</span><span class="p">]</span>
+            <span class="s1">&#39;best_representative_member&#39;</span><span class="p">:</span> <span class="n">_to_label</span><span class="p">(</span><span class="n">clust</span><span class="o">.</span><span class="n">best_representative_member</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="s1">&#39;members&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">_to_label</span><span class="p">(</span><span class="n">member</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">clust</span><span class="o">.</span><span class="n">list_of_members</span><span class="p">]</span>
         <span class="p">}</span>
         
         <span class="k">for</span> <span class="n">j_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ts_data</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clust</span><span class="o">.</span><span class="n">list_of_members</span><span class="p">):</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ts_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">ts_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;cluster_</span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">_ts_</span><span class="si">{</span><span class="n">j_idx</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">_to_label</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             
             <span class="n">time_series_data</span><span class="p">[</span><span class="n">ts_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
                 <span class="s1">&#39;cluster_id&#39;</span><span class="p">:</span> <span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="p">,</span>
                 <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ts_data</span><span class="p">),</span>
                 <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ts_data</span><span class="p">)),</span>
@@ -245,11 +256,11 @@
                     <span class="n">x</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
                     <span class="n">y</span><span class="o">=</span><span class="n">ts_data</span><span class="p">,</span>
                     <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span>
-                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
                     <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">line_color</span><span class="p">),</span>
                     <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">,</span>
                     <span class="n">customdata</span><span class="o">=</span><span class="p">[</span><span class="n">ts_id</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">),</span>
-                    <span class="n">hovertemplate</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&lt;/b&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
+                    <span class="n">hovertemplate</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&lt;/b&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
                                 <span class="s2">&quot;Time: %</span><span class="si">{x}</span><span class="s2">&lt;br&gt;&quot;</span> <span class="o">+</span>
                                 <span class="s2">&quot;Value: %</span><span class="si">{y:.3f}</span><span class="s2">&lt;br&gt;&quot;</span> <span class="o">+</span>
                                 <span class="sa">f</span><span class="s2">&quot;Cluster: </span><span class="si">{</span><span class="n">clust</span><span class="o">.</span><span class="n">cluster_id</span><span class="si">}</span><span class="s2">&lt;br&gt;&quot;</span> <span class="o">+</span>
