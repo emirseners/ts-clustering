@@ -206,8 +206,8 @@
 
 <div class="viewcode-block" id="experiment_controller">
 <a class="viewcode-back" href="../../api/experiment_controller.html#simclstr.experiment_controller.experiment_controller">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">experiment_controller</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> <span class="n">flatMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> 
-                        <span class="n">transform</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;maxclust&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span>  <span class="n">replicate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">experiment_controller</span><span class="p">(</span><span class="n">inputFileName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pattern_dtw&#39;</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;complete&#39;</span><span class="p">,</span> 
+                        <span class="n">transform</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inconsistent&#39;</span><span class="p">,</span> <span class="n">cValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>  <span class="n">replicate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> 
                         <span class="n">note</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">save_plots</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a controlled clustering experiment with comprehensive reporting.</span>
@@ -218,12 +218,10 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    inputFileName : str</span>
-
 <span class="sd">        Path to the input file containing time series data. Supports .xlsx and .csv formats.</span>
 <span class="sd">        For .xlsx files, expects &#39;data&#39; sheet with time series and optional &#39;clusters&#39; sheet</span>
 <span class="sd">        with ground truth cluster assignments.</span>
 <span class="sd">    distanceMethod : str, default=&#39;pattern_dtw&#39;</span>
-
 <span class="sd">        Distance metric to use for clustering. Available options:</span>
 <span class="sd">        </span>
 <span class="sd">        **Pattern-based distances:**</span>
@@ -242,16 +240,22 @@
 <span class="sd">        ``yule``, ``matching``, ``dice``, ``rogerstanimoto``, ``russellrao``,</span>
 <span class="sd">        ``sokalsneath``, ``kulczynski1``</span>
 <span class="sd">        </span>
-<span class="sd">    flatMethod : str, default=&#39;complete&#39;</span>
-<span class="sd">        Hierarchical clustering linkage method for agglomerative clustering:</span>
+<span class="sd">    interClusterDistance : str, default=&#39;complete&#39;</span>
+<span class="sd">        `Hierarchical clustering linkage method &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage&gt;`_:</span>
 <span class="sd">        </span>
-<span class="sd">        - ``complete``: Maximum distances between all observations of two sets</span>
-<span class="sd">        - ``single``: Minimum distances between all observations of two sets  </span>
-<span class="sd">        - ``average``: Average distances between all observations of two sets</span>
-<span class="sd">        - ``weighted``: Weighted average distances </span>
-<span class="sd">        - ``centroid``: Distance between centroids of clusters</span>
-<span class="sd">        - ``median``: Distance between medians of clusters</span>
-<span class="sd">        - ``ward``: Minimizes within-cluster sum of squared differences</span>
+<span class="sd">        ``single``: Minimum distances between all observations of two sets</span>
+
+<span class="sd">        ``complete``: Maximum distances between all observations of two sets</span>
+
+<span class="sd">        ``average``: Average distances between all observations of two sets</span>
+
+<span class="sd">        ``weighted``: Weighted average distances</span>
+
+<span class="sd">        ``centroid``: Distance between centroids of clusters</span>
+
+<span class="sd">        ``median``: Distance between medians of clusters</span>
+
+<span class="sd">        ``ward``: Minimizes within-cluster sum of squared differences</span>
 <span class="sd">        </span>
 <span class="sd">    transform : str, default=&#39;original&#39;</span>
 <span class="sd">        Data transformation method applied before clustering:</span>
@@ -268,7 +272,7 @@
 <span class="sd">        - ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)</span>
 <span class="sd">        - ``monocrit``: Monotonic criterion (requires cValue = threshold)</span>
 <span class="sd">        </span>
-<span class="sd">    cValue : int, default=9</span>
+<span class="sd">    cValue : float, default=1.5</span>
 <span class="sd">        Threshold value for clustering criterion. Interpretation depends on cMethod:</span>
 <span class="sd">        </span>
 <span class="sd">        - For ``maxclust``: Number of desired clusters</span>
@@ -323,8 +327,8 @@
     
     <span class="c1"># Validate flat method</span>
     <span class="n">valid_flat_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="s1">&#39;average&#39;</span><span class="p">,</span> <span class="s1">&#39;weighted&#39;</span><span class="p">,</span> <span class="s1">&#39;centroid&#39;</span><span class="p">,</span> <span class="s1">&#39;median&#39;</span><span class="p">,</span> <span class="s1">&#39;ward&#39;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">flatMethod</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_flat_methods</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid flat method: </span><span class="si">{</span><span class="n">flatMethod</span><span class="si">}</span><span class="s2">. Valid options: </span><span class="si">{</span><span class="n">valid_flat_methods</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">interClusterDistance</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_flat_methods</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid flat method: </span><span class="si">{</span><span class="n">interClusterDistance</span><span class="si">}</span><span class="s2">. Valid options: </span><span class="si">{</span><span class="n">valid_flat_methods</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     
     <span class="c1"># Validate transform</span>
     <span class="n">valid_transforms</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;original&#39;</span><span class="p">,</span> <span class="s1">&#39;normalize&#39;</span><span class="p">,</span> <span class="s1">&#39;standardize&#39;</span><span class="p">]</span>
@@ -363,7 +367,7 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">replicate</span><span class="p">):</span>
             <span class="n">begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">dist_row</span><span class="p">,</span> <span class="n">cluster_list</span><span class="p">,</span> <span class="n">clusters</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">flatMethod</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="p">)</span>
+                <span class="n">dist_row</span><span class="p">,</span> <span class="n">cluster_list</span><span class="p">,</span> <span class="n">clusters</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clustering failed on replication </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 
@@ -385,7 +389,7 @@
         <span class="c1"># For other distance methods, no replication</span>
         <span class="n">begin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">dist_row</span><span class="p">,</span> <span class="n">cluster_list</span><span class="p">,</span> <span class="n">clusters</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">flatMethod</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="p">)</span>
+            <span class="n">dist_row</span><span class="p">,</span> <span class="n">cluster_list</span><span class="p">,</span> <span class="n">clusters</span> <span class="o">=</span> <span class="n">perform_clustering</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">distanceMethod</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">,</span> <span class="n">cValue</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Clustering failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             
@@ -399,7 +403,7 @@
     <span class="n">noClusters</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">clusters</span><span class="p">)</span> <span class="k">if</span> <span class="n">clusters</span> <span class="k">else</span> <span class="mi">0</span>
     
     <span class="c1"># Generate output filename</span>
-    <span class="n">outputFileName</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">distanceMethod</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">flatMethod</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">transform</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">note</span><span class="si">}</span><span class="s1">.xlsx&#39;</span>
+    <span class="n">outputFileName</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">distanceMethod</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">interClusterDistance</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">transform</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">note</span><span class="si">}</span><span class="s1">.xlsx&#39;</span>
     
     <span class="c1"># Determine output directory</span>
     <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -424,7 +428,7 @@
         <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;File Name:&#39;</span><span class="p">)</span>
         <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inputFileName</span><span class="p">)</span>
         <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Inter-Cluster Similarity&#39;</span><span class="p">)</span>
-        <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">flatMethod</span><span class="p">)</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">interClusterDistance</span><span class="p">)</span>
         <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;cMethod&#39;</span><span class="p">)</span>
         <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cMethod</span><span class="p">)</span>
         <span class="n">ws</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;cValue&#39;</span><span class="p">)</span>
