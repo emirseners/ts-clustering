@@ -126,19 +126,15 @@ with ground truth cluster assignments.</p></li>
 <p><code class="docutils literal notranslate"><span class="pre">ward</span></code>: Minimizes within-cluster sum of squared differences</p>
 </p></li>
 <li><p><strong>transform</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='original'</em>) – <p>Data transformation method applied before clustering:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">original</span></code>: No transformation applied</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">normalize</span></code>: Min-max normalization to [0,1] range</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">standardize</span></code>: Z-score standardization (mean=0, std=1)</p></li>
-</ul>
+<p><code class="docutils literal notranslate"><span class="pre">original</span></code>: No transformation applied</p>
+<p><code class="docutils literal notranslate"><span class="pre">normalize</span></code>: Min-max normalization to [0,1] range</p>
+<p><code class="docutils literal notranslate"><span class="pre">standardize</span></code>: Z-score standardization (mean=0, std=1)</p>
 </p></li>
-<li><p><strong>cMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='maxclust'</em>) – <p>Clustering criterion for forming flat clusters from hierarchy:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">maxclust</span></code>: Maximum number of clusters (requires cValue = number of clusters)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">distance</span></code>: Distance threshold (requires cValue = distance threshold)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">inconsistent</span></code>: Inconsistency criterion (requires cValue = inconsistency threshold)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">monocrit</span></code>: Monotonic criterion (requires cValue = threshold)</p></li>
-</ul>
+<li><p><strong>cMethod</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default='maxclust'</em>) – <p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster">Clustering criterion for forming flat clusters from hierarchy</a>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">maxclust</span></code>: Maximum number of clusters (requires cValue = number of clusters)</p>
+<p><code class="docutils literal notranslate"><span class="pre">distance</span></code>: Distance threshold (requires cValue = distance threshold)</p>
+<p><code class="docutils literal notranslate"><span class="pre">inconsistent</span></code>: Inconsistency criterion (requires cValue = inconsistency threshold)</p>
+<p><code class="docutils literal notranslate"><span class="pre">monocrit</span></code>: Monotonic criterion (requires cValue = threshold)</p>
 </p></li>
 <li><p><strong>cValue</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>default=1.5</em>) – <p>Threshold value for clustering criterion. Interpretation depends on cMethod:</p>
 <ul>

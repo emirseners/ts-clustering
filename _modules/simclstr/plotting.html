@@ -171,7 +171,7 @@
 
 <div class="viewcode-block" id="interactive_plot_clusters">
 <a class="viewcode-back" href="../../api/plotting.html#simclstr.plotting.interactive_plot_clusters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8050</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">no_cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8050</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an enhanced interactive plot of cluster members with optimized layout and auto-browser opening.</span>
 
@@ -183,6 +183,8 @@
 <span class="sd">        List of Cluster objects containing clustered time series data.</span>
 <span class="sd">    dist : str</span>
 <span class="sd">        Distance metric name used for clustering.</span>
+<span class="sd">    no_cols : int, default=3</span>
+<span class="sd">        Number of columns in the plot.</span>
 <span class="sd">    port : int, default=8050</span>
 <span class="sd">        Port number for the Dash server.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -191,7 +193,7 @@
     <span class="n">app</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Interactive Clustering - </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">&quot;</span>
     
     <span class="n">no_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">)</span>
-    <span class="n">no_cols</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">no_cols</span> <span class="o">=</span> <span class="n">no_cols</span>
     <span class="n">cluster_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">no_plots</span><span class="p">)</span> <span class="o">/</span> <span class="n">no_cols</span><span class="p">))</span>
     
     <span class="n">colors</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">qualitative</span><span class="o">.</span><span class="n">Set1</span> <span class="o">+</span> <span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">qualitative</span><span class="o">.</span><span class="n">Set2</span> <span class="o">+</span> <span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">qualitative</span><span class="o">.</span><span class="n">Set3</span>
