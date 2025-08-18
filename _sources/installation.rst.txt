@@ -29,7 +29,6 @@ Simclstr builds on the core Python data analytics stack, and the following third
 * Numpy >= 1.24.0
 * Scipy >= 1.16.0
 * Pandas >= 1.24.0
-* Numba >= 0.57.0
 
 These modules should build automatically if you are installing via pip. If you are building from source, or if pip fails to load them, they can be loaded with the same pip syntax as above.
 
