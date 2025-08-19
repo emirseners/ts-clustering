@@ -24,27 +24,27 @@ _distance_functions: Dict[str, Callable] = {
     'pattern_dtw': _distance_pattern_dtw,
     'dtw': _distance_dtw,
     'scipy': _distance_scipy,
-    'euclidean': lambda data, **kwargs: _distance_scipy(data, metric='euclidean', **kwargs),
-    'minkowski': lambda data, **kwargs: _distance_scipy(data, metric='minkowski', **kwargs),
-    'cityblock': lambda data, **kwargs: _distance_scipy(data, metric='cityblock', **kwargs),
-    'seuclidean': lambda data, **kwargs: _distance_scipy(data, metric='seuclidean', **kwargs),
-    'sqeuclidean': lambda data, **kwargs: _distance_scipy(data, metric='sqeuclidean', **kwargs),
-    'cosine': lambda data, **kwargs: _distance_scipy(data, metric='cosine', **kwargs),
-    'correlation': lambda data, **kwargs: _distance_scipy(data, metric='correlation', **kwargs),
-    'hamming': lambda data, **kwargs: _distance_scipy(data, metric='hamming', **kwargs),
-    'jaccard': lambda data, **kwargs: _distance_scipy(data, metric='jaccard', **kwargs),
-    'jensenshannon': lambda data, **kwargs: _distance_scipy(data, metric='jensenshannon', **kwargs),
-    'chebyshev': lambda data, **kwargs: _distance_scipy(data, metric='chebyshev', **kwargs),
-    'canberra': lambda data, **kwargs: _distance_scipy(data, metric='canberra', **kwargs),
-    'braycurtis': lambda data, **kwargs: _distance_scipy(data, metric='braycurtis', **kwargs),
-    'mahalanobis': lambda data, **kwargs: _distance_scipy(data, metric='mahalanobis', **kwargs),
-    'yule': lambda data, **kwargs: _distance_scipy(data, metric='yule', **kwargs),
-    'matching': lambda data, **kwargs: _distance_scipy(data, metric='matching', **kwargs),
-    'dice': lambda data, **kwargs: _distance_scipy(data, metric='dice', **kwargs),
-    'rogerstanimoto': lambda data, **kwargs: _distance_scipy(data, metric='rogerstanimoto', **kwargs),
-    'russellrao': lambda data, **kwargs: _distance_scipy(data, metric='russellrao', **kwargs),
-    'sokalsneath': lambda data, **kwargs: _distance_scipy(data, metric='sokalsneath', **kwargs),
-    'kulczynski1': lambda data, **kwargs: _distance_scipy(data, metric='kulczynski1', **kwargs)
+    'euclidean': lambda data, distance_kwargs: _distance_scipy(data, metric='euclidean', distance_kwargs=distance_kwargs),
+    'minkowski': lambda data, distance_kwargs: _distance_scipy(data, metric='minkowski', distance_kwargs=distance_kwargs),
+    'cityblock': lambda data, distance_kwargs: _distance_scipy(data, metric='cityblock', distance_kwargs=distance_kwargs),
+    'seuclidean': lambda data, distance_kwargs: _distance_scipy(data, metric='seuclidean', distance_kwargs=distance_kwargs),
+    'sqeuclidean': lambda data, distance_kwargs: _distance_scipy(data, metric='sqeuclidean', distance_kwargs=distance_kwargs),
+    'cosine': lambda data, distance_kwargs: _distance_scipy(data, metric='cosine', distance_kwargs=distance_kwargs),
+    'correlation': lambda data, distance_kwargs: _distance_scipy(data, metric='correlation', distance_kwargs=distance_kwargs),
+    'hamming': lambda data, distance_kwargs: _distance_scipy(data, metric='hamming', distance_kwargs=distance_kwargs),
+    'jaccard': lambda data, distance_kwargs: _distance_scipy(data, metric='jaccard', distance_kwargs=distance_kwargs),
+    'jensenshannon': lambda data, distance_kwargs: _distance_scipy(data, metric='jensenshannon', distance_kwargs=distance_kwargs),
+    'chebyshev': lambda data, distance_kwargs: _distance_scipy(data, metric='chebyshev', distance_kwargs=distance_kwargs),
+    'canberra': lambda data, distance_kwargs: _distance_scipy(data, metric='canberra', distance_kwargs=distance_kwargs),
+    'braycurtis': lambda data, distance_kwargs: _distance_scipy(data, metric='braycurtis', distance_kwargs=distance_kwargs),
+    'mahalanobis': lambda data, distance_kwargs: _distance_scipy(data, metric='mahalanobis', distance_kwargs=distance_kwargs),
+    'yule': lambda data, distance_kwargs: _distance_scipy(data, metric='yule', distance_kwargs=distance_kwargs),
+    'matching': lambda data, distance_kwargs: _distance_scipy(data, metric='matching', distance_kwargs=distance_kwargs),
+    'dice': lambda data, distance_kwargs: _distance_scipy(data, metric='dice', distance_kwargs=distance_kwargs),
+    'rogerstanimoto': lambda data, distance_kwargs: _distance_scipy(data, metric='rogerstanimoto', distance_kwargs=distance_kwargs),
+    'russellrao': lambda data, distance_kwargs: _distance_scipy(data, metric='russellrao', distance_kwargs=distance_kwargs),
+    'sokalsneath': lambda data, distance_kwargs: _distance_scipy(data, metric='sokalsneath', distance_kwargs=distance_kwargs),
+    'kulczynski1': lambda data, distance_kwargs: _distance_scipy(data, metric='kulczynski1', distance_kwargs=distance_kwargs)
 }
 
 def read_time_series(file_path: str, withClusters: bool = False) -> List['TimeSeries']:
@@ -194,7 +194,7 @@ def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, 
 
 
 def perform_clustering(list_of_ts_objects: List['TimeSeries'], distance: str = 'pattern_dtw', interClusterDistance: str = 'complete', 
-            cMethod: str = 'inconsistent', cValue: float = 1.5, plotDendrogram: bool = False, **kwargs) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
+            cMethod: str = 'inconsistent', cValue: float = 1.5, plotDendrogram: bool = False, distance_kwargs: dict = None) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
     """
     Cluster time series data using hierarchical clustering.
 
@@ -229,8 +229,8 @@ def perform_clustering(list_of_ts_objects: List['TimeSeries'], distance: str = '
         Cutoff value for clustering criterion.
     ``plotDendrogram`` : bool, default=False
         If True, displays dendrogram.
-    ``kwargs`` : dict
-        Additional distance function parameters.
+    ``distance_kwargs`` : dict, default=None
+        Additional distance function parameters. Should be a key parameter (key) and value (value) pair.
 
     Returns
     -------
@@ -240,7 +240,7 @@ def perform_clustering(list_of_ts_objects: List['TimeSeries'], distance: str = '
     # Construct a list with distances. This list is the upper triangle of the distance matrix
     try:
         # Filter out parameters that are not meant for distance functions
-        dRow, list_of_ts_objects_with_fv = _distance_functions[distance](list_of_ts_objects, **kwargs)
+        dRow, list_of_ts_objects_with_fv = _distance_functions[distance](list_of_ts_objects, distance_kwargs=distance_kwargs)
     except KeyError:
         print(f'Unknown distance "{distance}" is used.')
         raise ValueError(f'Unknown distance: {distance}')
