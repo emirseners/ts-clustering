@@ -1,9 +1,12 @@
 import numpy as np
 from numba import njit
-from typing import Tuple, List, Dict
+from typing import Tuple, List, TYPE_CHECKING
 from ._behavior_splitter import _construct_features
 
-def _distance_pattern_dtw(data: np.ndarray, significanceLevel: float = 0.01, wSlopeError: float = 1, wCurvatureError: float = 1) -> Tuple[np.ndarray, List[Tuple[Dict[str, str], np.ndarray]]]:
+if TYPE_CHECKING:
+    from simclstr.clusterer import TimeSeries
+
+def _distance_pattern_dtw(list_of_ts_objects: List['TimeSeries'], significanceLevel: float = 0.01, wSlopeError: float = 1, wCurvatureError: float = 1) -> Tuple[np.ndarray, List['TimeSeries']]:
     """
     Calculate pairwise pattern distances between all data sequences using Dynamic Time Warping.
     
@@ -13,8 +16,8 @@ def _distance_pattern_dtw(data: np.ndarray, significanceLevel: float = 0.01, wSl
 
     Parameters
     ----------
-    data : np.ndarray
-        2D array of shape (n_samples, n_features) containing sequences to compare.
+    list_of_ts_objects : List['TimeSeries']
+        List of TimeSeries objects.
     significanceLevel : float, optional
         The threshold value to be used in filtering out fluctuations in the slope 
         and the curvature (default=0.01).
@@ -29,22 +32,31 @@ def _distance_pattern_dtw(data: np.ndarray, significanceLevel: float = 0.01, wSl
     -------
     dRow : np.ndarray
         Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.
-    data_w_desc : List[Tuple[Dict[str, str], np.ndarray]]
-        List of (metadata_dict, sequence) tuples for tracking original data and feature vectors.
+    list_of_ts_objects : List['TimeSeries']
+        List of TimeSeries objects with updated index and feature vector.
     """
+    # Convert list of arrays to 2D numpy array for distance functions
+    data = np.array([ts.data for ts in list_of_ts_objects])
+
     features = _construct_features(data, significanceLevel)
+
+    transposed_features = [feature.T for feature in features]
 
     n = len(data)
     dRow = np.zeros(shape=(n * (n - 1) // 2,))
-    data_w_desc = [({'Index': str(i), 'Feature vector': str(features[i])}, data[i]) for i in range(n)]
 
-    dRow = compute_pattern_dtw_distances(features, dRow, wSlopeError, wCurvatureError)
+    # Update the feature vector and index of the TimeSeries objects
+    for i, each_ts in enumerate(list_of_ts_objects):
+        each_ts.feature_vector = transposed_features[i]
+        each_ts.index = i
 
-    return dRow, data_w_desc
+    dRow = _compute_pattern_dtw_distances(features, dRow, wSlopeError, wCurvatureError)
+
+    return dRow, list_of_ts_objects
 
 
 @njit
-def compute_pattern_dtw_distances(features: List[np.ndarray], dRow: np.ndarray, wSlopeError: float, wCurvatureError: float) -> np.ndarray:
+def _compute_pattern_dtw_distances(features: List[np.ndarray], dRow: np.ndarray, wSlopeError: float, wCurvatureError: float) -> np.ndarray:
     """
     Compute pairwise DTW distances between all feature vectors.
 
@@ -69,14 +81,14 @@ def compute_pattern_dtw_distances(features: List[np.ndarray], dRow: np.ndarray, 
         feature_i = features[i]
         for j in range(i + 1, len(features)):
             feature_j = features[j]
-            distance = dtw_distance(feature_i, feature_j, wSlopeError, wCurvatureError)
+            distance = _dtw_distance(feature_i, feature_j, wSlopeError, wCurvatureError)
             dRow[index] = distance
             index += 1
     return dRow
 
 
 @njit
-def dtw_distance(d1: np.ndarray, d2: np.ndarray, wSlopeError: float, wCurvatureError: float) -> float:
+def _dtw_distance(d1: np.ndarray, d2: np.ndarray, wSlopeError: float, wCurvatureError: float) -> float:
     """
     Calculate the distance between two feature vectors using Dynamic Time Warping.
 

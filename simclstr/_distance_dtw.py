@@ -1,8 +1,11 @@
 import numpy as np
 from numba import njit
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, TYPE_CHECKING
 
-def _distance_dtw(data: np.ndarray) -> Tuple[np.ndarray, List[Tuple[Dict[str, str], np.ndarray]]]:
+if TYPE_CHECKING:
+    from simclstr.clusterer import TimeSeries
+
+def _distance_dtw(list_of_ts_objects: List['TimeSeries']) -> Tuple[np.ndarray, List['TimeSeries']]:
     """
     Calculate pairwise Dynamic Time Warping (DTW) distances between all data sequences.
 
@@ -13,32 +16,33 @@ def _distance_dtw(data: np.ndarray) -> Tuple[np.ndarray, List[Tuple[Dict[str, st
     
     Parameters
     ----------
-    data : np.ndarray
-        2D array of shape (n_samples, n_features) containing time series sequences to compare.
-        Sequences can have different lengths, making DTW particularly suitable for
-        comparing time series with temporal variations.
+    list_of_ts_objects : List['TimeSeries']
+        List of TimeSeries objects.
 
     Returns
     -------
     dRow : np.ndarray
         Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.
         Each element represents the DTW distance between a pair of sequences.
-    runLogs : List[Tuple[Dict[str, str], np.ndarray]]
-        List of (metadata_dict, sequence) tuples for tracking original data:
-        
-        - metadata_dict: Dictionary containing sequence index information
-        - sequence: Original time series data
+    list_of_ts_objects : List['TimeSeries']
+        List of TimeSeries objects with updated index and feature vector.
 
     This implementation uses absolute difference as the local distance measure
     between individual points: |x_i - y_j|.
     """
-    dRow = np.zeros(shape=(np.sum(np.arange(len(data))), ))
+    # For distance_dtw, the feature vector is the data itself
+    for i, each_ts in enumerate(list_of_ts_objects):
+        each_ts.feature_vector = each_ts.data
+        each_ts.index = i
 
-    runLogs = [({'Index': str(i)}, data[i]) for i in range(len(data))]
+    # Convert list of arrays to 2D numpy array for distance functions
+    data = np.array([ts.data for ts in list_of_ts_objects])
+
+    dRow = np.zeros(shape=(np.sum(np.arange(len(data))), ))
 
     dRow = compute_dtw_distances(data, dRow)
 
-    return dRow, runLogs
+    return dRow, list_of_ts_objects
 
 @njit
 def compute_dtw_distances(data: np.ndarray, dRow: np.ndarray) -> np.ndarray:

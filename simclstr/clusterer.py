@@ -47,7 +47,7 @@ _distance_functions: Dict[str, Callable] = {
     'kulczynski1': lambda data, **kwargs: _distance_scipy(data, metric='kulczynski1', **kwargs)
 }
 
-def read_time_series(file_path: str, withClusters: bool = False) -> Union[List[Tuple[str, np.ndarray]], Tuple[List[Tuple[str, np.ndarray]], List[str]]]:
+def read_time_series(file_path: str, withClusters: bool = False) -> List['TimeSeries']:
     """
     Import time series data from .xlsx or .csv files.
 
@@ -96,9 +96,8 @@ def read_time_series(file_path: str, withClusters: bool = False) -> Union[List[T
 
     Returns
     -------
-    Union[List[Tuple[str, np.ndarray]], Tuple[List[Tuple[str, np.ndarray]], List[str]]]
-        List of (label, data_array) tuples, or (data_list, clusters_list) if withClusters=True and reading from Excel.
-
+    List[TimeSeries]
+        List of TimeSeries objects.
     """
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Could not find file: {file_path}")
@@ -128,20 +127,23 @@ def read_time_series(file_path: str, withClusters: bool = False) -> Union[List[T
     labels = [row[0] for row in all_rows]
     data_arrays = [np.array(row[1:]) for row in all_rows]
     
-    data_w_desc = list(zip(labels, data_arrays))
-    
     if withClusters and file_extension == '.xlsx':
         try:
             df_clusters = pd.read_excel(file_path, sheet_name='clusters')
             clusters_original = df_clusters.iloc[:, 0].tolist()
+            list_of_ts_objects = [TimeSeries(label, data, previous_cluster_id) for label, data, previous_cluster_id in zip(labels, data_arrays, clusters_original)]
+            return list_of_ts_objects
+            
         except (FileNotFoundError, KeyError, ValueError):
             clusters_original = ['NA'] * noRuns
-        return data_w_desc, clusters_original 
+            list_of_ts_objects = [TimeSeries(label, data, previous_cluster_id) for label, data, previous_cluster_id in zip(labels, data_arrays, clusters_original)]
+            return list_of_ts_objects
     else:
-        return data_w_desc
+        list_of_ts_objects = [TimeSeries(label, data) for label, data in zip(labels, data_arrays)]
+        return list_of_ts_objects
 
 
-def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, List[float]]], output_variable: str) -> List[Tuple[str, np.ndarray]]:
+def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, List[float]]], output_variable: str) -> List['TimeSeries']:
     """
     Import and run Vensim models.
 
@@ -156,8 +158,8 @@ def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, 
 
     Returns
     -------
-    List[Tuple[str, np.ndarray]]
-        List of (description, time_series_data) tuples.
+    List['TimeSeries']
+        List of TimeSeries objects.
 
     """
     if not os.path.exists(model_path):
@@ -179,27 +181,27 @@ def simulate_from_vensim(model_path: str, parameter_set: Dict[str, Union[float, 
 
     param_combinations = list(itertools.product(*param_values))
     
-    data_w_desc = []
+    list_of_ts_objects = []
 
     for combination in param_combinations:
         current_params = dict(zip(param_names, combination))
         simulation_results = sd_model.run(params=current_params)
         time_series_data = simulation_results[output_variable].values
-        description = ', '.join([f"{name}={value}" for name, value in current_params.items()])
-        data_w_desc.append((description, time_series_data))
+        label = ', '.join([f"{name}={value}" for name, value in current_params.items()])
+        list_of_ts_objects.append(TimeSeries(label, time_series_data))
     
-    return data_w_desc
+    return list_of_ts_objects
 
 
-def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: str = 'pattern_dtw', interClusterDistance: str = 'complete', 
+def perform_clustering(list_of_ts_objects: List['TimeSeries'], distance: str = 'pattern_dtw', interClusterDistance: str = 'complete', 
             cMethod: str = 'inconsistent', cValue: float = 1.5, plotDendrogram: bool = False, **kwargs) -> Tuple[np.ndarray, List['Cluster'], np.ndarray]:
     """
     Cluster time series data using hierarchical clustering.
 
     Parameters
     ----------
-    ``data_w_labels`` : List[Tuple[str, np.ndarray]]
-        List of (label, data_array) tuples.
+    ``list_of_ts_objects`` : List['TimeSeries']
+        List of TimeSeries objects.
     ``distance`` : str, default='pattern_dtw'
         Available distance metrics include:
 
@@ -235,19 +237,10 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
     Tuple[np.ndarray, List[Cluster], np.ndarray]
         Tuple of (distances, cluster_list, cluster_assignments).
     """
-    # Construct a list that includes only the data part. Gets rid of the label string in dataSet[i][0]
-    data_wo_labels = [item[1] for item in data_w_labels]
-    
-    # Convert list of arrays to 2D numpy array for distance functions
-    data_wo_labels_array = np.array(data_wo_labels)
-    
-    # Construct a list with distances. This list is the upper triangle
-    # of the distance matrix
+    # Construct a list with distances. This list is the upper triangle of the distance matrix
     try:
         # Filter out parameters that are not meant for distance functions
-        distance_kwargs = {k: v for k, v in kwargs.items() 
-                          if k not in ['plotClusters', 'plotDendrogram']}
-        dRow, data_w_desc = _distance_functions[distance](data_wo_labels_array, **distance_kwargs)
+        dRow, list_of_ts_objects_with_fv = _distance_functions[distance](list_of_ts_objects, **kwargs)
     except KeyError:
         print(f'Unknown distance "{distance}" is used.')
         raise ValueError(f'Unknown distance: {distance}')
@@ -256,14 +249,14 @@ def perform_clustering(data_w_labels: List[Tuple[str, np.ndarray]], distance: st
     # clustering. clusterSetup is a dictionary that customizes the clustering 
     # algorithm to be used.
     
-    clusters, data_w_desc = _flatcluster(dRow, data_w_desc, plotDendrogram=plotDendrogram, interClusterDistance=interClusterDistance, cMethod=cMethod, cValue=cValue)
+    clusters, list_of_ts_objects_with_fv_and_cluster_id = _flatcluster(dRow, list_of_ts_objects_with_fv, plotDendrogram=plotDendrogram, interClusterDistance=interClusterDistance, cMethod=cMethod, cValue=cValue)
 
-    clusterList = _create_cluster_list(clusters, dRow, data_w_desc)
+    clusterList = _create_cluster_list(clusters, dRow, list_of_ts_objects_with_fv_and_cluster_id)
 
-    return dRow, clusterList, clusters
+    return dRow, clusterList, list_of_ts_objects_with_fv_and_cluster_id
 
 
-def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, data_w_desc: List[Dict[str, Any]]) -> List['Cluster']:
+def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, list_of_ts_objects_with_fv_and_cluster_id: List['TimeSeries']) -> List['Cluster']:
     """
     Create Cluster objects from clustering results.
 
@@ -273,8 +266,8 @@ def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, data_w_desc:
         Array of cluster assignments.
     distRow : np.ndarray
         Condensed distance matrix.
-    data_w_desc : List[Dict[str, Any]]
-        List of data descriptors.
+    list_of_ts_objects_with_fv_and_cluster_id : List['TimeSeries']
+        List of TimeSeries objects with feature vector and cluster id.
 
     Returns
     -------
@@ -291,8 +284,9 @@ def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, data_w_desc:
         cluster_size = indices.shape[0]
         
         if cluster_size == 1:
-            originalIndex = indices[0]
-            cluster = Cluster(i,  indices, [data_w_desc[originalIndex]], data_w_desc[originalIndex])
+            only_member_index = indices[0]
+            only_member = list_of_ts_objects_with_fv_and_cluster_id[only_member_index]
+            cluster = Cluster(i,  indices, [only_member], only_member)
             cluster_list.append(cluster)
             continue
         
@@ -316,17 +310,17 @@ def _create_cluster_list(clusters: np.ndarray, distRow: np.ndarray, data_w_desc:
         min_cIndex = row_sum.argmin()
     
         # convert this cluster specific index back to the overall cluster list of indices
-        originalIndex = indices[min_cIndex]
+        representative_index = indices[min_cIndex]
 
         indices_list = indices.astype(int).tolist()
         
-        cluster = Cluster(i, indices, [data_w_desc[idx] for idx in indices_list], data_w_desc[originalIndex])
+        cluster = Cluster(i, indices, [list_of_ts_objects_with_fv_and_cluster_id[idx] for idx in indices_list], list_of_ts_objects_with_fv_and_cluster_id[representative_index])
         cluster_list.append(cluster)
         
     return cluster_list
 
 
-def _flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]], interClusterDistance: str = 'complete', plotDendrogram: bool = True, 
+def _flatcluster(dRow: np.ndarray, list_of_ts_objects_with_fv: List['TimeSeries'], interClusterDistance: str = 'complete', plotDendrogram: bool = True, 
                 cMethod: str = 'inconsistent', cValue: float = 1.5) -> Tuple[np.ndarray, List[Tuple[Dict[str, Any], np.ndarray]]]:
     """
     Perform flat clustering using hierarchical clustering using `scipy.cluster.hierarchy <https://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html#module-scipy.cluster.hierarchy>`_ package.
@@ -335,8 +329,8 @@ def _flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]]
     ----------
     dRow : np.ndarray
         Condensed distance matrix.
-    data : List[Tuple[Dict[str, Any], np.ndarray]]
-        List of (metadata_dict, data_array) tuples.
+    list_of_ts_objects_with_fv : List['TimeSeries']
+        List of TimeSeries objects.
     interClusterDistance : str, default='complete'
         Linkage method.
     plotDendrogram : bool, default=True
@@ -348,8 +342,7 @@ def _flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]]
 
     Returns
     -------
-    Tuple[np.ndarray, List[Tuple[Dict[str, Any], np.ndarray]]]
-        Tuple of (clusters, updated_data).
+    Tuple[np.ndarray, List['TimeSeries']]
     """
     z = linkage(dRow, method=interClusterDistance)
 
@@ -359,10 +352,23 @@ def _flatcluster(dRow: np.ndarray, data: List[Tuple[Dict[str, Any], np.ndarray]]
     clusters = fcluster(z, t=cValue, criterion=cMethod)
 
     cluster_strings = [str(cluster_id) for cluster_id in clusters]
-    for i, (metadata, _) in enumerate(data):
-        metadata['Cluster'] = cluster_strings[i]
+    for i, each_ts in enumerate(list_of_ts_objects_with_fv):
+        each_ts.cluster_id = cluster_strings[i]
     
-    return clusters, data
+    return clusters, list_of_ts_objects_with_fv
+
+
+class TimeSeries:
+    """
+    Container for time series data.
+    """
+    def __init__(self, label: str, data: np.ndarray, previous_cluster_id: int = None):
+        self.label = label
+        self.index = None
+        self.data = data
+        self.feature_vector = None
+        self.cluster_id = None
+        self.previous_cluster_id = previous_cluster_id
 
 
 class Cluster:

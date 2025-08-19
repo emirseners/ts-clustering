@@ -73,9 +73,9 @@ def plot_clusters(cluster_list: List["Cluster"], dist: str, mode: str = 'show', 
         sub_plot = main_fig.add_subplot(no_rows, no_cols, i)
         i = i + 1
 
-        for j in clust.list_of_members:
-            t = np.arange(j[1].shape[0])
-            sub_plot.plot(t, j[1], linewidth=2)
+        for each_ts in clust.list_of_members:
+            t = np.arange(each_ts.data.shape[0])
+            sub_plot.plot(t, each_ts.data, linewidth=2)
         
         plt.title('Cluster no: ' + str(clust.cluster_id), weight='bold')
 
@@ -123,16 +123,6 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, no_cols:
     
     cluster_data = {}
     time_series_data = {}
-
-    # Ensure labels are strings for Plotly trace names
-    def _to_label(label_like) -> str:
-        if isinstance(label_like, dict):
-            idx = label_like.get('Index')
-            cl = label_like.get('Cluster')
-            if idx is not None:
-                return f"Index {idx}" if cl is None else f"Index {idx} (C{cl})"
-            return str(label_like)
-        return str(label_like)
     
     for idx, clust in enumerate(cluster_list):
         row = (idx // no_cols) + 1
@@ -142,42 +132,43 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, no_cols:
             'cluster_id': clust.cluster_id,
             'number_of_members': clust.number_of_members,
             'indices_of_members': clust.indices_of_members.tolist(),
-            'best_representative_member': _to_label(clust.best_representative_member[0]),
-            'members': [_to_label(member[0]) for member in clust.list_of_members]
+            'best_representative_member': clust.best_representative_member.label,
+            'labels_of_members': [member.label for member in clust.list_of_members]
         }
         
-        for j_idx, (name, ts_data) in enumerate(clust.list_of_members):
-            t = np.arange(ts_data.shape[0])
+        for j_idx, each_ts in enumerate(clust.list_of_members):
+            t = np.arange(each_ts.data.shape[0])
+
             ts_id = f"cluster_{clust.cluster_id}_ts_{j_idx}"
-            label = _to_label(name)
-            
+
+            is_repr = each_ts.label == clust.best_representative_member.label
+
             time_series_data[ts_id] = {
-                'name': label,
+                'name': each_ts.label,
                 'cluster_id': clust.cluster_id,
-                'length': len(ts_data),
-                'mean': float(np.mean(ts_data)),
-                'std': float(np.std(ts_data)),
-                'min': float(np.min(ts_data)),
-                'max': float(np.max(ts_data)),
-                'is_representative': name == clust.best_representative_member[0],
-                'data': ts_data.tolist()
+                'length': len(each_ts.data),
+                'mean': float(np.mean(each_ts.data)),
+                'std': float(np.std(each_ts.data)),
+                'min': float(np.min(each_ts.data)),
+                'max': float(np.max(each_ts.data)),
+                'is_representative': is_repr,
+                'data': each_ts.data.tolist()
             }
             
-            is_repr = name == clust.best_representative_member[0]
             line_color = '#e74c3c' if is_repr else colors[j_idx % len(colors)]
-            line_width = 3.5 if is_repr else 2.5
-            opacity = 1.0 if is_repr else 0.8
+            line_width = 2
+            opacity = 0.8
             
             cluster_fig.add_trace(
                 go.Scatter(
                     x=t,
-                    y=ts_data,
+                    y=each_ts.data,
                     mode='lines',
-                    name=label,
+                    name=each_ts.label,
                     line=dict(width=line_width, color=line_color),
                     opacity=opacity,
                     customdata=[ts_id] * len(t),
-                    hovertemplate=f"<b>{label}</b><br>" +
+                    hovertemplate=f"<b>{each_ts.label}</b><br>" +
                                 "Time: %{x}<br>" +
                                 "Value: %{y:.3f}<br>" +
                                 f"Cluster: {clust.cluster_id}<br>" +
@@ -373,6 +364,8 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, no_cols:
         print(f"Error starting server: {e}")
 
 
+
+
 def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: str, port: int = 8051) -> None:
     """
     Create an interactive plot of cluster members, each cluster is displayed in its own tab.
@@ -396,60 +389,46 @@ def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: st
     
     colors = px.colors.qualitative.Set1 + px.colors.qualitative.Set2 + px.colors.qualitative.Set3
     
-    # Prepare data structures
     cluster_data = {}
     time_series_data = {}
     representative_data = {}
-
-    def _to_label(label_like) -> str:
-        if isinstance(label_like, dict):
-            idx = label_like.get('Index')
-            cl = label_like.get('Cluster')
-            if idx is not None:
-                return f"Index {idx}" if cl is None else f"Index {idx} (C{cl})"
-            return str(label_like)
-        return str(label_like)
     
-    # Process cluster data
     for clust in cluster_list:
         cluster_data[clust.cluster_id] = {
             'cluster_id': clust.cluster_id,
             'number_of_members': clust.number_of_members,
             'indices_of_members': clust.indices_of_members.tolist(),
-            'best_representative_member': _to_label(clust.best_representative_member[0]),
-            'members': [_to_label(member[0]) for member in clust.list_of_members]
+            'best_representative_member': clust.best_representative_member.label,
+            'labels_of_members': [member.label for member in clust.list_of_members]
         }
         
-        # Store representative data
-        repr_name, repr_data = clust.best_representative_member
+        representative_ts = clust.best_representative_member
         repr_id = f"repr_cluster_{clust.cluster_id}"
         representative_data[repr_id] = {
-            'name': _to_label(repr_name),
+            'name': representative_ts.label,
             'cluster_id': clust.cluster_id,
-            'data': repr_data,
-            'length': len(repr_data),
-            'mean': float(np.mean(repr_data)),
-            'std': float(np.std(repr_data)),
-            'min': float(np.min(repr_data)),
-            'max': float(np.max(repr_data))
+            'data': representative_ts.data,
+            'length': len(representative_ts.data),
+            'mean': float(np.mean(representative_ts.data)),
+            'std': float(np.std(representative_ts.data)),
+            'min': float(np.min(representative_ts.data)),
+            'max': float(np.max(representative_ts.data))
         }
         
-        # Store time series data
-        for j_idx, (name, ts_data) in enumerate(clust.list_of_members):
+        for j_idx, each_ts in enumerate(clust.list_of_members):
             ts_id = f"cluster_{clust.cluster_id}_ts_{j_idx}"
             time_series_data[ts_id] = {
-                'name': _to_label(name),
+                'name': each_ts.label,
                 'cluster_id': clust.cluster_id,
-                'length': len(ts_data),
-                'mean': float(np.mean(ts_data)),
-                'std': float(np.std(ts_data)),
-                'min': float(np.min(ts_data)),
-                'max': float(np.max(ts_data)),
-                'is_representative': name == clust.best_representative_member[0],
-                'data': ts_data.tolist()
+                'length': len(each_ts.data),
+                'mean': float(np.mean(each_ts.data)),
+                'std': float(np.std(each_ts.data)),
+                'min': float(np.min(each_ts.data)),
+                'max': float(np.max(each_ts.data)),
+                'is_representative': each_ts.label == clust.best_representative_member.label,
+                'data': each_ts.data.tolist()
             }
 
-    # Create tabs
     tabs = []
     
     # Individual cluster tabs
@@ -515,14 +494,15 @@ def _create_cluster_tab_content(clust, colors, time_series_data, cluster_data):
     """Create content for individual cluster tab."""
     
     # First row: Cluster info panel (left) and representative plot (right)
-    repr_name, repr_data = clust.best_representative_member
+    repr_name = clust.best_representative_member.label
+    repr_data = clust.best_representative_member.data
     repr_fig = go.Figure()
     t = np.arange(repr_data.shape[0])
     
     repr_fig.add_trace(go.Scatter(
         x=t, y=repr_data,
         mode='lines',
-        name=f'Representative',
+        name=repr_name,
         line=dict(width=3, color='#e74c3c'),
         hovertemplate="<b>Representative</b><br>Time: %{x}<br>Value: %{y:.3f}<extra></extra>"
     ))
@@ -538,22 +518,22 @@ def _create_cluster_tab_content(clust, colors, time_series_data, cluster_data):
     # Second row: All time series
     all_series_fig = go.Figure()
     
-    for j_idx, (name, ts_data) in enumerate(clust.list_of_members):
-        t = np.arange(ts_data.shape[0])
-        is_repr = name == clust.best_representative_member[0]
+    for j_idx, each_ts in enumerate(clust.list_of_members):
+        t = np.arange(each_ts.data.shape[0])
+        is_repr = each_ts.label == clust.best_representative_member.label
         line_color = '#e74c3c' if is_repr else colors[j_idx % len(colors)]
         line_width = 3.5 if is_repr else 2.5
         opacity = 1.0 if is_repr else 0.8
         ts_id = f"cluster_{clust.cluster_id}_ts_{j_idx}"
         
         all_series_fig.add_trace(go.Scatter(
-            x=t, y=ts_data,
+            x=t, y=each_ts.data,
             mode='lines',
-            name=f'{name}',
+            name=f'{each_ts.label}',
             line=dict(width=line_width, color=line_color),
             opacity=opacity,
             customdata=[ts_id] * len(t),
-            hovertemplate=f"<b>{name}</b><br>Time: %{{x}}<br>Value: %{{y:.3f}}<br>{'Representative' if is_repr else ''}<extra></extra>"
+            hovertemplate=f"<b>{each_ts.label}</b><br>Time: %{{x}}<br>Value: %{{y:.3f}}<br>{'Representative' if is_repr else ''}<extra></extra>"
         ))
     
     all_series_fig.update_layout(
@@ -570,22 +550,21 @@ def _create_cluster_tab_content(clust, colors, time_series_data, cluster_data):
         html.H3("Cluster Information", style={'color': '#1a202c', 'marginBottom': '20px'}),
         html.P([html.Strong("Cluster ID: "), str(clust.cluster_id)], style={'marginBottom': '10px'}),
         html.P([html.Strong("Number of Members: "), str(clust.number_of_members)], style={'marginBottom': '10px'}),
-        html.P([html.Strong("Representative Member: "), str(clust.best_representative_member[0])], style={'marginBottom': '10px'}),
-        html.P([html.Strong("Member Indices: "), ', '.join(map(str, clust.indices_of_members))], style={'marginBottom': '10px'})
+        html.P([html.Strong("Representative Member: "), str(clust.best_representative_member.label)], style={'marginBottom': '10px'})
     ], style={
         'backgroundColor': '#ffffff',
         'border': '1px solid #e2e8f0',
         'borderRadius': '12px',
         'padding': '20px',
-        'height': '280px',
+        'height': '300px',
         'overflow': 'auto'
     })
     
     return html.Div([
         # First row: Info panel (left) and representative plot (right)
         html.Div([
-            html.Div([cluster_info_content], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top'}),
-            html.Div([dcc.Graph(figure=repr_fig)], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%'})
+            html.Div([cluster_info_content], style={'width': '40%', 'display': 'inline-block', 'verticalAlign': 'top'}),
+            html.Div([dcc.Graph(figure=repr_fig)], style={'width': '56%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%'})
         ], style={'marginBottom': '20px'}),
         
         # Second row: All time series
@@ -616,8 +595,11 @@ def _create_representatives_tab_content(cluster_list, colors, representative_dat
     repr_fig = go.Figure()
     
     for idx, clust in enumerate(cluster_list):
-        repr_name, repr_data = clust.best_representative_member
+        repr_name = clust.best_representative_member.label
+        repr_data = clust.best_representative_member.data
+
         t = np.arange(repr_data.shape[0])
+        
         repr_id = f"repr_cluster_{clust.cluster_id}"
         
         repr_fig.add_trace(go.Scatter(
@@ -651,7 +633,8 @@ def _create_representatives_tab_content(cluster_list, colors, representative_dat
             'border': '1px solid #e2e8f0',
             'borderRadius': '12px',
             'padding': '20px',
-            'minHeight': '200px'
+            'minHeight': '250px',
+            'maxHeight': '250px'
         })
     ])
 
@@ -701,7 +684,7 @@ def _create_cluster_callbacks(app, cluster_id, time_series_data, cluster_data):
                             html.P([html.Strong("Length: "), str(ts_info['length'])], style={'marginBottom': '8px'}),
                             html.P([html.Strong("Mean: "), f"{ts_info['mean']:.4f}"], style={'marginBottom': '8px'}),
                             html.P([html.Strong("Representative: "), "Yes" if ts_info['is_representative'] else "No"], style={'marginBottom': '8px'})
-                        ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top'}),
+                        ], style={'width': '40%', 'display': 'inline-block', 'verticalAlign': 'top'}),
                         
                         # Right column
                         html.Div([
@@ -710,7 +693,7 @@ def _create_cluster_callbacks(app, cluster_id, time_series_data, cluster_data):
                             html.P([html.Strong("Max Value: "), f"{ts_info['max']:.4f}"], style={'marginBottom': '8px'}),
                             html.P([html.Strong("Min Value: "), f"{ts_info['min']:.4f}"], style={'marginBottom': '8px'}),
                             html.P([html.Strong("Range: "), f"{ts_info['max'] - ts_info['min']:.4f}"], style={'marginBottom': '8px'})
-                        ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%'})
+                        ], style={'width': '56%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%'})
                     ])
                 ]
         except (KeyError, IndexError, TypeError):

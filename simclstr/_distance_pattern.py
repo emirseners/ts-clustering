@@ -1,6 +1,9 @@
 import numpy as np
-from typing import Tuple, List, Dict
+from typing import Tuple, List, TYPE_CHECKING
 from ._behavior_splitter import _construct_features
+
+if TYPE_CHECKING:
+    from simclstr.clusterer import TimeSeries
 
 def distance_same_length(series1: np.ndarray, series2: np.ndarray, wDim1: float, wDim2: float) -> float:
     """
@@ -106,8 +109,8 @@ def create_sisters(shortFV: np.ndarray, desired_shape: Tuple[int, int], sister_c
     return sisters
 
 
-def _distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterCount: int = 50, 
-                    wSlopeError: float = 1, wCurvatureError: float = 1) -> Tuple[np.ndarray, List[Tuple[Dict[str, str], np.ndarray]]]:
+def _distance_pattern(list_of_ts_objects: List['TimeSeries'], significanceLevel: float = 0.01, sisterCount: int = 50, 
+                    wSlopeError: float = 1, wCurvatureError: float = 1) -> Tuple[np.ndarray, List['TimeSeries']]:
     """
     This function computes distances based on qualitative behavioral patterns rather than
     raw data values. It extracts slope and curvature features from time series and compares
@@ -119,9 +122,8 @@ def _distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterC
 
     Parameters
     ----------
-    data : np.ndarray
-        2D array of shape (n_samples, n_features) containing time series sequences to compare.
-        Each row represents one time series, and each column represents a time point.
+    list_of_ts_objects : List['TimeSeries']
+        List of TimeSeries objects.
     significanceLevel : float, default=0.01
         Threshold value (as a fraction) for filtering out insignificant fluctuations in 
         slope and curvature calculations. Values below this threshold relative to the
@@ -139,13 +141,12 @@ def _distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterC
     -------
     dRow : np.ndarray
         Condensed distance matrix as 1D array of length n_samples * (n_samples - 1) / 2.
-    runLogs : List[Tuple[Dict[str, str], np.ndarray]]
-        List of (metadata_dict, sequence) tuples containing:
-
-        - metadata_dict: Dictionary with 'Index' and 'Feature vector' keys
-
-        - sequence: Original time series data
+    list_of_ts_objects : List['TimeSeries']
+        List of TimeSeries objects with updated index and feature vector.
     """
+    # Convert list of arrays to 2D numpy array for distance functions
+    data = np.array([ts.data for ts in list_of_ts_objects])
+
     features = _construct_features(data, significanceLevel)
 
     transposed_features = [feature.T for feature in features]
@@ -153,7 +154,10 @@ def _distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterC
     n = len(data)
     dRow = np.zeros(shape=(n * (n - 1) // 2,))
 
-    data_w_desc = [({'Index': str(i), 'Feature vector': str(transposed_features[i])}, data[i]) for i in range(n)]
+    # Update the feature vector and index of the TimeSeries objects
+    for i, each_ts in enumerate(list_of_ts_objects):
+        each_ts.feature_vector = transposed_features[i]
+        each_ts.index = i
 
     index = 0
     for i in range(n):
@@ -169,4 +173,4 @@ def _distance_pattern(data: np.ndarray, significanceLevel: float = 0.01, sisterC
             dRow[index] = distance
             index += 1
 
-    return dRow, data_w_desc
+    return dRow, list_of_ts_objects
