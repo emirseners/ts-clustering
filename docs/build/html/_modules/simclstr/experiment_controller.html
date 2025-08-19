@@ -260,17 +260,22 @@
 <span class="sd">    transform : str, default=&#39;original&#39;</span>
 <span class="sd">        Data transformation method applied before clustering:</span>
 <span class="sd">        </span>
-<span class="sd">        - ``original``: No transformation applied</span>
-<span class="sd">        - ``normalize``: Min-max normalization to [0,1] range</span>
-<span class="sd">        - ``standardize``: Z-score standardization (mean=0, std=1)</span>
+<span class="sd">        ``original``: No transformation applied</span>
+
+<span class="sd">        ``normalize``: Min-max normalization to [0,1] range</span>
+
+<span class="sd">        ``standardize``: Z-score standardization (mean=0, std=1)</span>
 <span class="sd">        </span>
 <span class="sd">    cMethod : str, default=&#39;maxclust&#39;</span>
-<span class="sd">        Clustering criterion for forming flat clusters from hierarchy:</span>
+<span class="sd">        `Clustering criterion for forming flat clusters from hierarchy &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster&gt;`_:</span>
 <span class="sd">        </span>
-<span class="sd">        - ``maxclust``: Maximum number of clusters (requires cValue = number of clusters)</span>
-<span class="sd">        - ``distance``: Distance threshold (requires cValue = distance threshold)</span>
-<span class="sd">        - ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)</span>
-<span class="sd">        - ``monocrit``: Monotonic criterion (requires cValue = threshold)</span>
+<span class="sd">        ``maxclust``: Maximum number of clusters (requires cValue = number of clusters)</span>
+
+<span class="sd">        ``distance``: Distance threshold (requires cValue = distance threshold)</span>
+
+<span class="sd">        ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)</span>
+
+<span class="sd">        ``monocrit``: Monotonic criterion (requires cValue = threshold)</span>
 <span class="sd">        </span>
 <span class="sd">    cValue : float, default=1.5</span>
 <span class="sd">        Threshold value for clustering criterion. Interpretation depends on cMethod:</span>

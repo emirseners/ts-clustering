@@ -26,7 +26,7 @@ Simclstr requires **Python X.X** or above.
 
 Simclstr builds on the core Python data analytics stack, and the following third party libraries:
 
-* Numpy >= 1.24.0
+* Numpy >= 1.24.0, < 2.3
 * Scipy >= 1.16.0
 * Pandas >= 1.24.0
 * Numba >= 0.57.0
@@ -43,6 +43,7 @@ For enhanced plotting capabilities:
 For using `PySD <https://pysd.readthedocs.io/en/master/index.html>`_ for simulation:
 
 * PySD >= 3.0.0
+* Xarray >= 2023.1.0, < 2024.0.0
 
 For using interactive plotting functionality:
 
