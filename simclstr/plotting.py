@@ -92,6 +92,8 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, no_cols:
 
     When you click on a time series, information about that time series and its cluster will appear in the information panel.
 
+    Press Ctrl+C to stop the server.
+
     Parameters
     ----------
     cluster_list : List[Cluster]
@@ -195,7 +197,7 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, no_cols:
     app.layout = html.Div([
         html.Div([
             html.H1([
-                f"Interactive Clustering - {dist} Distance"
+                f"Interactive Clustering - {dist} distance"
             ], style={
                 'textAlign': 'center', 
                 'marginBottom': '4px',
@@ -374,6 +376,8 @@ def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: st
 
     Additionally includes a "Representatives" tab showing all cluster representatives in one plot.
 
+    Press Ctrl+C to stop the server.
+
     Parameters
     ----------
     cluster_list : List[Cluster]
@@ -412,7 +416,8 @@ def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: st
             'mean': float(np.mean(representative_ts.data)),
             'std': float(np.std(representative_ts.data)),
             'min': float(np.min(representative_ts.data)),
-            'max': float(np.max(representative_ts.data))
+            'max': float(np.max(representative_ts.data)),
+            'feature_vector': representative_ts.feature_vector
         }
         
         for j_idx, each_ts in enumerate(clust.list_of_members):
@@ -426,7 +431,8 @@ def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: st
                 'min': float(np.min(each_ts.data)),
                 'max': float(np.max(each_ts.data)),
                 'is_representative': each_ts.label == clust.best_representative_member.label,
-                'data': each_ts.data.tolist()
+                'data': each_ts.data.tolist(),
+                'feature_vector': each_ts.feature_vector
             }
 
     tabs = []
@@ -438,8 +444,24 @@ def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: st
             label=f'Cluster {clust.cluster_id}',
             value=f'cluster-{clust.cluster_id}',
             children=tab_content,
-            style={'padding': '6px', 'fontWeight': 'bold'},
-            selected_style={'padding': '6px', 'fontWeight': 'bold', 'backgroundColor': '#119DFF', 'color': 'white'}
+            style={
+                'padding': '8px 16px', 
+                'fontWeight': 'bold',
+                'fontSize': '14px',
+                'border': 'none',
+                'borderRadius': '8px 8px 0 0',
+                'margin': '0 2px'
+            },
+            selected_style={
+                'padding': '8px 16px', 
+                'fontWeight': 'bold', 
+                'backgroundColor': '#119DFF', 
+                'color': 'white',
+                'fontSize': '14px',
+                'border': 'none',
+                'borderRadius': '8px 8px 0 0',
+                'margin': '0 2px'
+            }
         ))
     
     # Representatives tab
@@ -448,25 +470,68 @@ def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: st
         label='Representatives',
         value='representatives',
         children=repr_tab_content,
-        style={'padding': '6px', 'fontWeight': 'bold'},
-        selected_style={'padding': '6px', 'fontWeight': 'bold', 'backgroundColor': '#119DFF', 'color': 'white'}
+        style={
+            'padding': '8px 16px', 
+            'fontWeight': 'bold',
+            'fontSize': '14px',
+            'border': 'none',
+            'borderRadius': '8px 8px 0 0',
+            'margin': '0 2px'
+        },
+        selected_style={
+            'padding': '8px 16px', 
+            'fontWeight': 'bold', 
+            'backgroundColor': '#119DFF', 
+            'color': 'white',
+            'fontSize': '14px',
+            'border': 'none',
+            'borderRadius': '8px 8px 0 0',
+            'margin': '0 2px'
+        }
     ))
 
     # Main layout
     app.layout = html.Div([
         html.Div([
-            html.H1(f"Interactive Clustering Tabs - {dist} Distance", 
-                   style={'textAlign': 'center', 'marginBottom': '20px', 'color': '#1a202c'})
+            html.H1(f"Interactive Clustering Tabs - {dist} distance", 
+                   style={
+                       'textAlign': 'center', 
+                       'marginBottom': '25px', 
+                       'color': '#1a202c',
+                       'fontFamily': 'Arial, sans-serif',
+                       'fontSize': '28px',
+                       'fontWeight': 'bold'
+                   })
         ]),
         
-        dcc.Tabs(
-            id="main-tabs",
-            value=f'cluster-{cluster_list[0].cluster_id}',
-            children=tabs,
-            style={'height': '44px'},
-            colors={'border': 'white', 'primary': '#119DFF', 'background': '#f8f9fa'}
-        )
-    ], style={'backgroundColor': '#f8f9fa', 'minHeight': '100vh', 'padding': '15px'})
+        html.Div([
+            dcc.Tabs(
+                id="main-tabs",
+                value=f'cluster-{cluster_list[0].cluster_id}',
+                children=tabs,
+                style={
+                    'height': '50px',
+                    'fontFamily': 'Arial, sans-serif'
+                },
+                colors={
+                    'border': 'white', 
+                    'primary': '#119DFF', 
+                    'background': '#f8f9fa'
+                }
+            )
+        ], style={
+            'backgroundColor': '#ffffff',
+            'borderRadius': '12px',
+            'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+            'overflow': 'hidden',
+            'marginBottom': '20px'
+        })
+    ], style={
+        'backgroundColor': '#f8f9fa', 
+        'minHeight': '100vh', 
+        'padding': '20px',
+        'fontFamily': 'Arial, sans-serif'
+    })
 
     # Callbacks for each cluster tab
     for clust in cluster_list:
@@ -504,15 +569,17 @@ def _create_cluster_tab_content(clust, colors, time_series_data, cluster_data):
         mode='lines',
         name=repr_name,
         line=dict(width=3, color='#e74c3c'),
-        hovertemplate="<b>Representative</b><br>Time: %{x}<br>Value: %{y:.3f}<extra></extra>"
+        hovertemplate=f"<b>{repr_name}</b><br>Time: %{{x}}<br>Value: %{{y:.3f}}<extra></extra>"
     ))
     
     repr_fig.update_layout(
         title=f"Representative Member",
-        height=300,
+        height=280,
         showlegend=False,
         plot_bgcolor='#f8f9fa',
-        paper_bgcolor='#f8f9fa'
+        paper_bgcolor='#f8f9fa',
+        autosize=True,
+        margin=dict(l=40, r=40, t=40, b=40)
     )
     
     # Second row: All time series
@@ -547,34 +614,88 @@ def _create_cluster_tab_content(clust, colors, time_series_data, cluster_data):
     
     # Create cluster info panel content
     cluster_info_content = html.Div([
-        html.H3("Cluster Information", style={'color': '#1a202c', 'marginBottom': '20px'}),
-        html.P([html.Strong("Cluster ID: "), str(clust.cluster_id)], style={'marginBottom': '10px'}),
-        html.P([html.Strong("Number of Members: "), str(clust.number_of_members)], style={'marginBottom': '10px'}),
-        html.P([html.Strong("Representative Member: "), str(clust.best_representative_member.label)], style={'marginBottom': '10px'})
+        html.H3("Cluster Information", style={
+            'color': '#1a202c', 
+            'marginBottom': '15px',
+            'fontSize': '18px',
+            'fontWeight': 'bold'
+        }),
+        html.P([html.Strong("Cluster ID: "), str(clust.cluster_id)], style={
+            'marginBottom': '10px',
+            'fontSize': '14px',
+            'lineHeight': '1.5'
+        }),
+        html.P([html.Strong("Number of Members: "), str(clust.number_of_members)], style={
+            'marginBottom': '10px',
+            'fontSize': '14px',
+            'lineHeight': '1.5'
+        }),
+        html.P([html.Strong("Representative Member: "), str(clust.best_representative_member.label)], style={
+            'marginBottom': '8px',
+            'fontSize': '14px',
+            'lineHeight': '1.5',
+            'wordBreak': 'break-word'
+        })
     ], style={
         'backgroundColor': '#ffffff',
         'border': '1px solid #e2e8f0',
         'borderRadius': '12px',
         'padding': '20px',
-        'height': '300px',
-        'overflow': 'auto'
+        'height': '260px',
+        'overflow': 'auto',
+        'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+        'position': 'relative',
+        'zIndex': '1'
     })
     
     return html.Div([
         # First row: Info panel (left) and representative plot (right)
         html.Div([
-            html.Div([cluster_info_content], style={'width': '40%', 'display': 'inline-block', 'verticalAlign': 'top'}),
-            html.Div([dcc.Graph(figure=repr_fig)], style={'width': '56%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%'})
-        ], style={'marginBottom': '20px'}),
+            html.Div([cluster_info_content], style={
+                'width': '30%', 
+                'display': 'inline-block', 
+                'verticalAlign': 'top',
+                'paddingRight': '15px',
+                'boxSizing': 'border-box'
+            }),
+            html.Div([
+                dcc.Graph(
+                    figure=repr_fig,
+                    style={'height': '280px'},
+                    config={'displayModeBar': False, 'responsive': True}
+                )
+            ], style={
+                'width': '70%', 
+                'display': 'inline-block', 
+                'verticalAlign': 'top',
+                'boxSizing': 'border-box',
+                'backgroundColor': '#f8f9fa',
+                'borderRadius': '12px',
+                'padding': '10px',
+                'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'
+            })
+        ], style={
+            'marginBottom': '20px',
+            'display': 'flex',
+            'alignItems': 'flex-start',
+            'gap': '15px'
+        }),
         
         # Second row: All time series
         html.Div([
             dcc.Graph(
                 id=f'all-series-plot-{clust.cluster_id}',
                 figure=all_series_fig,
-                style={'width': '100%'}
+                style={'width': '100%', 'height': '400px'},
+                config={'displayModeBar': False, 'responsive': True}
             )
-        ], style={'marginBottom': '20px'}),
+        ], style={
+            'marginBottom': '20px',
+            'backgroundColor': '#f8f9fa',
+            'borderRadius': '12px',
+            'padding': '10px',
+            'boxShadow': '0 2px 4px rgba(0,0,0,0.1)'
+        }),
         
         # Third row: Detailed statistics panel
         html.Div([
@@ -584,9 +705,19 @@ def _create_cluster_tab_content(clust, colors, time_series_data, cluster_data):
             'border': '1px solid #e2e8f0',
             'borderRadius': '12px',
             'padding': '20px',
-            'minHeight': '150px'
+            'minHeight': '180px',
+            'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+            'position': 'relative',
+            'zIndex': '10',
+            'marginTop': '20px'
         })
-    ])
+    ], style={
+        'position': 'relative',
+        'zIndex': '1',
+        'padding': '20px',
+        'backgroundColor': '#f8f9fa',
+        'minHeight': 'auto'
+    })
 
 
 def _create_representatives_tab_content(cluster_list, colors, representative_data, cluster_data):
@@ -621,11 +752,20 @@ def _create_representatives_tab_content(cluster_list, colors, representative_dat
     )
     
     return html.Div([
-        dcc.Graph(
-            id='representatives-plot',
-            figure=repr_fig,
-            style={'marginBottom': '20px'}
-        ),
+        html.Div([
+            dcc.Graph(
+                id='representatives-plot',
+                figure=repr_fig,
+                style={'height': '500px'},
+                config={'displayModeBar': False, 'responsive': True}
+            )
+        ], style={
+            'backgroundColor': '#f8f9fa',
+            'borderRadius': '12px',
+            'padding': '10px',
+            'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+            'marginBottom': '20px'
+        }),
         html.Div([
             html.Div(id='representatives-info-panel', children=_create_default_representatives_panel())
         ], style={
@@ -633,27 +773,58 @@ def _create_representatives_tab_content(cluster_list, colors, representative_dat
             'border': '1px solid #e2e8f0',
             'borderRadius': '12px',
             'padding': '20px',
-            'minHeight': '250px',
-            'maxHeight': '250px'
+            'minHeight': '200px',
+            'boxShadow': '0 2px 4px rgba(0,0,0,0.1)',
+            'position': 'relative',
+            'zIndex': '10',
+            'marginTop': '20px'
         })
-    ])
+    ], style={
+        'position': 'relative',
+        'zIndex': '1',
+        'padding': '20px',
+        'backgroundColor': '#f8f9fa',
+        'minHeight': 'auto'
+    })
 
 
 def _create_default_stats_panel():
     """Create default statistics panel."""
     return [
-        html.H4("Time Series Statistics", style={'textAlign': 'center', 'marginBottom': '20px', 'color': '#1a202c'}),
+        html.H4("Time Series Statistics", style={
+            'textAlign': 'center', 
+            'marginBottom': '20px', 
+            'color': '#1a202c',
+            'fontSize': '18px',
+            'fontWeight': 'bold'
+        }),
         html.P("Click on any time series line above to see detailed statistics", 
-               style={'textAlign': 'center', 'color': '#7f8c8d'})
+               style={
+                   'textAlign': 'center', 
+                   'color': '#7f8c8d',
+                   'fontSize': '14px',
+                   'lineHeight': '1.5'
+               })
     ]
 
 
 def _create_default_representatives_panel():
     """Create default representatives information panel."""
     return [
-        html.H4("Cluster Information", style={'textAlign': 'center', 'marginBottom': '20px', 'color': '#1a202c'}),
+        html.H4("Cluster Information", style={
+            'textAlign': 'center', 
+            'marginBottom': '20px', 
+            'color': '#1a202c',
+            'fontSize': '18px',
+            'fontWeight': 'bold'
+        }),
         html.P("Click on any representative line above to see cluster information", 
-               style={'textAlign': 'center', 'color': '#7f8c8d'})
+               style={
+                   'textAlign': 'center', 
+                   'color': '#7f8c8d',
+                   'fontSize': '14px',
+                   'lineHeight': '1.5'
+               })
     ]
 
 
@@ -675,26 +846,93 @@ def _create_cluster_callbacks(app, cluster_id, time_series_data, cluster_data):
             if customdata and customdata in time_series_data:
                 ts_info = time_series_data[customdata]
                 
+                # Print information to terminal
+                print(f"\nTime Series Clicked:")
+                print(f"Label: {ts_info['name']}")
+                print(f"Data: {ts_info['data']}")
+                print(f"Feature vector: {ts_info['feature_vector']}")
+                print(f"Cluster id: {ts_info['cluster_id']}")
+                print("-" * 80)
+                
                 return [
                     html.Div([
                         # Left column
                         html.Div([
-                            html.H4("Time Series Information", style={'color': '#34495e', 'marginBottom': '15px'}),
-                            html.P([html.Strong("Label: "), ts_info['name']], style={'marginBottom': '8px'}),
-                            html.P([html.Strong("Length: "), str(ts_info['length'])], style={'marginBottom': '8px'}),
-                            html.P([html.Strong("Mean: "), f"{ts_info['mean']:.4f}"], style={'marginBottom': '8px'}),
-                            html.P([html.Strong("Representative: "), "Yes" if ts_info['is_representative'] else "No"], style={'marginBottom': '8px'})
-                        ], style={'width': '40%', 'display': 'inline-block', 'verticalAlign': 'top'}),
+                            html.H4("Time Series Information", style={
+                                'color': '#34495e', 
+                                'marginBottom': '15px',
+                                'fontSize': '16px',
+                                'fontWeight': 'bold'
+                            }),
+                            html.P([html.Strong("Label: "), ts_info['name']], style={
+                                'marginBottom': '10px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            }),
+                            html.P([html.Strong("Length: "), str(ts_info['length'])], style={
+                                'marginBottom': '10px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            }),
+                            html.P([html.Strong("Mean: "), f"{ts_info['mean']:.4f}"], style={
+                                'marginBottom': '10px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            }),
+                            html.P([html.Strong("Representative: "), "Yes" if ts_info['is_representative'] else "No"], style={
+                                'marginBottom': '8px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            })
+                        ], style={
+                            'width': '35%', 
+                            'flexShrink': '0',
+                            'paddingRight': '15px'
+                        }),
                         
                         # Right column
                         html.Div([
-                            html.H4("Statistical Details", style={'color': '#34495e', 'marginBottom': '15px'}),
-                            html.P([html.Strong("Std Dev: "), f"{ts_info['std']:.4f}"], style={'marginBottom': '8px'}),
-                            html.P([html.Strong("Max Value: "), f"{ts_info['max']:.4f}"], style={'marginBottom': '8px'}),
-                            html.P([html.Strong("Min Value: "), f"{ts_info['min']:.4f}"], style={'marginBottom': '8px'}),
-                            html.P([html.Strong("Range: "), f"{ts_info['max'] - ts_info['min']:.4f}"], style={'marginBottom': '8px'})
-                        ], style={'width': '56%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%'})
-                    ])
+                            html.H4("Statistical Details", style={
+                                'color': '#34495e', 
+                                'marginBottom': '15px',
+                                'fontSize': '16px',
+                                'fontWeight': 'bold'
+                            }),
+                            html.P([html.Strong("Std Dev: "), f"{ts_info['std']:.4f}"], style={
+                                'marginBottom': '10px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            }),
+                            html.P([html.Strong("Max Value: "), f"{ts_info['max']:.4f}"], style={
+                                'marginBottom': '10px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            }),
+                            html.P([html.Strong("Min Value: "), f"{ts_info['min']:.4f}"], style={
+                                'marginBottom': '10px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            }),
+                            html.P([html.Strong("Range: "), f"{ts_info['max'] - ts_info['min']:.4f}"], style={
+                                'marginBottom': '8px',
+                                'fontSize': '14px',
+                                'lineHeight': '1.4'
+                            })
+                        ], style={
+                            'width': '62%', 
+                            'flexShrink': '0',
+                            'marginLeft': '3%',
+                            'paddingLeft': '50px',
+                            'borderLeft': '1px solid #e2e8f0'
+                        })
+                    ], style={
+                        'position': 'relative',
+                        'zIndex': '1',
+                        'display': 'flex',
+                        'flexDirection': 'row',
+                        'alignItems': 'flex-start',
+                        'width': '100%'
+                    })
                 ]
         except (KeyError, IndexError, TypeError):
             return [
@@ -722,29 +960,86 @@ def _create_representatives_callback(app, representative_data, cluster_data):
                 repr_info = representative_data[customdata]
                 cluster_info = cluster_data[repr_info['cluster_id']]
                 
+                # Print information to terminal
+                print(f"\nRepresentative Time Series Clicked:")
+                print(f"Label: {repr_info['name']}")
+                print(f"Data: {repr_info['data'].tolist()}")
+                print(f"Feature vector: {repr_info['feature_vector']}")
+                print(f"Cluster id: {repr_info['cluster_id']}")
+                print("-" * 80)
+                
                 return [
                     html.Div([
-                        html.H4(f"Cluster {repr_info['cluster_id']} Information", 
-                               style={'color': '#34495e', 'marginBottom': '20px', 'textAlign': 'center'}),
-                        
                         # Cluster details
                         html.Div([
                             html.Div([
-                                html.H5("Cluster Details", style={'color': '#34495e', 'marginBottom': '15px'}),
-                                html.P([html.Strong("Cluster ID: "), str(cluster_info['cluster_id'])], style={'marginBottom': '8px'}),
-                                html.P([html.Strong("Total Members: "), str(cluster_info['number_of_members'])], style={'marginBottom': '8px'}),
-                                html.P([html.Strong("Representative: "), str(cluster_info['best_representative_member'])], style={'marginBottom': '8px'})
-                            ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top'}),
+                                html.H4("Cluster Details", style={
+                                    'color': '#34495e', 
+                                    'marginBottom': '15px',
+                                    'fontSize': '16px',
+                                    'fontWeight': 'bold'
+                                }),
+                                html.P([html.Strong("Cluster ID: "), str(cluster_info['cluster_id'])], style={
+                                    'marginBottom': '10px',
+                                    'fontSize': '14px',
+                                    'lineHeight': '1.4'
+                                }),
+                                html.P([html.Strong("Total Members: "), str(cluster_info['number_of_members'])], style={
+                                    'marginBottom': '10px',
+                                    'fontSize': '14px',
+                                    'lineHeight': '1.4'
+                                }),
+                                html.P([html.Strong("Representative Label: "), str(cluster_info['best_representative_member'])], style={
+                                    'marginBottom': '8px',
+                                    'fontSize': '14px',
+                                    'lineHeight': '1.4',
+                                    'wordBreak': 'break-word'
+                                })
+                            ], style={
+                                'width': '48%', 
+                                'flexShrink': '0',
+                                'paddingRight': '15px'
+                            }),
                             
                             html.Div([
-                                html.H5("Representative Statistics", style={'color': '#34495e', 'marginBottom': '15px'}),
-                                html.P([html.Strong("Length: "), str(repr_info['length'])], style={'marginBottom': '8px'}),
-                                html.P([html.Strong("Mean: "), f"{repr_info['mean']:.4f}"], style={'marginBottom': '8px'}),
-                                html.P([html.Strong("Std Dev: "), f"{repr_info['std']:.4f}"], style={'marginBottom': '8px'}),
-                                html.P([html.Strong("Range: "), f"{repr_info['max'] - repr_info['min']:.4f}"], style={'marginBottom': '8px'})
-                            ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginLeft': '4%'})
-                        ])
-                    ])
+                                html.H4("Statistical Details", style={
+                                    'color': '#34495e', 
+                                    'marginBottom': '15px',
+                                    'fontSize': '16px',
+                                    'fontWeight': 'bold'
+                                }),
+                                html.P([html.Strong("Length: "), str(repr_info['length'])], style={
+                                    'marginBottom': '10px',
+                                    'fontSize': '14px',
+                                    'lineHeight': '1.4'
+                                }),
+                                html.P([html.Strong("Mean: "), f"{repr_info['mean']:.4f}"], style={
+                                    'marginBottom': '10px',
+                                    'fontSize': '14px',
+                                    'lineHeight': '1.4'
+                                }),
+                                html.P([html.Strong("Std Dev: "), f"{repr_info['std']:.4f}"], style={
+                                    'marginBottom': '10px',
+                                    'fontSize': '14px',
+                                    'lineHeight': '1.4'
+                                })
+                            ], style={
+                                'width': '48%', 
+                                'flexShrink': '0',
+                                'marginLeft': '4%',
+                                'paddingLeft': '50px',
+                                'borderLeft': '1px solid #e2e8f0'
+                            })
+                        ], style={
+                            'display': 'flex',
+                            'flexDirection': 'row',
+                            'alignItems': 'flex-start',
+                            'width': '100%'
+                        })
+                    ], style={
+                        'position': 'relative',
+                        'zIndex': '1'
+                    })
                 ]
         except (KeyError, IndexError, TypeError):
             return [
