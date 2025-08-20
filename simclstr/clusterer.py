@@ -52,7 +52,7 @@ def read_time_series(file_path: str, withClusters: bool = False) -> List['TimeSe
     Note: CSV files do not support multiple sheets, so cluster information cannot be imported
     when reading from CSV files (withClusters parameter will be ignored).
     
-    Example data structure:
+    Example data structure for both csv and excel files:
     
     +---------+---------+---------+---------+-----+
     | Label   | Time 1  | Time 2  | Time 3  | ... |
@@ -178,9 +178,10 @@ def perform_clustering(list_of_ts_objects: List['TimeSeries'], distance: str = '
 
     Parameters
     ----------
-    ``list_of_ts_objects`` : List['TimeSeries']
+    list_of_ts_objects : List['TimeSeries']
         List of TimeSeries objects.
-    ``distance`` : str, default='pattern_dtw'
+
+    distance : str, default='pattern_dtw'
         Available distance metrics include:
 
         **Pattern-based distances:**
@@ -199,15 +200,46 @@ def perform_clustering(list_of_ts_objects: List['TimeSeries'], distance: str = '
         ``yule``, ``matching``, ``dice``, ``rogerstanimoto``, ``russellrao``,
         ``sokalsneath``, ``kulczynski1``
 
-    ``interClusterDistance`` : str, default='complete'
-        Linkage method. Options: 'complete', 'single', 'average', 'ward'.
-    ``cMethod`` : str, default='inconsistent'
-        Cutoff method. Options: 'inconsistent', 'distance', 'maxclust', 'monocrit'.
-    ``cValue`` : float, default=1.5
-        Cutoff value for clustering criterion.
-    ``plotDendrogram`` : bool, default=False
+    interClusterDistance : str, default='complete'
+        `Hierarchical clustering linkage method <https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage>`_:
+        
+        ``single``: Minimum distances between all observations of two sets
+
+        ``complete``: Maximum distances between all observations of two sets
+
+        ``average``: Average distances between all observations of two sets
+
+        ``weighted``: Weighted average distances
+
+        ``centroid``: Distance between centroids of clusters
+
+        ``median``: Distance between medians of clusters
+
+        ``ward``: Minimizes within-cluster sum of squared differences
+
+    cMethod : str, default='maxclust'
+        `Clustering criterion for forming flat clusters from hierarchy <https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.fcluster.html#scipy.cluster.hierarchy.fcluster>`_:
+        
+        ``maxclust``: Maximum number of clusters (requires cValue = number of clusters)
+
+        ``distance``: Distance threshold (requires cValue = distance threshold)
+
+        ``inconsistent``: Inconsistency criterion (requires cValue = inconsistency threshold)
+
+        ``monocrit``: Monotonic criterion (requires cValue = threshold)
+        
+    cValue : float, default=1.5
+        Threshold value for clustering criterion. Interpretation depends on cMethod:
+        
+        - For ``maxclust``: Number of desired clusters
+        - For ``distance``: Distance threshold for cluster formation
+        - For ``inconsistent``: Inconsistency coefficient threshold
+        - For ``monocrit``: Threshold for monotonic criterion
+
+    plotDendrogram : bool, default=False
         If True, displays dendrogram.
-    ``distance_kwargs`` : dict, default={}
+
+    distance_kwargs : dict, default={}
         Additional distance function parameters. Should be a key parameter (key) and value (value) pair.
 
     Returns
@@ -335,6 +367,21 @@ def _flatcluster(dRow: np.ndarray, list_of_ts_objects_with_fv: List['TimeSeries'
 class TimeSeries:
     """
     Container for time series data.
+
+    Attributes
+    ----------
+    label : str
+        Label of the time series.
+    index : int
+        Index of the time series.
+    data : np.ndarray
+        Data of the time series.
+    feature_vector : np.ndarray
+        Feature vector of the time series.
+    cluster_id : str
+        Cluster id of the time series.
+    previous_cluster_id : int
+        Previous cluster id of the time series, provided for comparison.
     """
     def __init__(self, label: str, data: np.ndarray, previous_cluster_id: int = None):
         self.label = label
