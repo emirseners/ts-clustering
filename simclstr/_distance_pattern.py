@@ -109,8 +109,7 @@ def create_sisters(shortFV: np.ndarray, desired_shape: Tuple[int, int], sister_c
     return sisters
 
 
-def _distance_pattern(list_of_ts_objects: List['TimeSeries'], significanceLevel: float = 0.01, sisterCount: int = 50, 
-                    wSlopeError: float = 1, wCurvatureError: float = 1) -> Tuple[np.ndarray, List['TimeSeries']]:
+def _distance_pattern(list_of_ts_objects: List['TimeSeries'], metric: str = 'pattern', distance_kwargs: dict = {}) -> Tuple[np.ndarray, List['TimeSeries']]:
     """
     This function computes distances based on qualitative behavioral patterns rather than
     raw data values. It extracts slope and curvature features from time series and compares
@@ -124,18 +123,23 @@ def _distance_pattern(list_of_ts_objects: List['TimeSeries'], significanceLevel:
     ----------
     list_of_ts_objects : List['TimeSeries']
         List of TimeSeries objects.
-    significanceLevel : float, default=0.01
-        Threshold value (as a fraction) for filtering out insignificant fluctuations in 
-        slope and curvature calculations. Values below this threshold relative to the
-        data magnitude are considered noise and set to zero.
-    sisterCount : int, default=50
-        Number of extended versions created for shorter feature vectors when comparing
-        sequences with different behavioral segment counts. Higher values provide more
-        thorough comparison but increase computation time.
-    wSlopeError : float, default=1.0
-        Weight applied to slope dimension errors when calculating feature vector distances.
-    wCurvatureError : float, default=1.0
-        Weight applied to curvature dimension errors when calculating feature vector distances.
+    metric: str, default='pattern'
+    distance_kwargs : dict, default={}
+
+        Dictionary of keyword arguments for the distance calculation:
+
+        ``significanceLevel`` : float, default=0.01
+            Threshold value (as a fraction) for filtering out insignificant fluctuations in 
+            slope and curvature calculations. Values below this threshold relative to the
+            data magnitude are considered noise and set to zero.
+        ``sisterCount`` : int, default=50
+            Number of extended versions created for shorter feature vectors when comparing
+            sequences with different behavioral segment counts. Higher values provide more
+            thorough comparison but increase computation time.
+        ``wSlopeError`` : float, default=1.0
+            Weight applied to slope dimension errors when calculating feature vector distances.
+        ``wCurvatureError`` : float, default=1.0
+            Weight applied to curvature dimension errors when calculating feature vector distances.
 
     Returns
     -------
@@ -144,6 +148,11 @@ def _distance_pattern(list_of_ts_objects: List['TimeSeries'], significanceLevel:
     list_of_ts_objects : List['TimeSeries']
         List of TimeSeries objects with updated index and feature vector.
     """
+    significanceLevel = distance_kwargs.get('significanceLevel', 0.01)
+    sisterCount = distance_kwargs.get('sisterCount', 50)
+    wSlopeError = distance_kwargs.get('wSlopeError', 1)
+    wCurvatureError = distance_kwargs.get('wCurvatureError', 1)
+
     # Convert list of arrays to 2D numpy array for distance functions
     data = np.array([ts.data for ts in list_of_ts_objects])
 

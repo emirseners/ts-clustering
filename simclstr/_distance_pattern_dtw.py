@@ -6,7 +6,7 @@ from ._behavior_splitter import _construct_features
 if TYPE_CHECKING:
     from simclstr.clusterer import TimeSeries
 
-def _distance_pattern_dtw(list_of_ts_objects: List['TimeSeries'], significanceLevel: float = 0.01, wSlopeError: float = 1, wCurvatureError: float = 1) -> Tuple[np.ndarray, List['TimeSeries']]:
+def _distance_pattern_dtw(list_of_ts_objects: List['TimeSeries'], metric: str = 'pattern_dtw', distance_kwargs: dict = {}) -> Tuple[np.ndarray, List['TimeSeries']]:
     """
     Calculate pairwise pattern distances between all data sequences using Dynamic Time Warping.
     
@@ -18,15 +18,19 @@ def _distance_pattern_dtw(list_of_ts_objects: List['TimeSeries'], significanceLe
     ----------
     list_of_ts_objects : List['TimeSeries']
         List of TimeSeries objects.
-    significanceLevel : float, optional
-        The threshold value to be used in filtering out fluctuations in the slope 
-        and the curvature (default=0.01).
-    wSlopeError : float, optional
-        Weight of the error between the slope dimensions (first dimension) of the 
-        two feature vectors (default=1).
-    wCurvatureError : float, optional
-        Weight of the error between the curvature dimensions (second dimension) of 
-        the two feature vectors (default=1).
+    metric: str, default='pattern_dtw'
+    distance_kwargs : dict, default={}
+
+        Dictionary of keyword arguments for the distance calculation:
+
+        ``significanceLevel`` : float, default=0.01
+            Threshold value (as a fraction) for filtering out insignificant fluctuations in 
+            slope and curvature calculations. Values below this threshold relative to the
+            data magnitude are considered noise and set to zero.
+        ``wSlopeError`` : float, default=1.0
+            Weight applied to slope dimension errors when calculating feature vector distances.
+        ``wCurvatureError`` : float, default=1.0
+            Weight applied to curvature dimension errors when calculating feature vector distances.
 
     Returns
     -------
@@ -35,6 +39,10 @@ def _distance_pattern_dtw(list_of_ts_objects: List['TimeSeries'], significanceLe
     list_of_ts_objects : List['TimeSeries']
         List of TimeSeries objects with updated index and feature vector.
     """
+    significanceLevel = distance_kwargs.get('significanceLevel', 0.01)
+    wSlopeError = distance_kwargs.get('wSlopeError', 1)
+    wCurvatureError = distance_kwargs.get('wCurvatureError', 1)
+
     # Convert list of arrays to 2D numpy array for distance functions
     data = np.array([ts.data for ts in list_of_ts_objects])
 

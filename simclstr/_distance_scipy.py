@@ -5,7 +5,7 @@ from typing import Tuple, List, TYPE_CHECKING
 if TYPE_CHECKING:
     from simclstr.clusterer import TimeSeries
 
-def _distance_scipy(list_of_ts_objects: List['TimeSeries'], metric: str = 'euclidean', distance_kwargs: dict = None) -> Tuple[np.ndarray, List['TimeSeries']]:
+def _distance_scipy(list_of_ts_objects: List['TimeSeries'], metric: str = 'euclidean', distance_kwargs: dict = {}) -> Tuple[np.ndarray, List['TimeSeries']]:
     """
     Calculate pairwise distances between all data sequences using scipy's pdist function.
     
@@ -18,9 +18,8 @@ def _distance_scipy(list_of_ts_objects: List['TimeSeries'], metric: str = 'eucli
     metric : str, optional
         Distance metric to use. Must be one of the metrics supported by scipy.spatial.distance.pdist.
         Default is 'euclidean'.
-    **kwargs : dict
-        Additional parameters for specific distance metrics (passed through to
-        scipy.spatial.distance.pdist):
+    distance_kwargs : dict, default={}
+        Additional parameters for specific distance metrics (passed through to scipy.spatial.distance.pdist):
         - For 'minkowski': {'p': value}
         - For 'seuclidean': {'V': array}
         - For 'mahalanobis': {'VI': array}
@@ -41,7 +40,7 @@ def _distance_scipy(list_of_ts_objects: List['TimeSeries'], metric: str = 'eucli
     data = np.array([ts.data for ts in list_of_ts_objects])
 
     try:
-        if distance_kwargs is not None:
+        if distance_kwargs != {}:
             dRow = pdist(data, metric=metric, distance_kwargs=distance_kwargs)
         else:
             dRow = pdist(data, metric=metric)

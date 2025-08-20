@@ -8,9 +8,9 @@ def main():
 
     read_data_vensim = read_time_series(model_path_vensim)
 
-    clustering_results_vensim = perform_clustering(read_data_vensim, cMethod='maxclust', cValue = 5, plotDendrogram=True)
+    clustering_results_vensim = perform_clustering(read_data_vensim, distance='pattern_dtw', cMethod='maxclust', cValue = 5, plotDendrogram=True)
 
-    multiple_tabs_interactive_clustering(clustering_results_vensim[1], 'euclidean')
+    multiple_tabs_interactive_clustering(clustering_results_vensim[1], 'pattern_dtw')
 
 if __name__ == "__main__":
     main()

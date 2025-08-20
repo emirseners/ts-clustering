@@ -5,7 +5,7 @@ from typing import Tuple, List, Dict, TYPE_CHECKING
 if TYPE_CHECKING:
     from simclstr.clusterer import TimeSeries
 
-def _distance_dtw(list_of_ts_objects: List['TimeSeries']) -> Tuple[np.ndarray, List['TimeSeries']]:
+def _distance_dtw(list_of_ts_objects: List['TimeSeries'], metric: str = 'dtw', distance_kwargs: dict = {}) -> Tuple[np.ndarray, List['TimeSeries']]:
     """
     Calculate pairwise Dynamic Time Warping (DTW) distances between all data sequences.
 
@@ -18,6 +18,9 @@ def _distance_dtw(list_of_ts_objects: List['TimeSeries']) -> Tuple[np.ndarray, L
     ----------
     list_of_ts_objects : List['TimeSeries']
         List of TimeSeries objects.
+    metric: str, default='dtw'
+    distance_kwargs : dict, default={}
+        Distance dtw does not need any additional parameters.
 
     Returns
     -------
