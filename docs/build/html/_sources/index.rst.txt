@@ -5,7 +5,7 @@ Welcome to the documentation for ``simclstr``. This library provides utilities f
 
 **Core Dependencies:**
 
-* ``numpy>=1.24.0``
+* ``numpy>=2.0.0, <2.3.0``
 * ``scipy>=1.16.0``
 * ``matplotlib>=3.7.0``
 * ``pandas>=2.0.0``
