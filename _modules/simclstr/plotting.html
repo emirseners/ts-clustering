@@ -454,7 +454,9 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">multiple_tabs_interactive_clustering</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8051</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="multiple_tabs_interactive_plot_clusters">
+<a class="viewcode-back" href="../../api/plotting.html#simclstr.plotting.multiple_tabs_interactive_plot_clusters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiple_tabs_interactive_plot_clusters</span><span class="p">(</span><span class="n">cluster_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">],</span> <span class="n">dist</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8051</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an interactive plot of cluster members, each cluster is displayed in its own tab.</span>
 
@@ -638,7 +640,8 @@
                 <span class="n">dev_tools_silence_routes_logging</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                 <span class="n">use_reloader</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error starting server: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error starting server: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_create_cluster_tab_content</span><span class="p">(</span><span class="n">clust</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">time_series_data</span><span class="p">,</span> <span class="n">cluster_data</span><span class="p">):</span>

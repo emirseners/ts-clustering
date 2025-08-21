@@ -51,6 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#simclstr-plotting">simclstr.plotting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#plot-clusters">plot_clusters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#interactive-plot-clusters">interactive_plot_clusters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiple-tabs-interactive-plot-clusters">multiple_tabs_interactive_plot_clusters</a></li>
 </ul>
 </li>
 </ul>
@@ -138,6 +139,30 @@ mode=’save’. The file will be saved as ‘{fname}.png’.</p></li>
 <li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Distance metric name used for clustering.</p></li>
 <li><p><strong>no_cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=3</em>) – Number of columns in the plot.</p></li>
 <li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=8050</em>) – Port number for the Dash server.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="multiple-tabs-interactive-plot-clusters">
+<span id="id3"></span><h3>multiple_tabs_interactive_plot_clusters<a class="headerlink" href="#multiple-tabs-interactive-plot-clusters" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="simclstr.plotting.multiple_tabs_interactive_plot_clusters">
+<span class="sig-prename descclassname"><span class="pre">simclstr.plotting.</span></span><span class="sig-name descname"><span class="pre">multiple_tabs_interactive_plot_clusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8051</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/simclstr/plotting.html#multiple_tabs_interactive_plot_clusters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#simclstr.plotting.multiple_tabs_interactive_plot_clusters" title="Link to this definition"></a></dt>
+<dd><p>Create an interactive plot of cluster members, each cluster is displayed in its own tab.</p>
+<p>When you click on a time series, information about that time series and its cluster will appear in the information panel.</p>
+<p>Additionally includes a “Representatives” tab showing all cluster representatives in one plot.</p>
+<p>Press Ctrl+C to stop the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cluster_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="clusterer.html#simclstr.clusterer.Cluster" title="simclstr.clusterer.Cluster"><em>Cluster</em></a><em>]</em>) – List of Cluster objects containing clustered time series data.</p></li>
+<li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Distance metric name used for clustering.</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>default=8051</em>) – Port number for the Dash server.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
