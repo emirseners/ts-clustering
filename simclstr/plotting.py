@@ -368,7 +368,7 @@ def interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, no_cols:
 
 
 
-def multiple_tabs_interactive_clustering(cluster_list: List["Cluster"], dist: str, port: int = 8051) -> None:
+def multiple_tabs_interactive_plot_clusters(cluster_list: List["Cluster"], dist: str, port: int = 8051) -> None:
     """
     Create an interactive plot of cluster members, each cluster is displayed in its own tab.
 

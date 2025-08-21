@@ -25,6 +25,14 @@ perform_clustering
 
 .. autofunction:: simclstr.clusterer.perform_clustering
 
+TimeSeries
+^^^^^^^^^^
+
+.. autoclass:: simclstr.clusterer.TimeSeries
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Cluster
 ^^^^^^^
 

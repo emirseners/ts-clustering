@@ -26,7 +26,7 @@ Simclstr requires **Python X.X** or above.
 
 Simclstr builds on the core Python data analytics stack, and the following third party libraries:
 
-* Numpy >= 2.0.0, < 2.3
+* Numpy >= 2.0.0, < 2.3.0
 * Scipy >= 1.16.0
 * Pandas >= 1.24.0
 * Numba >= 0.57.0

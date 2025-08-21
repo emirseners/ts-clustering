@@ -23,7 +23,7 @@ def _distance_pattern_dtw(list_of_ts_objects: List['TimeSeries'], metric: str = 
 
         Dictionary of keyword arguments for the distance calculation:
 
-        ``significanceLevel`` : float, default=0.01
+        ``significanceLevel`` : float, default=0.0001
             Threshold value (as a fraction) for filtering out insignificant fluctuations in 
             slope and curvature calculations. Values below this threshold relative to the
             data magnitude are considered noise and set to zero.
@@ -39,7 +39,7 @@ def _distance_pattern_dtw(list_of_ts_objects: List['TimeSeries'], metric: str = 
     list_of_ts_objects : List['TimeSeries']
         List of TimeSeries objects with updated index and feature vector.
     """
-    significanceLevel = distance_kwargs.get('significanceLevel', 0.01)
+    significanceLevel = distance_kwargs.get('significanceLevel', 0.0001)
     wSlopeError = distance_kwargs.get('wSlopeError', 1)
     wCurvatureError = distance_kwargs.get('wCurvatureError', 1)
 

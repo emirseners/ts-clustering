@@ -17,3 +17,10 @@ interactive_plot_clusters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: simclstr.plotting.interactive_plot_clusters
+
+.. _multiple_tabs_interactive_plot_clusters:
+
+multiple_tabs_interactive_plot_clusters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: simclstr.plotting.multiple_tabs_interactive_plot_clusters
